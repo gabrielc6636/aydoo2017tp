@@ -1,11 +1,9 @@
 class Calendario
-    
-    attr_accessor :nombre
- 
-=begin   
-    def initialize(nombre)
-        @nombre = nombre
-    end
-=end
+  
+  attr_accessor :nombre
+  
+  def initialize(nombre)
+    @nombre = nombre
+  end
     
 end
