@@ -9,6 +9,13 @@ describe 'Calendario' do
     calendario.nombre = "Un calendario"
     expect(calendario.nombre).to eq "Un calendario"
   end
+  
+=begin
+  it 'es posible asignar un nombre a un calendario' do
+    Calendario.new "Un calendario"
+    expect(calendario.nombre).to eq "Un calendario"
+  end
+=end
 
 end
 
