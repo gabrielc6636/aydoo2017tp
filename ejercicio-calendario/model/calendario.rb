@@ -1,6 +1,6 @@
 class Calendario
   
-  attr_accessor :nombre
+  attr_reader :nombre
   
   def initialize(nombre)
     @nombre = nombre
