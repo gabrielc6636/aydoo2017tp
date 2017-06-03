@@ -19,5 +19,12 @@ describe 'GestorCalendario' do
     gestor.agregarCalendario(otroCalendario)
     expect(gestor.calendarios.size).to eq 2
   end
+  
+  it 'no es posible agregar dos calendarios con el mismo nombre' do
+    unCalendario = Calendario.new "Un calendario"
+    calendarioRepetido = Calendario.new "Un calendario"
+    gestor.agregarCalendario(unCalendario)
+    expect{gestor.agregarCalendario(calendarioRepetido)}.to raise_error
+  end
 
 end

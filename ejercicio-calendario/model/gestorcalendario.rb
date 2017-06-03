@@ -1,3 +1,5 @@
+require_relative './exceptioncalendarioexistente'
+
 class GestorCalendario
   
   attr_reader :calendarios
@@ -7,7 +9,10 @@ class GestorCalendario
   end
   
   def agregarCalendario(calendario)
+    
+    raise ExceptionCalendarioExistente if @calendarios[calendario.nombre]
     @calendarios[calendario.nombre] = calendario
+    
   end
   
 end
