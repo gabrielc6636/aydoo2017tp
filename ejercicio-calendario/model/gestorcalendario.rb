@@ -16,4 +16,9 @@ class GestorCalendario
     
   end
   
+  def escribir_en_archivo()
+    gestorArchivo = GestorArchivos.new
+    gestorArchivo.escribir(@calendarios, calendarios.json)
+  end
+  
 end
