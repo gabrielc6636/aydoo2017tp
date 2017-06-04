@@ -1,5 +1,6 @@
 require 'sinatra' 
 require_relative 'model/gestorcalendario'
+require_relative 'model/calendario'
 
 gestor = GestorCalendario.new
 
