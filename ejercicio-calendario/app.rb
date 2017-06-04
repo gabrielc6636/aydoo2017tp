@@ -14,3 +14,6 @@ post  '/calendarios'  do
 	gestor.agregarCalendario(calendario)
 end
 
+delete  '/calendarios'  do
+	gestor.borrarCalendario(params['nombre'])
+end
