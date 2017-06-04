@@ -21,4 +21,9 @@ class GestorCalendario
     gestorArchivo.escribir(@calendarios.values, "calendarios.json")
   end
   
+  def borrarCalendario(nombre)
+    nombre_minusculas = nombre.downcase
+    @calendarios.delete(nombre_minusculas)
+  end
+  
 end
