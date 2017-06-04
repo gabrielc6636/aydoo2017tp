@@ -5,5 +5,9 @@ class Calendario
   def initialize(nombre)
     @nombre = nombre
   end
+  
+  def hash()
+    return {"nombre" => @nombre}
+  end
     
 end
