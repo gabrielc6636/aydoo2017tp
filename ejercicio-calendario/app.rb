@@ -17,3 +17,8 @@ end
 delete  '/calendarios'  do
 	gestor.borrarCalendario(params['nombre'])
 end
+
+get  '/calendarios'  do
+	calendario = gestor.calendarios.(params['nombre'].downcase)
+    	"#{calendario}"
+end
