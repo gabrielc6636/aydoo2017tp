@@ -10,8 +10,9 @@ class GestorCalendario
   
   def agregarCalendario(calendario)
     
-    raise ExceptionCalendarioExistente if @calendarios[calendario.nombre]
-    @calendarios[calendario.nombre] = calendario
+    nombre_minusculas = calendario.nombre.downcase
+    raise ExceptionCalendarioExistente if @calendarios[nombre_minusculas]
+    @calendarios[nombre_minusculas] = calendario
     
   end
   

@@ -9,7 +9,7 @@ describe 'GestorCalendario' do
   it 'es posible agregar un calendario al gestor' do
     calendario = Calendario.new "Un calendario"
     gestor.agregarCalendario(calendario)
-    expect(gestor.calendarios["Un calendario"]).to eq calendario
+    expect(gestor.calendarios["un calendario"]).to eq calendario
   end
   
   it 'es posible agregar mas de un calendario al gestor' do
@@ -23,6 +23,13 @@ describe 'GestorCalendario' do
   it 'no es posible agregar dos calendarios con el mismo nombre' do
     unCalendario = Calendario.new "Un calendario"
     calendarioRepetido = Calendario.new "Un calendario"
+    gestor.agregarCalendario(unCalendario)
+    expect{gestor.agregarCalendario(calendarioRepetido)}.to raise_error
+  end
+  
+  it 'no es posible agregar dos calendarios variando mayusculas' do
+    unCalendario = Calendario.new "Un calendario"
+    calendarioRepetido = Calendario.new "uN CalenDario"
     gestor.agregarCalendario(unCalendario)
     expect{gestor.agregarCalendario(calendarioRepetido)}.to raise_error
   end
