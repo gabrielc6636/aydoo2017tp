@@ -12,6 +12,14 @@ describe 'GestorCalendario' do
     expect(gestor.calendarios["un calendario"]).to eq calendario
   end
   
+  it 'es posible borrar un calendario existente' do
+    nombre = "Un calendario"
+    calendario = Calendario.new nombre
+    gestor.agregarCalendario(calendario)
+    gestor.borrarCalendario(nombre)
+    expect(gestor.calendarios.size).to eq 0
+  end
+  
   it 'es posible agregar mas de un calendario al gestor' do
     unCalendario = Calendario.new "Un calendario"
     otroCalendario = Calendario.new "Otro calendario"
