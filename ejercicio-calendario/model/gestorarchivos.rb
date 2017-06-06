@@ -14,4 +14,14 @@ class GestorArchivos
     
   end
   
+  def leer(archivo)
+    
+    lineas = []
+    f = open(archivo).each do |l|
+      lineas << JSON.parse(l)
+    end
+    return lineas
+    
+  end
+  
 end
