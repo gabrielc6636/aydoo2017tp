@@ -23,5 +23,11 @@ describe 'GestorArchivo' do
     lectura = gestor.leer(archivo)[0]
     expect(lectura["nombre"]).to eq nombre
   end
+  
+  it 'se intenta leer un archivo inexistente' do
+    archivo = "noexiste.json"
+    lectura = gestor.leer(archivo)
+    expect([]).to eq lectura
+  end
 
 end
