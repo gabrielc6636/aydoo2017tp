@@ -1,31 +1,26 @@
 require 'rspec' 
-require_relative '../model/calendario'
 require_relative '../model/gestorarchivos'
 
 describe 'GestorArchivo' do
   
   let(:gestor) { GestorArchivos.new }
 
-  it 'se escribe un calendario en archivo' do
-    archivo = "pruebacalendarios.json"
-    nombre = "Un calendario"
-    calendario = Calendario.new nombre
-    gestor.escribir([calendario], archivo)
-    salida = JSON.parse(File.open(archivo, &:readline))
-    expect(salida["nombre"]).to eq nombre
+  it 'se escribe en archivo' do
+    archivo = "prueba_escritura.txt"
+    gestor.escribir("Prueba", archivo)
+    salida = File.open(archivo, &:readline)
+    expect(salida).to eq "Prueba\n"
   end
   
   it 'se lee un archivo' do
-    archivo = "pruebacalendarios.json"
-    nombre = "Un calendario"
-    calendario = Calendario.new nombre
-    gestor.escribir([calendario], archivo)
+    archivo = "prueba_lectura.txt"
+    gestor.escribir("Prueba", archivo)
     lectura = gestor.leer(archivo)[0]
-    expect(lectura["nombre"]).to eq nombre
+    expect(lectura).to eq "Prueba\n"
   end
   
   it 'se intenta leer un archivo inexistente' do
-    archivo = "noexiste.json"
+    archivo = "no_deberia_existir.txt"
     lectura = gestor.leer(archivo)
     expect([]).to eq lectura
   end

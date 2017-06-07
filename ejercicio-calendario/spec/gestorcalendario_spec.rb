@@ -59,8 +59,10 @@ describe 'GestorCalendario' do
     calendario = Calendario.new nombre
     gestor.agregarCalendario(calendario)
     gestor.escribir_en_archivo
-    salida = JSON.parse(File.open("calendarios.json", &:readline))
-    expect(salida["nombre"]).to eq nombre
+    salida = File.open("calendarios.json", &:readline)
+    esperado = '[
+'
+    expect(salida).to eq esperado
   end
 
 end

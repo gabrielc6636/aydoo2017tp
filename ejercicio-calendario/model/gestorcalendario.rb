@@ -27,7 +27,7 @@ class GestorCalendario
   
   def escribir_en_archivo()
     gestorArchivo = GestorArchivos.new
-    gestorArchivo.escribir(@calendarios.values, "calendarios.json")
+    gestorArchivo.escribir(obtener_calendarios, "calendarios.json")
   end
   
   def borrarCalendario(nombre)
