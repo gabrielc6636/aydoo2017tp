@@ -1,4 +1,5 @@
 require_relative './exceptioncalendarioexistente'
+require 'json'
 
 class GestorCalendario
   
@@ -14,6 +15,14 @@ class GestorCalendario
     raise ExceptionCalendarioExistente if @calendarios[nombre_minusculas]
     @calendarios[nombre_minusculas] = calendario
     
+  end
+  
+  def obtener_calendarios()
+    res = []
+    calendarios.values.each do |c|
+      res << c.hash
+    end
+    return JSON.pretty_generate(res)
   end
   
   def escribir_en_archivo()

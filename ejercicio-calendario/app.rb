@@ -5,8 +5,8 @@ require_relative 'model/calendario'
 gestor = GestorCalendario.new
 
 get  '/calendarios'  do
-	calendarios = gestor.calendarios
-    	"#{calendarios}"
+	calendarios = gestor.obtener_calendarios
+  "<pre>#{calendarios}</pre>"
 end
 
 post  '/calendarios'  do
