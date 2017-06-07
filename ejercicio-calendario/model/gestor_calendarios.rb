@@ -17,7 +17,7 @@ class GestorCalendarios
     if texto != ""
       res = JSON.parse(texto)
       res.each do |r|
-        agregar_calendario(Calendario.new r["nombre"])
+        agregar_calendario(r["nombre"])
       end
     end
   end
@@ -35,10 +35,10 @@ class GestorCalendarios
     gestor_archivos.escribir(obtener_calendarios, "calendarios.json")
   end
   
-  def agregar_calendario(calendario)
-    nombre_minusculas = calendario.nombre.downcase
+  def agregar_calendario(nombre)
+    nombre_minusculas = nombre.downcase
     raise ExceptionCalendarioExistente if @calendarios[nombre_minusculas]
-    @calendarios[nombre_minusculas] = calendario
+    @calendarios[nombre_minusculas] = Calendario.new nombre
     escribir_en_archivo
   end
   

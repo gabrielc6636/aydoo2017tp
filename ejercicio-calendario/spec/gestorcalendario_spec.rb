@@ -1,57 +1,53 @@
 require 'rspec' 
-require_relative '../model/calendario'
 require_relative '../model/gestor_calendarios'
 
-describe 'GestorCalendario' do
+describe 'GestorCalendarios' do
   
   let(:gestor) { GestorCalendarios.new }
 
   it 'es posible agregar un calendario al gestor' do
     gestor.restablecer
-    calendario = Calendario.new "Un calendario"
-    gestor.agregar_calendario(calendario)
-    expect(gestor.calendarios["un calendario"]).to eq calendario
+    nombre = "Un calendario"
+    gestor.agregar_calendario(nombre)
+    expect(gestor.calendarios[nombre.downcase].nombre).to eq nombre
   end
   
   it 'es posible borrar un calendario existente' do
     gestor.restablecer
     nombre = "Un calendario"
-    calendario = Calendario.new nombre
-    gestor.agregar_calendario(calendario)
+    gestor.agregar_calendario(nombre)
     gestor.borrar_calendario(nombre)
     expect(gestor.calendarios.size).to eq 0
   end
   
   it 'es posible agregar mas de un calendario al gestor' do
     gestor.restablecer
-    unCalendario = Calendario.new "Un calendario"
-    otroCalendario = Calendario.new "Otro calendario"
-    gestor.agregar_calendario(unCalendario)
-    gestor.agregar_calendario(otroCalendario)
+    un_nombre = "Un calendario"
+    otro_nombre = "Otro calendario"
+    gestor.agregar_calendario(un_nombre)
+    gestor.agregar_calendario(otro_nombre)
     expect(gestor.calendarios.size).to eq 2
   end
   
   it 'no es posible agregar dos calendarios con el mismo nombre' do
     gestor.restablecer
-    unCalendario = Calendario.new "Un calendario"
-    calendarioRepetido = Calendario.new "Un calendario"
-    gestor.agregar_calendario(unCalendario)
-    expect{gestor.agregar_calendario(calendarioRepetido)}.to raise_error
+    nombre = "Un calendario"
+    gestor.agregar_calendario(nombre)
+    expect{gestor.agregar_calendario(nombre)}.to raise_error
   end
   
   it 'no es posible agregar dos calendarios variando mayusculas' do
     gestor.restablecer
-    unCalendario = Calendario.new "Un calendario"
-    calendarioRepetido = Calendario.new "uN CalenDario"
-    gestor.agregar_calendario(unCalendario)
-    expect{gestor.agregar_calendario(calendarioRepetido)}.to raise_error
+    nombre = "Un calendario"
+    nombre_variando_mayusculas = "uN CalenDario"
+    gestor.agregar_calendario(nombre)
+    expect{gestor.agregar_calendario(nombre_variando_mayusculas)}.to raise_error
   end
   
   it 'es posible obtener un calendario como JSON' do
     gestor.restablecer
     nombre = "Un calendario"
-    unCalendario = Calendario.new nombre
-    gestor.agregar_calendario(unCalendario)
+    gestor.agregar_calendario(nombre)
     salida =
     '{
   "nombre": "Un calendario"
@@ -66,10 +62,10 @@ describe 'GestorCalendario' do
   
   it 'es posible obtener los calendarios como JSON' do
     gestor.restablecer
-    unCalendario = Calendario.new "Un calendario"
-    otroCalendario = Calendario.new "Otro calendario"
-    gestor.agregar_calendario(unCalendario)
-    gestor.agregar_calendario(otroCalendario)
+    un_nombre = "Un calendario"
+    otro_nombre = "Otro calendario"
+    gestor.agregar_calendario(un_nombre)
+    gestor.agregar_calendario(otro_nombre)
     salida =
     '[
   {
@@ -85,8 +81,7 @@ describe 'GestorCalendario' do
   it 'es posible leer un calendario de archivo' do
     gestor.restablecer
     nombre = "Un calendario"
-    calendario = Calendario.new nombre
-    gestor.agregar_calendario(calendario)
+    gestor.agregar_calendario(nombre)
     gestor.leer_de_archivo
     expect(gestor.calendarios[nombre.downcase].nombre).to eq nombre
   end
@@ -94,8 +89,7 @@ describe 'GestorCalendario' do
   it 'es posible escribir un calendario en archivo' do
     gestor.restablecer
     nombre = "Un calendario"
-    calendario = Calendario.new nombre
-    gestor.agregar_calendario(calendario)
+    gestor.agregar_calendario(nombre)
     gestor.escribir_en_archivo
     salida = File.open("calendarios.json", &:readline)
     esperado = '[

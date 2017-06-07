@@ -1,7 +1,7 @@
 require 'rspec' 
 require_relative '../model/gestor_archivos'
 
-describe 'GestorArchivo' do
+describe 'GestorArchivos' do
   
   let(:gestor) { GestorArchivos.new }
 

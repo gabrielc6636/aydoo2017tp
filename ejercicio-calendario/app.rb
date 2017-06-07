@@ -11,8 +11,7 @@ end
 
 post '/calendarios' do
   begin
-    calendario = Calendario.new (params['nombre'])
-    gestor.agregar_calendario(calendario)
+    gestor.agregar_calendario(params['nombre'])
     status 201
   rescue ExceptionCalendarioExistente, ExceptionCalendarioSinNombre
     status 400
