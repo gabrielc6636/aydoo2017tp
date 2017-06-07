@@ -19,8 +19,12 @@ post  '/calendarios'  do
   end
 end
 
-delete  '/calendarios'  do
-	gestor.borrarCalendario(params['nombre'])
+delete  '/calendarios/:nombre'  do
+  begin
+    gestor.borrarCalendario(params[:nombre])
+  rescue ExceptionCalendarioNoEncontrado
+    status 404
+  end
 end
 
 get  '/calendarios/:nombre'  do

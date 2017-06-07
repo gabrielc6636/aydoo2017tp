@@ -61,7 +61,9 @@ class GestorCalendario
   
   def borrarCalendario(nombre)
     nombre_minusculas = nombre.downcase
+    raise ExceptionCalendarioNoEncontrado if @calendarios[nombre_minusculas].nil?
     @calendarios.delete(nombre_minusculas)
+    escribir_en_archivo
   end
   
 end
