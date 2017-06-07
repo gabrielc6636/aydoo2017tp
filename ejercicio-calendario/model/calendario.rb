@@ -1,7 +1,6 @@
 require_relative './exception_calendario_sin_nombre'
 
 class Calendario
-  
   attr_reader :nombre
   
   def initialize(nombre)

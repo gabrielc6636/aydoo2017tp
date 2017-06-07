@@ -1,0 +1,41 @@
+require 'rspec' 
+require_relative '../model/evento'
+
+describe 'Evento' do
+  
+  it 'es posible asignarle un calendario al evento' do
+    evento = Evento.new "Un calendario", "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"
+    expect(evento.calendario).to eq "Un calendario"
+  end
+  
+  it 'es posible asignarle un id al evento' do
+    evento = Evento.new "Un calendario", "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"
+    expect(evento.id).to eq "1"
+  end
+
+  it 'es posible asignarle un nombre al evento' do
+    evento = Evento.new "Un calendario", "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"
+    expect(evento.nombre).to eq "Un evento"
+  end
+  
+  it 'es posible asignarle un inicio al evento' do
+    evento = Evento.new "Un calendario", "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"
+    expect(evento.inicio).to eq "2017-03-31T18:00:00-03:00"
+  end
+  
+  it 'es posible asignarle un fin al evento' do
+    evento = Evento.new "Un calendario", "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"
+    expect(evento.fin).to eq "2017-03-31T22:00:00-03:00"
+  end
+  
+  it 'es posible obtener el evento como hash' do
+    evento = Evento.new "Un calendario", "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"
+    hash = {"calendario" => "Un calendario",
+            "id" => "1",
+            "nombre" => "Un evento",
+            "inicio" => "2017-03-31T18:00:00-03:00",
+            "fin" => "2017-03-31T22:00:00-03:00"}
+    expect(evento.hash).to eq hash
+  end
+
+end
