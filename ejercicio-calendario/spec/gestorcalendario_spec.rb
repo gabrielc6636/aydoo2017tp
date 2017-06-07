@@ -7,12 +7,14 @@ describe 'GestorCalendario' do
   let(:gestor) { GestorCalendario.new }
 
   it 'es posible agregar un calendario al gestor' do
+    gestor.restablecer
     calendario = Calendario.new "Un calendario"
     gestor.agregarCalendario(calendario)
     expect(gestor.calendarios["un calendario"]).to eq calendario
   end
   
   it 'es posible borrar un calendario existente' do
+    gestor.restablecer
     nombre = "Un calendario"
     calendario = Calendario.new nombre
     gestor.agregarCalendario(calendario)
@@ -21,6 +23,7 @@ describe 'GestorCalendario' do
   end
   
   it 'es posible agregar mas de un calendario al gestor' do
+    gestor.restablecer
     unCalendario = Calendario.new "Un calendario"
     otroCalendario = Calendario.new "Otro calendario"
     gestor.agregarCalendario(unCalendario)
@@ -29,6 +32,7 @@ describe 'GestorCalendario' do
   end
   
   it 'no es posible agregar dos calendarios con el mismo nombre' do
+    gestor.restablecer
     unCalendario = Calendario.new "Un calendario"
     calendarioRepetido = Calendario.new "Un calendario"
     gestor.agregarCalendario(unCalendario)
@@ -36,6 +40,7 @@ describe 'GestorCalendario' do
   end
   
   it 'no es posible agregar dos calendarios variando mayusculas' do
+    gestor.restablecer
     unCalendario = Calendario.new "Un calendario"
     calendarioRepetido = Calendario.new "uN CalenDario"
     gestor.agregarCalendario(unCalendario)
@@ -43,6 +48,7 @@ describe 'GestorCalendario' do
   end
   
   it 'es posible obtener los calendarios como JSON' do
+    gestor.restablecer
     unCalendario = Calendario.new "Un calendario"
     gestor.agregarCalendario(unCalendario)
     salida =
@@ -54,7 +60,17 @@ describe 'GestorCalendario' do
     expect(gestor.obtener_calendarios).to eq salida
   end
   
+  it 'es posible leer un calendario de archivo' do
+    gestor.restablecer
+    nombre = "Un calendario"
+    calendario = Calendario.new nombre
+    gestor.agregarCalendario(calendario)
+    gestor.leer_de_archivo
+    expect(gestor.calendarios[nombre.downcase].nombre).to eq nombre
+  end
+  
   it 'es posible escribir un calendario en archivo' do
+    gestor.restablecer
     nombre = "Un calendario"
     calendario = Calendario.new nombre
     gestor.agregarCalendario(calendario)
