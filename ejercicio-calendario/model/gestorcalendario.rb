@@ -1,4 +1,5 @@
 require_relative './exceptioncalendarioexistente'
+require_relative './exceptioncalendarionoencontrado'
 require_relative './gestorarchivos'
 require 'json'
 
@@ -46,6 +47,7 @@ class GestorCalendario
   
   def obtener_calendario(nombre)
     calendario = calendarios[nombre.downcase]
+    raise ExceptionCalendarioNoEncontrado if calendario.nil?
     return JSON.pretty_generate(calendario.hash)
   end
   

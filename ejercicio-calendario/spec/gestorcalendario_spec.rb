@@ -59,6 +59,11 @@ describe 'GestorCalendario' do
     expect(gestor.obtener_calendario(nombre)).to eq salida
   end
   
+  it 'no es posible obtener un calendario que no existe' do
+    gestor.restablecer
+    expect{gestor.obtenerCalendario("A")}.to raise_error
+  end
+  
   it 'es posible obtener los calendarios como JSON' do
     gestor.restablecer
     unCalendario = Calendario.new "Un calendario"

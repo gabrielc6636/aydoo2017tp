@@ -24,6 +24,10 @@ delete  '/calendarios'  do
 end
 
 get  '/calendarios/:nombre'  do
-	calendario = gestor.obtener_calendario(params[:nombre])
-  "<pre>#{calendario}</pre>"
+  begin
+    calendario = gestor.obtener_calendario(params[:nombre])
+    "<pre>#{calendario}</pre>"
+  rescue ExceptionCalendarioNoEncontrado
+    status 404
+  end
 end
