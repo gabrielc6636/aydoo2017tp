@@ -10,8 +10,13 @@ get  '/calendarios'  do
 end
 
 post  '/calendarios'  do
-	calendario = Calendario.new (params['nombre'])
-	gestor.agregarCalendario(calendario)
+  begin
+    calendario = Calendario.new (params['nombre'])
+    gestor.agregarCalendario(calendario)
+    status 201
+  rescue ExceptionCalendarioExistente, ExceptionCalendarioSinNombre
+    status 400
+  end
 end
 
 delete  '/calendarios'  do
