@@ -46,13 +46,13 @@ class GestorCalendarios
   def obtener_calendario(nombre)
     calendario = calendarios[nombre.downcase]
     raise ExceptionCalendarioNoEncontrado if calendario.nil?
-    return JSON.pretty_generate(calendario.hash)
+    return JSON.pretty_generate(calendario.to_h)
   end
   
   def obtener_calendarios
     res = []
     calendarios.values.each do |c|
-      res << c.hash
+      res << c.to_h
     end
     return JSON.pretty_generate(res)
   end

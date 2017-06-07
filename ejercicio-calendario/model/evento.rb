@@ -13,7 +13,7 @@ class Evento
     @fin = fin
   end
   
-  def hash()
+  def to_h
     return {"calendario" => @calendario,
             "id" => @id,
             "nombre" => @nombre,

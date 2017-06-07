@@ -35,7 +35,7 @@ describe 'Evento' do
             "nombre" => "Un evento",
             "inicio" => "2017-03-31T18:00:00-03:00",
             "fin" => "2017-03-31T22:00:00-03:00"}
-    expect(evento.hash).to eq hash
+    expect(evento.to_h).to eq hash
   end
 
 end

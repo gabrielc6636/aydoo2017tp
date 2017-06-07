@@ -15,14 +15,14 @@ class GestorEventos
   def obtener_eventos
     res = []
     eventos.values.each do |e|
-      res << e.hash
+      res << e.to_h
     end
     return JSON.pretty_generate(res)
   end
   
   def obtener_evento(id)
     evento = eventos[id]
-    return JSON.pretty_generate(evento.hash)
+    return JSON.pretty_generate(evento.to_h)
   end
     
 end

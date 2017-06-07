@@ -10,7 +10,7 @@ class Calendario
     @nombre = nombre
   end
   
-  def hash()
+  def to_h
     return {"nombre" => @nombre}
   end
     
