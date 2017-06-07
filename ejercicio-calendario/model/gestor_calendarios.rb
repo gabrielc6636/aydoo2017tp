@@ -1,6 +1,7 @@
 require_relative './exception_calendario_existente'
 require_relative './exception_calendario_no_encontrado'
 require_relative './gestor_archivos'
+require_relative './calendario'
 require 'json'
 
 class GestorCalendarios
