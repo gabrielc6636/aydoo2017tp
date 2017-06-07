@@ -1,6 +1,9 @@
 require 'sinatra' 
 require_relative 'model/gestor_calendarios'
 require_relative 'model/gestor_eventos'
+require_relative 'model/exception_calendario_existente'
+require_relative 'model/exception_calendario_sin_nombre'
+require_relative 'model/exception_calendario_no_encontrado'
 
 gestor_calendarios = GestorCalendarios.new
 gestor_eventos = GestorEventos.new

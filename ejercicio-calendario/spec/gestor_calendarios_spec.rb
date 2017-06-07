@@ -36,7 +36,7 @@ describe 'GestorCalendarios' do
     gestor.restablecer
     nombre = "Un calendario"
     gestor.agregar_calendario(nombre)
-    expect{gestor.agregar_calendario(nombre)}.to raise_error
+    expect{gestor.agregar_calendario(nombre)}.to raise_error(ExceptionCalendarioExistente)
     File.delete("calendarios.json")
   end
   
@@ -45,7 +45,7 @@ describe 'GestorCalendarios' do
     nombre = "Un calendario"
     nombre_variando_mayusculas = "uN CalenDario"
     gestor.agregar_calendario(nombre)
-    expect{gestor.agregar_calendario(nombre_variando_mayusculas)}.to raise_error
+    expect{gestor.agregar_calendario(nombre_variando_mayusculas)}.to raise_error(ExceptionCalendarioExistente)
     File.delete("calendarios.json")
   end
   
@@ -63,7 +63,7 @@ describe 'GestorCalendarios' do
   
   it 'no es posible obtener un calendario que no existe' do
     gestor.restablecer
-    expect{gestor.obtenerCalendario("A")}.to raise_error
+    expect{gestor.obtener_calendario("A")}.to raise_error(ExceptionCalendarioNoEncontrado)
   end
   
   it 'es posible obtener los calendarios como JSON' do

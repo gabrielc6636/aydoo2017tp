@@ -15,7 +15,7 @@ describe 'Calendario' do
   end
   
   it 'no es posible agregar un calendario sin nombre' do
-    expect{Calendario.new ""}.to raise_error
+    expect{Calendario.new ""}.to raise_error(ExceptionCalendarioSinNombre)
   end
 
 end
