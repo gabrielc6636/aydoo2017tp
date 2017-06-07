@@ -24,6 +24,6 @@ delete  '/calendarios'  do
 end
 
 get  '/calendarios/:nombre'  do
-	calendario = gestor.calendarios[params[:nombre].downcase]
-    	"#{calendario}"
+	calendario = gestor.obtener_calendario(params[:nombre])
+  "<pre>#{calendario}</pre>"
 end

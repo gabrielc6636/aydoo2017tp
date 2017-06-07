@@ -47,14 +47,31 @@ describe 'GestorCalendario' do
     expect{gestor.agregarCalendario(calendarioRepetido)}.to raise_error
   end
   
+  it 'es posible obtener un calendario como JSON' do
+    gestor.restablecer
+    nombre = "Un calendario"
+    unCalendario = Calendario.new nombre
+    gestor.agregarCalendario(unCalendario)
+    salida =
+    '{
+  "nombre": "Un calendario"
+}'
+    expect(gestor.obtener_calendario(nombre)).to eq salida
+  end
+  
   it 'es posible obtener los calendarios como JSON' do
     gestor.restablecer
     unCalendario = Calendario.new "Un calendario"
+    otroCalendario = Calendario.new "Otro calendario"
     gestor.agregarCalendario(unCalendario)
+    gestor.agregarCalendario(otroCalendario)
     salida =
     '[
   {
     "nombre": "Un calendario"
+  },
+  {
+    "nombre": "Otro calendario"
   }
 ]'
     expect(gestor.obtener_calendarios).to eq salida

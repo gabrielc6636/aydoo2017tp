@@ -44,6 +44,11 @@ class GestorCalendario
     
   end
   
+  def obtener_calendario(nombre)
+    calendario = calendarios[nombre.downcase]
+    return JSON.pretty_generate(calendario.hash)
+  end
+  
   def obtener_calendarios()
     res = []
     calendarios.values.each do |c|
