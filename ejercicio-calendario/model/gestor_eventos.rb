@@ -12,6 +12,14 @@ class GestorEventos
     @eventos[id] = Evento.new calendario, id, nombre, inicio, fin
   end
   
+  def obtener_eventos
+    res = []
+    eventos.values.each do |e|
+      res << e.hash
+    end
+    return JSON.pretty_generate(res)
+  end
+  
   def obtener_evento(id)
     evento = eventos[id]
     return JSON.pretty_generate(evento.hash)
