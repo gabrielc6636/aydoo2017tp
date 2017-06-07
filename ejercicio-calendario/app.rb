@@ -44,6 +44,11 @@ post '/eventos' do
   status 201
 end
 
+get '/eventos' do
+  eventos = gestor_eventos.obtener_eventos
+  "<pre>#{eventos}</pre>"
+end
+
 get '/eventos/:id' do
   evento = gestor_eventos.obtener_evento(params[:id])
   "<pre>#{evento}</pre>"
