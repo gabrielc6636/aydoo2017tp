@@ -1,3 +1,4 @@
+require_relative './evento'
 require 'json'
 
 class GestorEventos

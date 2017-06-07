@@ -1,17 +1,18 @@
 require 'sinatra' 
 require_relative 'model/gestor_calendarios'
-require_relative 'model/calendario'
+require_relative 'model/gestor_eventos'
 
-gestor = GestorCalendarios.new
+gestor_calendarios = GestorCalendarios.new
+gestor_eventos = GestorEventos.new
 
 get  '/calendarios' do
-  calendarios = gestor.obtener_calendarios
+  calendarios = gestor_calendarios.obtener_calendarios
   "<pre>#{calendarios}</pre>"
 end
 
 post '/calendarios' do
   begin
-    gestor.agregar_calendario(params['nombre'])
+    gestor_calendarios.agregar_calendario(params['nombre'])
     status 201
   rescue ExceptionCalendarioExistente, ExceptionCalendarioSinNombre
     status 400
@@ -20,7 +21,7 @@ end
 
 delete '/calendarios/:nombre' do
   begin
-    gestor.borrar_calendario(params[:nombre])
+    gestor_calendarios.borrar_calendario(params[:nombre])
   rescue ExceptionCalendarioNoEncontrado
     status 404
   end
@@ -28,9 +29,19 @@ end
 
 get '/calendarios/:nombre' do
   begin
-    calendario = gestor.obtener_calendario(params[:nombre])
+    calendario = gestor_calendarios.obtener_calendario(params[:nombre])
     "<pre>#{calendario}</pre>"
   rescue ExceptionCalendarioNoEncontrado
     status 404
   end
+end
+
+post '/eventos' do
+  gestor_eventos.agregar_evento(params['calendario'], params['id'], params['nombre'], params['inicio'], params['fin'])
+  status 201
+end
+
+get '/eventos/:id' do
+  evento = gestor_eventos.obtener_evento(params[:id])
+  "<pre>#{evento}</pre>"
 end
