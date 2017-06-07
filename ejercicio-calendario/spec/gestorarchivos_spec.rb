@@ -1,5 +1,5 @@
 require 'rspec' 
-require_relative '../model/gestorarchivos'
+require_relative '../model/gestor_archivos'
 
 describe 'GestorArchivo' do
   

@@ -1,15 +1,15 @@
-require_relative './exceptioncalendarioexistente'
-require_relative './exceptioncalendarionoencontrado'
-require_relative './gestorarchivos'
+require_relative './exception_calendario_existente'
+require_relative './exception_calendario_no_encontrado'
+require_relative './gestor_archivos'
 require 'json'
 
-class GestorCalendario
+class GestorCalendarios
   attr_reader :calendarios
   
   def leer_de_archivo
-    gestorArchivo = GestorArchivos.new
+    gestor_archivos = GestorArchivos.new
     restablecer
-    lineas = gestorArchivo.leer("calendarios.json")
+    lineas = gestor_archivos.leer("calendarios.json")
     texto = ""
     lineas.each do |l|
       texto << l
@@ -31,8 +31,8 @@ class GestorCalendario
   end
   
   def escribir_en_archivo
-    gestorArchivo = GestorArchivos.new
-    gestorArchivo.escribir(obtener_calendarios, "calendarios.json")
+    gestor_archivos = GestorArchivos.new
+    gestor_archivos.escribir(obtener_calendarios, "calendarios.json")
   end
   
   def agregar_calendario(calendario)

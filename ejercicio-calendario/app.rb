@@ -1,18 +1,18 @@
 require 'sinatra' 
-require_relative 'model/gestorcalendario'
+require_relative 'model/gestor_calendarios'
 require_relative 'model/calendario'
 
-gestor = GestorCalendario.new
+gestor = GestorCalendarios.new
 
 get  '/calendarios' do
-	calendarios = gestor.obtener_calendarios
+  calendarios = gestor.obtener_calendarios
   "<pre>#{calendarios}</pre>"
 end
 
 post '/calendarios' do
   begin
     calendario = Calendario.new (params['nombre'])
-    gestor.agregarCalendario(calendario)
+    gestor.agregar_calendario(calendario)
     status 201
   rescue ExceptionCalendarioExistente, ExceptionCalendarioSinNombre
     status 400

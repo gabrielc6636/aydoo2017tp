@@ -1,10 +1,10 @@
 require 'rspec' 
 require_relative '../model/calendario'
-require_relative '../model/gestorcalendario'
+require_relative '../model/gestor_calendarios'
 
 describe 'GestorCalendario' do
   
-  let(:gestor) { GestorCalendario.new }
+  let(:gestor) { GestorCalendarios.new }
 
   it 'es posible agregar un calendario al gestor' do
     gestor.restablecer
