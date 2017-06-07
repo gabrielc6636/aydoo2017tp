@@ -8,6 +8,12 @@ describe 'Calendario' do
     expect(calendario.nombre).to eq "Un calendario"
   end
   
+  it 'es posible obtener el calendario como hash' do
+    calendario = Calendario.new "Un calendario"
+    hash = {"nombre" => "Un calendario",}
+    expect(calendario.hash).to eq hash
+  end
+  
   it 'no es posible agregar un calendario sin nombre' do
     expect{Calendario.new ""}.to raise_error
   end

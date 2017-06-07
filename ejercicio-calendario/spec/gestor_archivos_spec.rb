@@ -10,6 +10,7 @@ describe 'GestorArchivos' do
     gestor.escribir("Prueba", archivo)
     salida = File.open(archivo, &:readline)
     expect(salida).to eq "Prueba\n"
+    File.delete(archivo)
   end
   
   it 'se lee un archivo' do
@@ -17,6 +18,7 @@ describe 'GestorArchivos' do
     gestor.escribir("Prueba", archivo)
     lectura = gestor.leer(archivo)[0]
     expect(lectura).to eq "Prueba\n"
+    File.delete(archivo)
   end
   
   it 'se intenta leer un archivo inexistente' do

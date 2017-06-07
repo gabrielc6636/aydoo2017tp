@@ -10,6 +10,7 @@ describe 'GestorCalendarios' do
     nombre = "Un calendario"
     gestor.agregar_calendario(nombre)
     expect(gestor.calendarios[nombre.downcase].nombre).to eq nombre
+    File.delete("calendarios.json")
   end
   
   it 'es posible borrar un calendario existente' do
@@ -18,6 +19,7 @@ describe 'GestorCalendarios' do
     gestor.agregar_calendario(nombre)
     gestor.borrar_calendario(nombre)
     expect(gestor.calendarios.size).to eq 0
+    File.delete("calendarios.json")
   end
   
   it 'es posible agregar mas de un calendario al gestor' do
@@ -27,6 +29,7 @@ describe 'GestorCalendarios' do
     gestor.agregar_calendario(un_nombre)
     gestor.agregar_calendario(otro_nombre)
     expect(gestor.calendarios.size).to eq 2
+    File.delete("calendarios.json")
   end
   
   it 'no es posible agregar dos calendarios con el mismo nombre' do
@@ -34,6 +37,7 @@ describe 'GestorCalendarios' do
     nombre = "Un calendario"
     gestor.agregar_calendario(nombre)
     expect{gestor.agregar_calendario(nombre)}.to raise_error
+    File.delete("calendarios.json")
   end
   
   it 'no es posible agregar dos calendarios variando mayusculas' do
@@ -42,6 +46,7 @@ describe 'GestorCalendarios' do
     nombre_variando_mayusculas = "uN CalenDario"
     gestor.agregar_calendario(nombre)
     expect{gestor.agregar_calendario(nombre_variando_mayusculas)}.to raise_error
+    File.delete("calendarios.json")
   end
   
   it 'es posible obtener un calendario como JSON' do
@@ -53,6 +58,7 @@ describe 'GestorCalendarios' do
   "nombre": "Un calendario"
 }'
     expect(gestor.obtener_calendario(nombre)).to eq salida
+    File.delete("calendarios.json")
   end
   
   it 'no es posible obtener un calendario que no existe' do
@@ -76,6 +82,7 @@ describe 'GestorCalendarios' do
   }
 ]'
     expect(gestor.obtener_calendarios).to eq salida
+    File.delete("calendarios.json")
   end
   
   it 'es posible leer un calendario de archivo' do
@@ -84,6 +91,7 @@ describe 'GestorCalendarios' do
     gestor.agregar_calendario(nombre)
     gestor.leer_de_archivo
     expect(gestor.calendarios[nombre.downcase].nombre).to eq nombre
+    File.delete("calendarios.json")
   end
   
   it 'es posible escribir un calendario en archivo' do
@@ -95,6 +103,7 @@ describe 'GestorCalendarios' do
     esperado = '[
 '
     expect(salida).to eq esperado
+    File.delete("calendarios.json")
   end
 
 end
