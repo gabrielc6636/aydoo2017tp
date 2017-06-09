@@ -12,15 +12,9 @@ class GestorCalendarios
     gestor_archivos = GestorArchivos.new
     restablecer
     lineas = gestor_archivos.leer("calendarios.json")
-    texto = ""
-    lineas.each do |l|
-      texto << l
-    end
-    if texto != ""
-      res = JSON.parse(texto)
-      res.each do |r|
-        agregar_calendario(r["nombre"])
-      end
+    interpretado = FormateadorJson.interpretar(lineas)
+    interpretado.each do |i|
+      agregar_calendario(i["nombre"])
     end
   end
   

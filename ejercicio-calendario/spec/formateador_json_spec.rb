@@ -12,7 +12,6 @@ describe 'FormateadorJson' do
   end
   
   it 'es posible formatear varios calendarios' do
-    
     nombre = "Un calendario"
     otro_nombre = "Otro calendario"
     calendario = Calendario.new nombre
@@ -27,6 +26,12 @@ describe 'FormateadorJson' do
   }
 ]'
     expect(FormateadorJson.formatear_coleccion(calendarios)).to eq salida
+  end
+  
+  it 'es posible interpretar una entrada' do
+    entrada = ['[', '  {', '    "a": "b"', '  }', ']']
+    interpretado = FormateadorJson.interpretar(entrada)
+    expect(interpretado[0]['a']).to eq "b"
   end
 
 end

@@ -14,4 +14,15 @@ class FormateadorJson
     return JSON.pretty_generate(res)
   end
   
+  def self.interpretar(lineas)
+    texto = ""
+    lineas.each do |l|
+      texto << l
+    end
+    if texto != ""
+      return JSON.parse(texto)
+    end
+    return []
+  end
+  
 end
