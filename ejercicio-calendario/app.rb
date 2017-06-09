@@ -9,6 +9,7 @@ require_relative 'model/exception_calendario_sin_nombre'
 archivo_calendarios = "calendarios.json"
 archivo_eventos = "eventos.json"
 Calendario.batch(FormateadorJson.interpretar(GestorArchivos.leer(archivo_calendarios)))
+Evento.batch(FormateadorJson.interpretar(GestorArchivos.leer(archivo_eventos)))
 
 get  '/calendarios' do
   calendarios = Calendario.calendarios.values

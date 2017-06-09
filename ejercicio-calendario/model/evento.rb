@@ -15,6 +15,12 @@ class Evento
     @@eventos[id] = self
   end
   
+  def self.batch(lista)
+    lista.each do |l|
+      Evento.new l['calendario'], l['id'], l['nombre'], l['inicio'], l['fin']
+    end
+  end
+  
   def self.eventos
     @@eventos
   end

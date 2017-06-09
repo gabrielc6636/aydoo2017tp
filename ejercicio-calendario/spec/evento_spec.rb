@@ -33,6 +33,13 @@ describe 'Evento' do
     expect(evento.fin).to eq "2017-03-31T22:00:00-03:00"
   end
   
+  it 'es posible crear varios eventos a partir de una lista de hashes' do
+    hashes = [{"calendario" => "Un calendario", "id" => "1", "nombre" => "Un evento", "inicio" => "2017-03-31T18:00:00-03:00", "fin" => "2017-03-31T22:00:00-03:00"},
+              {"calendario" => "Un calendario", "id" => "2", "nombre" => "Otro evento", "inicio" => "2017-04-31T18:00:00-03:00", "fin" => "2017-04-31T22:00:00-03:00"}]
+    Evento.batch(hashes)
+    expect(Evento.eventos.size).to eq 2
+  end
+  
   it 'es posible obtener el evento como hash' do
     evento = Evento.new "Un calendario", "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"
     hash = {"calendario" => "Un calendario",
