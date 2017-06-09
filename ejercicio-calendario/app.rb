@@ -1,12 +1,11 @@
 require 'sinatra' 
 require_relative 'model/gestor_archivos'
-require_relative 'model/gestor_eventos'
 require_relative 'model/calendario'
+require_relative 'model/evento'
 require_relative 'model/formateador_json'
 require_relative 'model/exception_calendario_existente'
 require_relative 'model/exception_calendario_sin_nombre'
 
-gestor_eventos = GestorEventos.new
 archivo_calendarios = "calendarios.json"
 Calendario.batch(FormateadorJson.interpretar(GestorArchivos.leer(archivo_calendarios)))
 
@@ -50,7 +49,7 @@ get '/calendarios/:nombre' do
 end
 
 post '/eventos' do
-  gestor_eventos.agregar_evento(params['calendario'], params['id'], params['nombre'], params['inicio'], params['fin'])
+  Evento.new(params['calendario'], params['id'], params['nombre'], params['inicio'], params['fin'])
   status 201
 end
 
