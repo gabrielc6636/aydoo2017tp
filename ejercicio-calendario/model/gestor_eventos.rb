@@ -19,10 +19,5 @@ class GestorEventos
     end
     return JSON.pretty_generate(res)
   end
-  
-  def obtener_evento(id)
-    evento = eventos[id]
-    return JSON.pretty_generate(evento.to_h)
-  end
     
 end

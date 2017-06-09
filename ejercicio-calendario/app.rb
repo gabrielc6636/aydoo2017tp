@@ -60,6 +60,11 @@ get '/eventos' do
 end
 
 get '/eventos/:id' do
-  evento = gestor_eventos.obtener_evento(params[:id])
-  "<pre>#{evento}</pre>"
+  begin
+    evento = Evento.eventos.fetch(params[:id])
+    salida = FormateadorJson.formatear_objeto(evento)
+    "<pre>#{salida}</pre>"
+  rescue KeyError
+    status 404
+  end
 end
