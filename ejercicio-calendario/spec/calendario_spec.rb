@@ -8,6 +8,12 @@ describe 'Calendario' do
     expect(calendario.nombre).to eq "Un calendario"
   end
   
+  it 'al crearse, el calendario se asigna a la coleccion' do
+    nombre = "Un calendario"
+    calendario = Calendario.new nombre
+    expect(Calendario.calendarios[nombre.downcase].nombre).to eq nombre
+  end
+  
   it 'es posible obtener el calendario como hash' do
     calendario = Calendario.new "Un calendario"
     hash = {"nombre" => "Un calendario",}
