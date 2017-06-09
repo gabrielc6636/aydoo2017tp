@@ -1,13 +1,13 @@
 require_relative './exception_calendario_sin_nombre'
+require_relative './exception_calendario_existente'
 
 class Calendario
   @@calendarios = Hash.new
   attr_reader :nombre
   
   def initialize(nombre)
-    if nombre == ""
-      raise ExceptionCalendarioSinNombre
-    end
+    raise ExceptionCalendarioSinNombre if nombre == ""
+    raise ExceptionCalendarioExistente if @@calendarios[nombre.downcase]
     @nombre = nombre
     @@calendarios[nombre.downcase] = self
   end

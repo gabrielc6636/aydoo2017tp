@@ -2,6 +2,8 @@ require 'rspec'
 require_relative '../model/calendario'
 
 describe 'Calendario' do
+  
+  before(:each) { Calendario.class_variable_set :@@calendarios, Hash.new }
 
   it 'es posible asignar un nombre a un calendario' do
     calendario = Calendario.new "Un calendario"
@@ -22,6 +24,17 @@ describe 'Calendario' do
   
   it 'no es posible agregar un calendario sin nombre' do
     expect{Calendario.new ""}.to raise_error(ExceptionCalendarioSinNombre)
+  end
+  
+  it 'no es posible agregar un calendario con nombre repetido' do
+    nombre = "Un calendario"
+    calendario = Calendario.new nombre
+    expect{Calendario.new nombre}.to raise_error(ExceptionCalendarioExistente)
+  end
+  
+  it 'no es posible agregar un calendario variando mayusculas' do
+    calendario = Calendario.new "Un calendario"
+    expect{Calendario.new "uN cAlEndArIO"}.to raise_error(ExceptionCalendarioExistente)
   end
 
 end
