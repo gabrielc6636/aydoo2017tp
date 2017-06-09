@@ -9,8 +9,9 @@ gestor_calendarios = GestorCalendarios.new
 gestor_eventos = GestorEventos.new
 
 get  '/calendarios' do
-  calendarios = gestor_calendarios.obtener_calendarios
-  "<pre>#{calendarios}</pre>"
+  calendarios = Calendario.calendarios.values
+  salida = FormateadorJson.formatear_coleccion(calendarios)
+  "<pre>#{salida}</pre>"
 end
 
 post '/calendarios' do

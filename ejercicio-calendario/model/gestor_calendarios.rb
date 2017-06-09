@@ -3,7 +3,6 @@ require_relative './exception_calendario_no_encontrado'
 require_relative './formateador_json'
 require_relative './gestor_archivos'
 require_relative './calendario'
-require 'json'
 
 class GestorCalendarios
   attr_reader :calendarios
@@ -26,7 +25,9 @@ class GestorCalendarios
   end
   
   def escribir_en_archivo
-    GestorArchivos.escribir(obtener_calendarios, "calendarios.json")
+    calendarios = Calendario.calendarios.values
+    salida = FormateadorJson.formatear_coleccion(calendarios)
+    GestorArchivos.escribir(salida, "calendarios.json")
   end
   
   def agregar_calendario(nombre)
@@ -34,10 +35,6 @@ class GestorCalendarios
     raise ExceptionCalendarioExistente if @calendarios[nombre_minusculas]
     @calendarios[nombre_minusculas] = Calendario.new nombre
     escribir_en_archivo
-  end
-  
-  def obtener_calendarios
-    return FormateadorJson.formatear_coleccion(calendarios.values)
   end
   
   def borrar_calendario(nombre)
