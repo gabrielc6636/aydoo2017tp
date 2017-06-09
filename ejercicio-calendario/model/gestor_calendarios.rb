@@ -1,5 +1,6 @@
 require_relative './exception_calendario_existente'
 require_relative './exception_calendario_no_encontrado'
+require_relative './formateador_json'
 require_relative './gestor_archivos'
 require_relative './calendario'
 require 'json'
@@ -46,15 +47,11 @@ class GestorCalendarios
   def obtener_calendario(nombre)
     calendario = calendarios[nombre.downcase]
     raise ExceptionCalendarioNoEncontrado if calendario.nil?
-    return JSON.pretty_generate(calendario.to_h)
+    return FormateadorJson.formatear_objeto(calendario)
   end
   
   def obtener_calendarios
-    res = []
-    calendarios.values.each do |c|
-      res << c.to_h
-    end
-    return JSON.pretty_generate(res)
+    return FormateadorJson.formatear_coleccion(calendarios.values)
   end
   
   def borrar_calendario(nombre)
