@@ -53,6 +53,14 @@ post '/eventos' do
   status 201
 end
 
+delete '/eventos/:id' do
+  begin
+    Evento.eventos.delete(params[:id]) { |k| fail KeyError, k }
+  rescue KeyError
+    status 404
+  end
+end
+
 get '/eventos' do
   eventos = Evento.eventos.values
   salida = FormateadorJson.formatear_coleccion(eventos)
