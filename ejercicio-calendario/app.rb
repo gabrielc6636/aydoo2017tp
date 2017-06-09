@@ -55,8 +55,9 @@ post '/eventos' do
 end
 
 get '/eventos' do
-  eventos = gestor_eventos.obtener_eventos
-  "<pre>#{eventos}</pre>"
+  eventos = Evento.eventos.values
+  salida = FormateadorJson.formatear_coleccion(eventos)
+  "<pre>#{salida}</pre>"
 end
 
 get '/eventos/:id' do
