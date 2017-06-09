@@ -4,7 +4,6 @@ require_relative 'model/calendario'
 require_relative 'model/formateador_json'
 require_relative 'model/exception_calendario_existente'
 require_relative 'model/exception_calendario_sin_nombre'
-require_relative 'model/exception_calendario_no_encontrado'
 
 gestor_eventos = GestorEventos.new
 
@@ -25,18 +24,18 @@ end
 
 delete '/calendarios/:nombre' do
   begin
-    Calendario.calendarios.delete(params[:nombre].downcase)
-  rescue ExceptionCalendarioNoEncontrado
+    Calendario.calendarios.delete(params[:nombre].downcase) { |k| fail KeyError, k }
+  rescue KeyError
     status 404
   end
 end
 
 get '/calendarios/:nombre' do
   begin
-    calendario = Calendario.calendarios[params[:nombre].downcase]
+    calendario = Calendario.calendarios.fetch(params[:nombre].downcase)
     salida = FormateadorJson.formatear_objeto(calendario)
     "<pre>#{salida}</pre>"
-  rescue ExceptionCalendarioNoEncontrado
+  rescue KeyError
     status 404
   end
 end
