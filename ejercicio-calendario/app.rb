@@ -7,6 +7,7 @@ require_relative 'model/exception_calendario_existente'
 require_relative 'model/exception_calendario_sin_nombre'
 
 archivo_calendarios = "calendarios.json"
+archivo_eventos = "eventos.json"
 Calendario.batch(FormateadorJson.interpretar(GestorArchivos.leer(archivo_calendarios)))
 
 get  '/calendarios' do
@@ -50,12 +51,18 @@ end
 
 post '/eventos' do
   Evento.new(params['calendario'], params['id'], params['nombre'], params['inicio'], params['fin'])
+  eventos = Evento.eventos.values
+  salida = FormateadorJson.formatear_coleccion(eventos)
+  GestorArchivos.escribir(salida, archivo_eventos)
   status 201
 end
 
 delete '/eventos/:id' do
   begin
     Evento.eventos.delete(params[:id]) { |k| fail KeyError, k }
+    eventos = Evento.eventos.values
+    salida = FormateadorJson.formatear_coleccion(eventos)
+    GestorArchivos.escribir(salida, archivo_eventos)
   rescue KeyError
     status 404
   end
