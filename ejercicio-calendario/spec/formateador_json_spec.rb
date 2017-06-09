@@ -1,4 +1,5 @@
-require 'rspec' 
+require 'rspec'
+require_relative '../model/formateador_json'
 
 describe 'FormateadorJson' do
 
