@@ -10,6 +10,12 @@ describe 'Calendario' do
     expect(calendario.nombre).to eq "Un calendario"
   end
   
+  it 'es posible crear varios calendarios a partir de una lista de hashes' do
+    hashes = [{"nombre" => "Un calendario"}, {"nombre" => "Otro calendario"}]
+    Calendario.batch(hashes)
+    expect(Calendario.calendarios.size).to eq 2
+  end
+  
   it 'al crearse, el calendario se asigna a la coleccion' do
     nombre = "Un calendario"
     calendario = Calendario.new nombre
