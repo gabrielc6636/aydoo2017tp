@@ -1,4 +1,5 @@
 class Evento
+  @@eventos = Hash.new
   attr_reader :calendario
   attr_reader :id
   attr_reader :nombre
@@ -11,6 +12,11 @@ class Evento
     @nombre = nombre
     @inicio = inicio
     @fin = fin
+    @@eventos[id] = self
+  end
+  
+  def self.eventos
+    @@eventos
   end
   
   def to_h

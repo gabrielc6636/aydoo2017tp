@@ -3,6 +3,11 @@ require_relative '../model/evento'
 
 describe 'Evento' do
   
+  it 'es posible guardar un evento' do
+    evento = Evento.new "Un calendario", "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"
+    expect(Evento.eventos["1"].nombre).to eq "Un evento"
+  end
+  
   it 'es posible asignarle un calendario al evento' do
     evento = Evento.new "Un calendario", "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"
     expect(evento.calendario).to eq "Un calendario"
