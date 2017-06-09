@@ -1,13 +1,13 @@
 class GestorArchivos
    
-  def escribir(texto, archivo)
+  def self.escribir(texto, archivo)
     File.truncate(archivo, 0) if File.file?(archivo) 
     open(archivo, "a") do |f|
       f.puts(texto)
     end
   end
   
-  def leer(archivo)
+  def self.leer(archivo)
     lineas = []
     if File.file?(archivo)
       f = open(archivo).each do |l| 

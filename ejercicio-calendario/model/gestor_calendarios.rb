@@ -9,9 +9,8 @@ class GestorCalendarios
   attr_reader :calendarios
   
   def leer_de_archivo
-    gestor_archivos = GestorArchivos.new
     restablecer
-    lineas = gestor_archivos.leer("calendarios.json")
+    lineas = GestorArchivos.leer("calendarios.json")
     interpretado = FormateadorJson.interpretar(lineas)
     interpretado.each do |i|
       agregar_calendario(i["nombre"])
@@ -27,8 +26,7 @@ class GestorCalendarios
   end
   
   def escribir_en_archivo
-    gestor_archivos = GestorArchivos.new
-    gestor_archivos.escribir(obtener_calendarios, "calendarios.json")
+    GestorArchivos.escribir(obtener_calendarios, "calendarios.json")
   end
   
   def agregar_calendario(nombre)
