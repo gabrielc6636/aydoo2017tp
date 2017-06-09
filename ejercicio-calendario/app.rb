@@ -1,5 +1,4 @@
 require 'sinatra' 
-require_relative 'model/gestor_calendarios'
 require_relative 'model/gestor_eventos'
 require_relative 'model/exception_calendario_existente'
 require_relative 'model/exception_calendario_sin_nombre'
@@ -16,7 +15,7 @@ end
 
 post '/calendarios' do
   begin
-    gestor_calendarios.agregar_calendario(params['nombre'])
+    Calendario.new params['nombre']
     status 201
   rescue ExceptionCalendarioExistente, ExceptionCalendarioSinNombre
     status 400
@@ -25,7 +24,7 @@ end
 
 delete '/calendarios/:nombre' do
   begin
-    gestor_calendarios.borrar_calendario(params[:nombre])
+    Calendario.calendarios.delete(params[:nombre].downcase)
   rescue ExceptionCalendarioNoEncontrado
     status 404
   end
