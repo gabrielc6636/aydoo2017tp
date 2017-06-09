@@ -12,6 +12,12 @@ class Calendario
     @@calendarios[nombre.downcase] = self
   end
   
+  def self.batch(lista)
+    lista.each do |l|
+      Calendario.new l['nombre']
+    end
+  end
+  
   def self.calendarios
     @@calendarios
   end
