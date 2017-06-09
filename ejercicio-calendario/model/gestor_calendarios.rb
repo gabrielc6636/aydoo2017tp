@@ -36,12 +36,6 @@ class GestorCalendarios
     escribir_en_archivo
   end
   
-  def obtener_calendario(nombre)
-    calendario = calendarios[nombre.downcase]
-    raise ExceptionCalendarioNoEncontrado if calendario.nil?
-    return FormateadorJson.formatear_objeto(calendario)
-  end
-  
   def obtener_calendarios
     return FormateadorJson.formatear_coleccion(calendarios.values)
   end

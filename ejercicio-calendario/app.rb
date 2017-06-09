@@ -32,8 +32,9 @@ end
 
 get '/calendarios/:nombre' do
   begin
-    calendario = gestor_calendarios.obtener_calendario(params[:nombre])
-    "<pre>#{calendario}</pre>"
+    calendario = Calendario.calendarios[params[:nombre].downcase]
+    salida = FormateadorJson.formatear_objeto(calendario)
+    "<pre>#{salida}</pre>"
   rescue ExceptionCalendarioNoEncontrado
     status 404
   end

@@ -49,23 +49,6 @@ describe 'GestorCalendarios' do
     File.delete("calendarios.json")
   end
   
-  it 'es posible obtener un calendario como JSON' do
-    gestor.restablecer
-    nombre = "Un calendario"
-    gestor.agregar_calendario(nombre)
-    salida =
-    '{
-  "nombre": "Un calendario"
-}'
-    expect(gestor.obtener_calendario(nombre)).to eq salida
-    File.delete("calendarios.json")
-  end
-  
-  it 'no es posible obtener un calendario que no existe' do
-    gestor.restablecer
-    expect{gestor.obtener_calendario("A")}.to raise_error(ExceptionCalendarioNoEncontrado)
-  end
-  
   it 'es posible obtener los calendarios como JSON' do
     gestor.restablecer
     un_nombre = "Un calendario"
