@@ -19,7 +19,8 @@ end
 
 post '/calendarios' do
   begin
-    Calendario.new params['nombre']
+    entrada = FormateadorJson.interpretar([request.body.read])
+    Calendario.new entrada['nombre']
     calendarios = Calendario.calendarios.values
     salida = FormateadorJson.formatear_coleccion(calendarios)
     GestorArchivos.escribir(salida, archivo_calendarios)
