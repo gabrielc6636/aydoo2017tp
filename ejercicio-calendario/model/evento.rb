@@ -1,3 +1,5 @@
+require_relative './exception_evento_sin_id'
+
 class Evento
   @@eventos = Hash.new
   attr_reader :calendario
@@ -7,6 +9,7 @@ class Evento
   attr_reader :fin
   
   def initialize(calendario, id, nombre, inicio, fin)
+    raise ExceptionEventoSinId if id == ""
     @calendario = calendario
     @id = id
     @nombre = nombre

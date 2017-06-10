@@ -3,6 +3,10 @@ require_relative '../model/evento'
 
 describe 'Evento' do
   
+  it 'no es posible agregar un evento sin id' do
+    expect{Evento.new "A", "", "B", "C", "D"}.to raise_error(ExceptionEventoSinId)
+  end
+  
   it 'es posible guardar un evento' do
     evento = Evento.new "Un calendario", "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"
     expect(Evento.eventos["1"].nombre).to eq "Un evento"
