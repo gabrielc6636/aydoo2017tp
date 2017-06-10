@@ -73,8 +73,9 @@ end
 
 put '/eventos' do
   begin
-    evento = Evento.eventos.fetch(params['id'])
-    evento.actualizar(params['inicio'], params['fin'])
+    entrada = FormateadorJson.interpretar([request.body.read])
+    evento = Evento.eventos.fetch(entrada['id'])
+    evento.actualizar(entrada['inicio'], entrada['fin'])
     eventos = Evento.eventos.values
     salida = FormateadorJson.formatear_coleccion(eventos)
     GestorArchivos.escribir(salida, archivo_eventos)
