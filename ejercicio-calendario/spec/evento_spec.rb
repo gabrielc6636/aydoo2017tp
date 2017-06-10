@@ -40,6 +40,18 @@ describe 'Evento' do
     expect(Evento.eventos.size).to eq 2
   end
   
+  it 'es posible actualizar la fecha de inicio de un evento' do
+    evento = Evento.new "Un calendario", "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"
+    evento.actualizar("2017-04-31T18:00:00-03:00", "2017-04-31T22:00:00-03:00")
+    expect(evento.inicio).to eq "2017-04-31T18:00:00-03:00"
+  end
+                     
+  it 'es posible actualizar la fecha de fin de un evento' do
+    evento = Evento.new "Un calendario", "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"
+    evento.actualizar("2017-04-31T18:00:00-03:00", "2017-04-31T22:00:00-03:00")
+    expect(evento.fin).to eq "2017-04-31T22:00:00-03:00"
+  end
+  
   it 'es posible obtener el evento como hash' do
     evento = Evento.new "Un calendario", "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"
     hash = {"calendario" => "Un calendario",

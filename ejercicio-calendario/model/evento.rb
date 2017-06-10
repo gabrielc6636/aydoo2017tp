@@ -25,6 +25,11 @@ class Evento
     @@eventos
   end
   
+  def actualizar(inicio, fin)
+    @inicio = inicio
+    @fin = fin
+  end
+  
   def to_h
     return {"calendario" => @calendario,
             "id" => @id,
