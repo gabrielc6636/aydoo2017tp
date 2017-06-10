@@ -52,12 +52,16 @@ get '/calendarios/:nombre' do
 end
 
 post '/eventos' do
-  entrada = FormateadorJson.interpretar([request.body.read])
-  Evento.new(entrada['calendario'], entrada['id'], entrada['nombre'], entrada['inicio'], entrada['fin'])
-  eventos = Evento.eventos.values
-  salida = FormateadorJson.formatear_coleccion(eventos)
-  GestorArchivos.escribir(salida, archivo_eventos)
-  status 201
+  begin
+    entrada = FormateadorJson.interpretar([request.body.read])
+    Evento.new(entrada['calendario'], entrada['id'], entrada['nombre'], entrada['inicio'], entrada['fin'])
+    eventos = Evento.eventos.values
+    salida = FormateadorJson.formatear_coleccion(eventos)
+    GestorArchivos.escribir(salida, archivo_eventos)
+    status 201
+  rescue ExceptionEventoSinId
+    status 400
+  end
 end
 
 delete '/eventos/:id' do
