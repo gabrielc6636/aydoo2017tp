@@ -14,7 +14,7 @@ Evento.batch(FormateadorJson.interpretar(GestorArchivos.leer(archivo_eventos)))
 get  '/calendarios' do
   calendarios = Calendario.calendarios.values
   salida = FormateadorJson.formatear_coleccion(calendarios)
-  "<pre>#{salida}</pre>"
+  "#{salida}"
 end
 
 post '/calendarios' do
@@ -45,7 +45,7 @@ get '/calendarios/:nombre' do
   begin
     calendario = Calendario.calendarios.fetch(params[:nombre].downcase)
     salida = FormateadorJson.formatear_objeto(calendario)
-    "<pre>#{salida}</pre>"
+    "#{salida}"
   rescue KeyError
     status 404
   end
@@ -91,14 +91,14 @@ end
 get '/eventos' do
   eventos = Evento.eventos.values
   salida = FormateadorJson.formatear_coleccion(eventos)
-  "<pre>#{salida}</pre>"
+  "#{salida}"
 end
 
 get '/eventos/:id' do
   begin
     evento = Evento.eventos.fetch(params[:id])
     salida = FormateadorJson.formatear_objeto(evento)
-    "<pre>#{salida}</pre>"
+    "#{salida}"
   rescue KeyError
     status 404
   end
