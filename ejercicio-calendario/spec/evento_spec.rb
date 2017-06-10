@@ -39,6 +39,17 @@ describe 'Evento' do
     expect(evento.fin).to eq "2017-03-31T22:00:00-03:00"
   end
   
+  it 'es posible asignarle una recurrencia al evento' do
+    recurrencia = Recurrencia.new "semanal", "2017-04-31T22:00:00-03:00"
+    evento = Evento.new "Un calendario", "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00", recurrencia
+    expect(evento.recurrencia.frecuencia).to eq "semanal"
+  end
+  
+  it 'es posible crear un evento sin recurrencia' do
+    evento = Evento.new "Un calendario", "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"
+    expect(evento.recurrencia).to eq nil
+  end
+  
   it 'no es posible agregar un evento con id repetido' do
     Evento.new "Un calendario", "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"
     expect{Evento.new "Un calendario", "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"}.to raise_error(ExceptionEventoExistente)

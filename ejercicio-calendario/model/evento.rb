@@ -8,8 +8,9 @@ class Evento
   attr_reader :nombre
   attr_reader :inicio
   attr_reader :fin
+  attr_reader :recurrencia
   
-  def initialize(calendario, id, nombre, inicio, fin)
+  def initialize(calendario, id, nombre, inicio, fin, recurrencia=nil)
     raise ExceptionEventoSinId if id == ""
     raise ExceptionEventoExistente if @@eventos[id]
     @calendario = calendario
@@ -17,6 +18,7 @@ class Evento
     @nombre = nombre
     @inicio = inicio
     @fin = fin
+    @recurrencia = recurrencia
     @@eventos[id] = self
   end
   
