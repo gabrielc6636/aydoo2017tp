@@ -59,7 +59,7 @@ post '/eventos' do
     salida = FormateadorJson.formatear_coleccion(eventos)
     GestorArchivos.escribir(salida, archivo_eventos)
     status 201
-  rescue ExceptionEventoSinId
+  rescue ExceptionEventoSinId, ExceptionEventoExistente
     status 400
   end
 end
