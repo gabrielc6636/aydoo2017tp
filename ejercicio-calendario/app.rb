@@ -52,7 +52,8 @@ get '/calendarios/:nombre' do
 end
 
 post '/eventos' do
-  Evento.new(params['calendario'], params['id'], params['nombre'], params['inicio'], params['fin'])
+  entrada = FormateadorJson.interpretar([request.body.read])
+  Evento.new(entrada['calendario'], entrada['id'], entrada['nombre'], entrada['inicio'], entrada['fin'])
   eventos = Evento.eventos.values
   salida = FormateadorJson.formatear_coleccion(eventos)
   GestorArchivos.escribir(salida, archivo_eventos)
