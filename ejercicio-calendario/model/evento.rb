@@ -1,4 +1,5 @@
 require_relative './exception_evento_sin_id'
+require_relative './exception_evento_existente'
 
 class Evento
   @@eventos = Hash.new
@@ -10,6 +11,7 @@ class Evento
   
   def initialize(calendario, id, nombre, inicio, fin)
     raise ExceptionEventoSinId if id == ""
+    raise ExceptionEventoExistente if @@eventos[id]
     @calendario = calendario
     @id = id
     @nombre = nombre

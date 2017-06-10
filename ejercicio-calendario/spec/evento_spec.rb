@@ -3,6 +3,8 @@ require_relative '../model/evento'
 
 describe 'Evento' do
   
+  before(:each) { Evento.class_variable_set :@@eventos, Hash.new }
+  
   it 'no es posible agregar un evento sin id' do
     expect{Evento.new "A", "", "B", "C", "D"}.to raise_error(ExceptionEventoSinId)
   end
@@ -35,6 +37,11 @@ describe 'Evento' do
   it 'es posible asignarle un fin al evento' do
     evento = Evento.new "Un calendario", "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"
     expect(evento.fin).to eq "2017-03-31T22:00:00-03:00"
+  end
+  
+  it 'no es posible agregar un evento con id repetido' do
+    Evento.new "Un calendario", "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"
+    expect{Evento.new "Un calendario", "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"}.to raise_error(ExceptionEventoExistente)
   end
   
   it 'es posible crear varios eventos a partir de una lista de hashes' do
