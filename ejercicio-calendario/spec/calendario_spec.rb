@@ -4,7 +4,8 @@ require_relative '../model/evento'
 
 describe 'Calendario' do
   
-  before(:each) { Calendario.class_variable_set :@@calendarios, Hash.new }
+  before(:each) { Calendario.class_variable_set :@@calendarios, Hash.new
+                  Evento.class_variable_set :@@eventos, Hash.new}
 
   it 'es posible asignar un nombre a un calendario' do
     calendario = Calendario.new "Un calendario"
@@ -14,6 +15,13 @@ describe 'Calendario' do
   it 'el calendario se crea sin eventos' do
     calendario = Calendario.new "Un calendario"
     expect(calendario.eventos.size).to eq 0
+  end
+  
+  it 'es posible eliminar los eventos de un calendario' do
+    calendario = Calendario.new "Un calendario"
+    Evento.new calendario, "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"
+    calendario.eliminar_eventos
+    expect(Evento.eventos.size).to eq 0
   end
   
   it 'es posible crear varios calendarios a partir de una lista de hashes' do

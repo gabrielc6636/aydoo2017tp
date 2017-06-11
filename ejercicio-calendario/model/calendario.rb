@@ -28,6 +28,14 @@ class Calendario
     @@calendarios
   end
   
+  def eliminar_eventos
+    @eventos.keys.each do |e|
+      Evento.class_variable_set :@@eventos, Evento.eventos.delete(e)
+      Evento.class_variable_set :@@eventos, Hash.new if Evento.eventos.nil?
+      @eventos.delete(e)
+    end
+  end
+  
   def to_h
     return {"nombre" => @nombre}
   end
