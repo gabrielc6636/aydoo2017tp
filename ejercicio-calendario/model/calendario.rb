@@ -29,11 +29,8 @@ class Calendario
   end
   
   def eliminar_eventos
-    @eventos.keys.each do |e|
-      Evento.class_variable_set :@@eventos, Evento.eventos.delete(e)
-      Evento.class_variable_set :@@eventos, Hash.new if Evento.eventos.nil?
-      @eventos.delete(e)
-    end
+    Evento.class_variable_set :@@eventos, Evento.eventos.delete_if {|k,v| Evento.eventos.key?(k)}
+    @eventos = Hash.new
   end
   
   def to_h
