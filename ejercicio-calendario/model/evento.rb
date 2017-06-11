@@ -64,6 +64,7 @@ class Evento
   end
   
   def actualizar(inicio, fin)
+    validar_duracion(inicio, fin)
     @inicio = inicio
     @fin = fin
   end

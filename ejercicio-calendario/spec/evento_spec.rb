@@ -93,15 +93,21 @@ describe 'Evento' do
   it 'es posible actualizar la fecha de inicio de un evento' do
     calendario = Calendario.new "Un calendario"
     evento = Evento.new calendario, "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"
-    evento.actualizar("2017-04-31T18:00:00-03:00", "2017-04-31T22:00:00-03:00")
-    expect(evento.inicio).to eq "2017-04-31T18:00:00-03:00"
+    evento.actualizar("2017-04-30T18:00:00-03:00", "2017-04-30T22:00:00-03:00")
+    expect(evento.inicio).to eq "2017-04-30T18:00:00-03:00"
   end
                      
   it 'es posible actualizar la fecha de fin de un evento' do
     calendario = Calendario.new "Un calendario"
     evento = Evento.new calendario, "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"
-    evento.actualizar("2017-04-31T18:00:00-03:00", "2017-04-31T22:00:00-03:00")
-    expect(evento.fin).to eq "2017-04-31T22:00:00-03:00"
+    evento.actualizar("2017-04-30T18:00:00-03:00", "2017-04-30T22:00:00-03:00")
+    expect(evento.fin).to eq "2017-04-30T22:00:00-03:00"
+  end
+  
+  it 'se comprueba la duracion nueva al actualizar un evento' do
+    calendario = Calendario.new "Un calendario"
+    evento = Evento.new calendario, "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"
+    expect{evento.actualizar("2017-04-30T18:00:00-03:00", "2017-05-31T22:00:00-03:00")}.to raise_error(ExceptionDuracionInvalida)
   end
   
   it 'es posible obtener un evento sin recurrencia como hash' do
