@@ -54,7 +54,8 @@ end
 post '/eventos' do
   begin
     entrada = FormateadorJson.interpretar([request.body.read])
-    Evento.new(entrada['calendario'], entrada['id'], entrada['nombre'], entrada['inicio'], entrada['fin'])
+    calendario = Calendario.calendarios.fetch(entrada['calendario'].downcase)
+    Evento.new(calendario, entrada['id'], entrada['nombre'], entrada['inicio'], entrada['fin'])
     eventos = Evento.eventos.values
     salida = FormateadorJson.formatear_coleccion(eventos)
     GestorArchivos.escribir(salida, archivo_eventos)
@@ -91,6 +92,12 @@ end
 get '/eventos' do
   eventos = Evento.eventos.values
   salida = FormateadorJson.formatear_coleccion(eventos)
+  "#{salida}"
+end
+
+get '/eventos?:calendario?' do
+  calendario = Calendario.calendarios.fetch(params['calendario'])
+  salida = FormateadorJson.formatear_coleccion(calendario.eventos.values)
   "#{salida}"
 end
 
