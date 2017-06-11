@@ -104,7 +104,7 @@ describe 'Evento' do
     expect(evento.fin).to eq "2017-04-31T22:00:00-03:00"
   end
   
-  it 'es posible obtener el evento como hash' do
+  it 'es posible obtener un evento sin recurrencia como hash' do
     calendario = Calendario.new "Un calendario"
     evento = Evento.new calendario, "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"
     hash = {"calendario" => "Un calendario",
@@ -112,6 +112,20 @@ describe 'Evento' do
             "nombre" => "Un evento",
             "inicio" => "2017-03-31T18:00:00-03:00",
             "fin" => "2017-03-31T22:00:00-03:00"}
+    expect(evento.to_h).to eq hash
+  end
+  
+  it 'es posible obtener un evento con recurrencia como hash' do
+    recurrencia = Recurrencia.new "7", "2017-04-30T22:00:00-03:00"
+    calendario = Calendario.new "Un calendario"
+    evento = Evento.new calendario, "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00", recurrencia
+    recurrencia_hash = {"frecuencia" => "7", "fin" => "2017-04-30T22:00:00-03:00"}
+    hash = {"calendario" => "Un calendario",
+            "id" => "1",
+            "nombre" => "Un evento",
+            "inicio" => "2017-03-31T18:00:00-03:00",
+            "fin" => "2017-03-31T22:00:00-03:00",
+            "recurrencia" => recurrencia_hash}
     expect(evento.to_h).to eq hash
   end
 

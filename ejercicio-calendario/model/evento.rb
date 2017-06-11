@@ -69,11 +69,15 @@ class Evento
   end
   
   def to_h
-    return {"calendario" => @calendario.nombre,
+    hash = {"calendario" => @calendario.nombre,
             "id" => @id,
             "nombre" => @nombre,
             "inicio" => @inicio,
             "fin" => @fin}
+    if @recurrencia
+      hash["recurrencia"] = recurrencia.to_h
+    end
+    return hash
   end
     
 end
