@@ -16,7 +16,7 @@ class Calendario
   end
   
   def agregar_evento(evento)
-    validar_superposicion(evento)
+    validar_superposicion(evento.inicio, evento.fin)
     @eventos[evento.id] = evento
   end
   
@@ -30,9 +30,9 @@ class Calendario
     @@calendarios
   end
   
-  def validar_superposicion(evento)
-    fecha_hora_inicio = DateTime.parse(evento.inicio)
-    fecha_hora_fin = DateTime.parse(evento.fin)
+  def validar_superposicion(inicio, fin)
+    fecha_hora_inicio = DateTime.parse(inicio)
+    fecha_hora_fin = DateTime.parse(fin)
     @eventos.values.each do |e|
       inicio_a_comparar = DateTime.parse(e.inicio)
       fin_a_comparar = DateTime.parse(e.fin)

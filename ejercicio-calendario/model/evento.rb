@@ -65,6 +65,7 @@ class Evento
   
   def actualizar(inicio, fin)
     validar_duracion(inicio, fin)
+    calendario.validar_superposicion(inicio, fin)
     @inicio = inicio
     @fin = fin
   end

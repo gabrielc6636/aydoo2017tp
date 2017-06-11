@@ -110,6 +110,13 @@ describe 'Evento' do
     expect{evento.actualizar("2017-04-30T18:00:00-03:00", "2017-05-31T22:00:00-03:00")}.to raise_error(ExceptionDuracionInvalida)
   end
   
+  it 'se comprueba la superposicion al actualizar un evento' do
+    calendario = Calendario.new "Un calendario"
+    evento = Evento.new calendario, "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"
+    Evento.new calendario, "2", "Un evento", "2017-04-30T18:00:00-03:00", "2017-04-30T22:00:00-03:00"
+    expect{evento.actualizar("2017-04-30T17:00:00-03:00", "2017-04-30T19:00:00-03:00")}.to raise_error(ExceptionEventoSuperpuesto)
+  end
+  
   it 'es posible obtener un evento sin recurrencia como hash' do
     calendario = Calendario.new "Un calendario"
     evento = Evento.new calendario, "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"

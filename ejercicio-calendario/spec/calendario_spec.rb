@@ -5,7 +5,7 @@ require_relative '../model/evento'
 describe 'Calendario' do
   
   before(:each) { Calendario.class_variable_set :@@calendarios, Hash.new
-                  Evento.class_variable_set :@@eventos, Hash.new}
+                  Evento.class_variable_set :@@eventos, Hash.new }
 
   it 'es posible asignar un nombre a un calendario' do
     calendario = Calendario.new "Un calendario"
