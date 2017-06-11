@@ -11,6 +11,7 @@ class Evento
   attr_reader :inicio
   attr_reader :fin
   attr_reader :recurrencia
+  attr_reader :eventos_recurrentes
   
   def initialize(calendario, id, nombre, inicio, fin, recurrencia=nil)
     raise ExceptionEventoSinId if id == ""
@@ -24,6 +25,25 @@ class Evento
     @nombre = nombre
     @recurrencia = recurrencia
     @@eventos[id] = self
+    generar_eventos_recurrentes
+  end
+  
+  def generar_eventos_recurrentes
+    eventos_recurrentes = Hash.new
+    if not @recurrencia.nil?
+      fecha_actual = DateTime.parse(@inicio)
+      duracion = (DateTime.parse(@fin) - fecha_actual)
+      fecha_fin = DateTime.parse(@recurrencia.fin)
+      fecha_actual += @recurrencia.frecuencia.to_i
+      contador = 1
+      while fecha_actual < fecha_fin
+        id = @id + "R#" + contador.to_s
+        eventos_recurrentes[id] = Evento.new @calendario, id, @nombre, fecha_actual.to_s, (fecha_actual + duracion).to_s
+        contador += 1
+        fecha_actual += @recurrencia.frecuencia.to_i
+      end
+    end
+    @eventos_recurrentes = eventos_recurrentes
   end
   
   def validar_duracion(inicio, fin)
