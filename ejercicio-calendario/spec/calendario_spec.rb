@@ -37,7 +37,7 @@ describe 'Calendario' do
   
   it 'es posible obtener el calendario como hash' do
     calendario = Calendario.new "Un calendario"
-    hash = {"nombre" => "Un calendario",}
+    hash = {"nombre" => "Un calendario"}
     expect(calendario.to_h).to eq hash
   end
   

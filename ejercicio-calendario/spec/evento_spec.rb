@@ -11,7 +11,7 @@ describe 'Evento' do
   
   it 'es posible guardar un evento' do
     evento = Evento.new "Un calendario", "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"
-    expect(Evento.eventos["1"].nombre).to eq "Un evento"
+    expect(Evento.eventos["1"]).to eq evento
   end
   
   it 'es posible asignarle un calendario al evento' do
@@ -42,7 +42,7 @@ describe 'Evento' do
   it 'es posible asignarle una recurrencia al evento' do
     recurrencia = Recurrencia.new "semanal", "2017-04-31T22:00:00-03:00"
     evento = Evento.new "Un calendario", "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00", recurrencia
-    expect(evento.recurrencia.frecuencia).to eq "semanal"
+    expect(evento.recurrencia).to eq recurrencia
   end
   
   it 'es posible crear un evento sin recurrencia' do
