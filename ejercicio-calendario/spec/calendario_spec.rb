@@ -16,13 +16,6 @@ describe 'Calendario' do
     expect(calendario.eventos.size).to eq 0
   end
   
-  it 'es posible agregar un evento' do
-    calendario = Calendario.new "Un calendario"
-    evento = Evento.new "Un calendario", "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"
-    calendario.agregar_evento(evento)
-    expect(calendario.eventos["1"]).to eq evento
-  end
-  
   it 'es posible crear varios calendarios a partir de una lista de hashes' do
     hashes = [{"nombre" => "Un calendario"}, {"nombre" => "Otro calendario"}]
     Calendario.batch(hashes)

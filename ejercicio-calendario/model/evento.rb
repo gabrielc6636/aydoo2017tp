@@ -1,3 +1,4 @@
+require_relative './calendario'
 require_relative './exception_evento_sin_id'
 require_relative './exception_evento_existente'
 
@@ -14,6 +15,7 @@ class Evento
     raise ExceptionEventoSinId if id == ""
     raise ExceptionEventoExistente if @@eventos[id]
     @calendario = calendario
+    calendario.agregar_evento(self)
     @id = id
     @nombre = nombre
     @inicio = inicio
@@ -24,7 +26,7 @@ class Evento
   
   def self.batch(lista)
     lista.each do |l|
-      Evento.new l['calendario'], l['id'], l['nombre'], l['inicio'], l['fin']
+      Evento.new Calendario.calendarios[l['calendario'].downcase], l['id'], l['nombre'], l['inicio'], l['fin']
     end
   end
   
@@ -38,7 +40,7 @@ class Evento
   end
   
   def to_h
-    return {"calendario" => @calendario,
+    return {"calendario" => @calendario.nombre,
             "id" => @id,
             "nombre" => @nombre,
             "inicio" => @inicio,
