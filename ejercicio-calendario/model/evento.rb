@@ -1,4 +1,5 @@
 require_relative './calendario'
+require_relative './exception_duracion_invalida'
 require_relative './exception_evento_sin_id'
 require_relative './exception_evento_existente'
 
@@ -14,6 +15,7 @@ class Evento
   def initialize(calendario, id, nombre, inicio, fin, recurrencia=nil)
     raise ExceptionEventoSinId if id == ""
     raise ExceptionEventoExistente if @@eventos[id]
+    validar_duracion(inicio, fin)
     @calendario = calendario
     calendario.agregar_evento(self)
     @id = id
@@ -22,6 +24,13 @@ class Evento
     @fin = fin
     @recurrencia = recurrencia
     @@eventos[id] = self
+  end
+  
+  def validar_duracion(inicio, fin)
+    fecha_hora_inicio = DateTime.parse(inicio)
+    fecha_hora_fin = DateTime.parse(fin)
+    horas = (fecha_hora_fin - fecha_hora_inicio) * 24
+    raise ExceptionDuracionInvalida if horas.between?(0,72) == false
   end
   
   def self.batch(lista)

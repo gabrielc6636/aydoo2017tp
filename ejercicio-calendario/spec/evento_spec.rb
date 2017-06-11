@@ -10,6 +10,16 @@ describe 'Evento' do
     expect{Evento.new "A", "", "B", "C", "D"}.to raise_error(ExceptionEventoSinId)
   end
   
+  it 'no es posible crear un evento con fin anterior al inicio' do
+    calendario = Calendario.new "Un calendario"
+    expect{Evento.new calendario, "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T17:00:00-03:00"}.to raise_error(ExceptionDuracionInvalida)
+  end
+  
+  it 'no es posible crear un evento de mas de 72 horas' do
+    calendario = Calendario.new "Un calendario"
+    expect{Evento.new calendario, "1", "Un evento", "2017-03-28T17:00:00-03:00", "2017-03-31T18:00:00-03:00"}.to raise_error(ExceptionDuracionInvalida)
+  end
+  
   it 'es posible guardar un evento' do
     calendario = Calendario.new "Un calendario"
     evento = Evento.new calendario, "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"
@@ -68,7 +78,7 @@ describe 'Evento' do
   it 'es posible crear varios eventos a partir de una lista de hashes' do
     calendario = Calendario.new "Un calendario"
     hashes = [{"calendario" => "Un calendario", "id" => "1", "nombre" => "Un evento", "inicio" => "2017-03-31T18:00:00-03:00", "fin" => "2017-03-31T22:00:00-03:00"},
-              {"calendario" => "Un calendario", "id" => "2", "nombre" => "Otro evento", "inicio" => "2017-04-31T18:00:00-03:00", "fin" => "2017-04-31T22:00:00-03:00"}]
+              {"calendario" => "Un calendario", "id" => "2", "nombre" => "Otro evento", "inicio" => "2017-04-30T18:00:00-03:00", "fin" => "2017-04-30T22:00:00-03:00"}]
     Evento.batch(hashes)
     expect(Evento.eventos.size).to eq 2
   end
