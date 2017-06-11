@@ -16,12 +16,12 @@ class Evento
     raise ExceptionEventoSinId if id == ""
     raise ExceptionEventoExistente if @@eventos[id]
     validar_duracion(inicio, fin)
+    @inicio = inicio
+    @fin = fin
     @calendario = calendario
     calendario.agregar_evento(self)
     @id = id
     @nombre = nombre
-    @inicio = inicio
-    @fin = fin
     @recurrencia = recurrencia
     @@eventos[id] = self
   end

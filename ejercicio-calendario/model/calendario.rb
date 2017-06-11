@@ -1,5 +1,6 @@
 require_relative './exception_calendario_sin_nombre'
 require_relative './exception_calendario_existente'
+require_relative './exception_evento_superpuesto'
 
 class Calendario
   @@calendarios = Hash.new
@@ -15,6 +16,7 @@ class Calendario
   end
   
   def agregar_evento(evento)
+    validar_superposicion(evento)
     @eventos[evento.id] = evento
   end
   
@@ -26,6 +28,17 @@ class Calendario
   
   def self.calendarios
     @@calendarios
+  end
+  
+  def validar_superposicion(evento)
+    fecha_hora_inicio = DateTime.parse(evento.inicio)
+    fecha_hora_fin = DateTime.parse(evento.fin)
+    @eventos.values.each do |e|
+      inicio_a_comparar = DateTime.parse(e.inicio)
+      fin_a_comparar = DateTime.parse(e.fin)
+      raise ExceptionEventoSuperpuesto if fecha_hora_inicio.between?(inicio_a_comparar,fin_a_comparar)
+      raise ExceptionEventoSuperpuesto if fecha_hora_fin.between?(inicio_a_comparar,fin_a_comparar)
+    end
   end
   
   def eliminar_eventos

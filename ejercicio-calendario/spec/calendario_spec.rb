@@ -24,6 +24,12 @@ describe 'Calendario' do
     expect(Evento.eventos.size).to eq 0
   end
   
+  it 'no es posible crear dos eventos superpuestos' do
+    calendario = Calendario.new "Un calendario"
+    Evento.new calendario, "1", "Un evento", "2017-03-31T16:00:00-03:00", "2017-03-31T17:30:00-03:00"
+    expect{Evento.new calendario, "2", "Un evento", "2017-03-31T17:00:00-03:00", "2017-03-31T18:00:00-03:00"}.to raise_error(ExceptionEventoSuperpuesto)
+  end
+  
   it 'es posible crear varios calendarios a partir de una lista de hashes' do
     hashes = [{"nombre" => "Un calendario"}, {"nombre" => "Otro calendario"}]
     Calendario.batch(hashes)
