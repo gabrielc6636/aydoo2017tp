@@ -1,5 +1,6 @@
 require 'rspec' 
 require_relative '../model/calendario'
+require_relative '../model/evento'
 
 describe 'Calendario' do
   
@@ -8,6 +9,18 @@ describe 'Calendario' do
   it 'es posible asignar un nombre a un calendario' do
     calendario = Calendario.new "Un calendario"
     expect(calendario.nombre).to eq "Un calendario"
+  end
+  
+  it 'el calendario se crea sin eventos' do
+    calendario = Calendario.new "Un calendario"
+    expect(calendario.eventos.size).to eq 0
+  end
+  
+  it 'es posible agregar un evento' do
+    calendario = Calendario.new "Un calendario"
+    evento = Evento.new "Un calendario", "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"
+    calendario.agregar_evento(evento)
+    expect(calendario.eventos["1"]).to eq evento
   end
   
   it 'es posible crear varios calendarios a partir de una lista de hashes' do
@@ -19,7 +32,7 @@ describe 'Calendario' do
   it 'al crearse, el calendario se asigna a la coleccion' do
     nombre = "Un calendario"
     calendario = Calendario.new nombre
-    expect(Calendario.calendarios[nombre.downcase].nombre).to eq nombre
+    expect(Calendario.calendarios[nombre.downcase]).to eq calendario
   end
   
   it 'es posible obtener el calendario como hash' do
