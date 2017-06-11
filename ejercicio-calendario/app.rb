@@ -32,7 +32,10 @@ end
 
 delete '/calendarios/:nombre' do
   begin
-    Calendario.calendarios.delete(params[:nombre].downcase) { |k| fail KeyError, k }
+    nombre = params[:nombre].downcase
+    calendario = Calendario.calendarios.fetch(nombre)
+    calendario.eliminar_eventos
+    Calendario.calendarios.delete(nombre)
     calendarios = Calendario.calendarios.values
     salida = FormateadorJson.formatear_coleccion(calendarios)
     GestorArchivos.escribir(salida, archivo_calendarios)
