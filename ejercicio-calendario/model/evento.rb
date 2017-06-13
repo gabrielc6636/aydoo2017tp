@@ -34,13 +34,13 @@ class Evento
       fecha_actual = DateTime.parse(@inicio)
       duracion = (DateTime.parse(@fin) - fecha_actual)
       fecha_fin = DateTime.parse(@recurrencia.fin)
-      fecha_actual += @recurrencia.frecuencia.to_i
+      fecha_actual = Recurrencia.sumadores[@recurrencia.frecuencia].sumar(fecha_actual)
       contador = 1
       while fecha_actual < fecha_fin
         id = @id + "R#" + contador.to_s
         eventos_recurrentes[id] = Evento.new @calendario, id, @nombre, fecha_actual.to_s, (fecha_actual + duracion).to_s
         contador += 1
-        fecha_actual += @recurrencia.frecuencia.to_i
+        fecha_actual = Recurrencia.sumadores[@recurrencia.frecuencia].sumar(fecha_actual)
       end
     end
     @eventos_recurrentes = eventos_recurrentes
