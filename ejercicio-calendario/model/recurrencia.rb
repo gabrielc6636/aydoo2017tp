@@ -1,6 +1,7 @@
 require_relative './sumador_recurrencia_diaria'
 require_relative './sumador_recurrencia_semanal'
 require_relative './sumador_recurrencia_mensual'
+require_relative './sumador_recurrencia_anual'
 
 class Recurrencia
   attr_reader :frecuencia
@@ -14,7 +15,9 @@ class Recurrencia
   def self.sumadores
     {"diaria" => SumadorRecurrenciaDiaria.new,
      "semanal" => SumadorRecurrenciaSemanal.new,
-     "mensual" => SumadorRecurrenciaMensual.new}
+     "mensual" => SumadorRecurrenciaMensual.new,
+     "anual" => SumadorRecurrenciaAnual.new
+    }
   end
   
   def to_h
