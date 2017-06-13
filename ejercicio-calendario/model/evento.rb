@@ -65,6 +65,11 @@ class Evento
     @@eventos
   end
   
+  def eliminar_eventos_recurrentes
+    Evento.class_variable_set :@@eventos, Evento.eventos.delete_if {|k,v| @eventos_recurrentes.key?(k)}
+    @eventos_recurrentes = Hash.new
+  end
+  
   def actualizar(inicio, fin)
     inicio = @inicio if inicio.nil?
     fin = @fin if fin.nil?
@@ -72,6 +77,8 @@ class Evento
     calendario.validar_superposicion(inicio, fin, @id)
     @inicio = inicio
     @fin = fin
+    eliminar_eventos_recurrentes
+    generar_eventos_recurrentes
   end
   
   def to_h

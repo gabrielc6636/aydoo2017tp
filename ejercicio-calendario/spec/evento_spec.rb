@@ -70,6 +70,14 @@ describe 'Evento' do
     expect(evento.eventos_recurrentes.size).to eq 4
   end
   
+  it 'es posible eliminar los eventos recurrentes' do
+    recurrencia = Recurrencia.new "semanal", "2017-04-30T22:00:00-03:00"
+    calendario = Calendario.new "Un calendario"
+    evento = Evento.new calendario, "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00", recurrencia
+    evento.eliminar_eventos_recurrentes
+    expect(Evento.eventos.size).to eq 1
+  end
+  
   it 'es posible crear un evento sin recurrencia' do
     calendario = Calendario.new "Un calendario"
     evento = Evento.new calendario, "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"
@@ -116,6 +124,14 @@ describe 'Evento' do
     evento = Evento.new calendario, "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"
     evento.actualizar(nil, "2017-03-31T19:00:00-03:00")
     expect(evento.inicio).to eq "2017-03-31T18:00:00-03:00"
+  end
+  
+  it 'al actualizar un evento con recurrencia, los eventos recurrentes se actualizan' do
+    recurrencia = Recurrencia.new "semanal", "2017-04-30T22:00:00-03:00"
+    calendario = Calendario.new "Un calendario"
+    evento = Evento.new calendario, "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00", recurrencia
+    evento.actualizar("2017-03-31T17:00:00-03:00", nil)
+    expect(evento.eventos_recurrentes['1R#1'].inicio).to eq "2017-04-07T17:00:00-03:00"
   end
   
   it 'se comprueba la duracion nueva al actualizar un evento' do
