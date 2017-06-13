@@ -10,7 +10,8 @@ class Recurrencia
   end
   
   def self.sumadores
-    {"semanal" => SumadorRecurrenciaSemanal.new}
+    {"semanal" => SumadorRecurrenciaSemanal.new,
+     "mensual" => SumadorRecurrenciaMensual.new}
   end
   
   def to_h
