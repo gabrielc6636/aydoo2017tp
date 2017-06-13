@@ -1,3 +1,4 @@
+require_relative './sumador_recurrencia_diaria'
 require_relative './sumador_recurrencia_semanal'
 require_relative './sumador_recurrencia_mensual'
 
@@ -11,7 +12,8 @@ class Recurrencia
   end
   
   def self.sumadores
-    {"semanal" => SumadorRecurrenciaSemanal.new,
+    {"diaria" => SumadorRecurrenciaDiaria.new,
+     "semanal" => SumadorRecurrenciaSemanal.new,
      "mensual" => SumadorRecurrenciaMensual.new}
   end
   
