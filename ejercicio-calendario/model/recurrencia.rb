@@ -1,4 +1,5 @@
 require_relative './sumador_recurrencia_semanal'
+require_relative './sumador_recurrencia_mensual'
 
 class Recurrencia
   attr_reader :frecuencia

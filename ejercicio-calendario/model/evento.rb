@@ -1,4 +1,5 @@
 require_relative './calendario'
+require_relative './recurrencia'
 require_relative './exception_duracion_invalida'
 require_relative './exception_evento_sin_id'
 require_relative './exception_evento_existente'
@@ -58,7 +59,13 @@ class Evento
   
   def self.batch(lista)
     lista.each do |l|
-      Evento.new Calendario.calendarios[l['calendario'].downcase], l['id'], l['nombre'], l['inicio'], l['fin']
+      if / #[[:digit:]]/.match(l['nombre']).nil?
+        recurrencia = nil
+        if l['recurrencia']
+          recurrencia = Recurrencia.new(l['recurrencia']['frecuencia'], l['recurrencia']['fin'])
+        end
+        Evento.new Calendario.calendarios[l['calendario'].downcase], l['id'], l['nombre'], l['inicio'], l['fin'], recurrencia
+      end
     end
   end
   

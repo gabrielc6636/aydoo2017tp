@@ -98,6 +98,15 @@ describe 'Evento' do
     expect(Evento.eventos.size).to eq 2
   end
   
+  it 'al crear eventos por batch los recurrentes se generan a partir del original' do
+    recurrencia = {"frecuencia" => "semanal", "fin" => "2017-04-10T22:00:00-03:00"}
+    calendario = Calendario.new "Un calendario"
+    hashes = [{"calendario" => "Un calendario", "id" => "1", "nombre" => "Un evento", "inicio" => "2017-03-31T18:00:00-03:00", "fin" => "2017-03-31T22:00:00-03:00", "recurrencia" => recurrencia},
+              {"calendario" => "Un calendario", "id" => "1R#1", "nombre" => "Un evento #1", "inicio" => "2017-04-07T18:00:00-03:00", "fin" => "2017-04-07T22:00:00-03:00"}]
+    Evento.batch(hashes)
+    expect(Evento.eventos['1'].eventos_recurrentes.size).to eq 1
+  end
+  
   it 'es posible actualizar la fecha de inicio de un evento' do
     calendario = Calendario.new "Un calendario"
     evento = Evento.new calendario, "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"
