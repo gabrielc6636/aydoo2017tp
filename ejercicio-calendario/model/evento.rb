@@ -14,6 +14,9 @@ class Evento
   attr_reader :recurrencia
   attr_reader :eventos_recurrentes
   
+  DURACION_MAXIMA_HORAS = 72
+  HORAS_EN_DIA = 24
+  
   def initialize(calendario, id, nombre, inicio, fin, recurrencia=nil)
     raise ExceptionEventoSinId if id == ""
     raise ExceptionEventoExistente if @@eventos[id]
@@ -53,8 +56,8 @@ class Evento
     fin = @fin if fin.nil?
     fecha_hora_inicio = DateTime.parse(inicio)
     fecha_hora_fin = DateTime.parse(fin)
-    horas = (fecha_hora_fin - fecha_hora_inicio) * 24
-    raise ExceptionDuracionInvalida if horas.between?(0,72) == false
+    horas = (fecha_hora_fin - fecha_hora_inicio) * HORAS_EN_DIA
+    raise ExceptionDuracionInvalida if horas.between?(0,DURACION_MAXIMA_HORAS) == false
   end
   
   def self.batch(lista)

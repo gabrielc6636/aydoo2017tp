@@ -1,7 +1,9 @@
 class GestorArchivos
-   
+  
+  CARACTERES = 0
+  
   def self.escribir(texto, archivo)
-    File.truncate(archivo, 0) if File.file?(archivo) 
+    File.truncate(archivo, CARACTERES) if File.file?(archivo) 
     open(archivo, "a") do |f|
       f.puts(texto)
     end
