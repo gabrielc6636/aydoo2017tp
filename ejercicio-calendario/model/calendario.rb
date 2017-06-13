@@ -1,11 +1,12 @@
 require_relative './exception_calendario_sin_nombre'
 require_relative './exception_calendario_existente'
 require_relative './exception_evento_superpuesto'
+require_relative './exception_evento_repetido'
 
 class Calendario
   @@calendarios = Hash.new
   attr_reader :nombre
-  attr_reader :eventos
+  attr_accessor :eventos
   
   def initialize(nombre)
     raise ExceptionCalendarioSinNombre if nombre == ""
@@ -16,6 +17,7 @@ class Calendario
   end
   
   def agregar_evento(evento)
+    validar_nombre_evento(evento)
     validar_superposicion(evento.inicio, evento.fin, evento.id)
     @eventos[evento.id] = evento
   end
@@ -28,6 +30,12 @@ class Calendario
   
   def self.calendarios
     @@calendarios
+  end
+  
+  def validar_nombre_evento(evento)
+    eventos.values.each do |e|
+      raise ExceptionEventoRepetido if e.nombre == evento.nombre
+    end
   end
   
   def validar_superposicion(inicio, fin, id)

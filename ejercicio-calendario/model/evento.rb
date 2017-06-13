@@ -20,9 +20,9 @@ class Evento
     @inicio = inicio
     @fin = fin
     @calendario = calendario
+    @nombre = nombre
     calendario.agregar_evento(self)
     @id = id
-    @nombre = nombre
     @recurrencia = recurrencia
     @@eventos[id] = self
     generar_eventos_recurrentes
@@ -38,7 +38,8 @@ class Evento
       contador = 1
       while fecha_actual < fecha_fin
         id = @id + "R#" + contador.to_s
-        eventos_recurrentes[id] = Evento.new @calendario, id, @nombre, fecha_actual.to_s, (fecha_actual + duracion).to_s
+        nombre = @nombre + " #" + contador.to_s
+        eventos_recurrentes[id] = Evento.new @calendario, id, nombre, fecha_actual.to_s, (fecha_actual + duracion).to_s
         contador += 1
         fecha_actual = Recurrencia.sumadores[@recurrencia.frecuencia].sumar(fecha_actual)
       end
@@ -67,6 +68,7 @@ class Evento
   
   def eliminar_eventos_recurrentes
     Evento.class_variable_set :@@eventos, Evento.eventos.delete_if {|k,v| @eventos_recurrentes.key?(k)}
+    @calendario.eventos = @calendario.eventos.delete_if {|k,v| @eventos_recurrentes.key?(k)}
     @eventos_recurrentes = Hash.new
   end
   
