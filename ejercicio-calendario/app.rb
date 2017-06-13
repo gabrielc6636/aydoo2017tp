@@ -2,6 +2,7 @@ require 'sinatra'
 require_relative 'model/gestor_archivos'
 require_relative 'model/calendario'
 require_relative 'model/evento'
+require_relative 'model/recurrencia'
 require_relative 'model/formateador_json'
 require_relative 'model/exception_calendario_existente'
 require_relative 'model/exception_calendario_sin_nombre'
@@ -58,7 +59,11 @@ post '/eventos' do
   begin
     entrada = FormateadorJson.interpretar([request.body.read])
     calendario = Calendario.calendarios.fetch(entrada['calendario'].downcase)
-    Evento.new(calendario, entrada['id'], entrada['nombre'], entrada['inicio'], entrada['fin'])
+    recurrencia = nil
+    if entrada['recurrencia']
+      recurrencia = Recurrencia.new(entrada['recurrencia']['frecuencia'], entrada['recurrencia']['fin'])
+    end
+    Evento.new(calendario, entrada['id'], entrada['nombre'], entrada['inicio'], entrada['fin'], recurrencia)
     eventos = Evento.eventos.values
     salida = FormateadorJson.formatear_coleccion(eventos)
     GestorArchivos.escribir(salida, archivo_eventos)
