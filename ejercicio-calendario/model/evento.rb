@@ -13,10 +13,10 @@ class Evento
   attr_reader :fin
   attr_reader :recurrencia
   attr_reader :eventos_recurrentes
-  
+
   DURACION_MAXIMA_HORAS = 72
   HORAS_EN_DIA = 24
-  
+
   def initialize(calendario, id, nombre, inicio, fin, recurrencia=nil)
     raise ExceptionEventoSinId if id == ""
     raise ExceptionEventoExistente if @@eventos[id]
@@ -31,7 +31,7 @@ class Evento
     @@eventos[id] = self
     generar_eventos_recurrentes
   end
-  
+
   def generar_eventos_recurrentes
     eventos_recurrentes = Hash.new
     if not @recurrencia.nil?
@@ -50,16 +50,16 @@ class Evento
     end
     @eventos_recurrentes = eventos_recurrentes
   end
-  
+
   def validar_duracion(inicio, fin)
     inicio = @inicio if inicio.nil?
     fin = @fin if fin.nil?
     fecha_hora_inicio = DateTime.parse(inicio)
     fecha_hora_fin = DateTime.parse(fin)
     horas = (fecha_hora_fin - fecha_hora_inicio) * HORAS_EN_DIA
-    raise ExceptionDuracionInvalida if horas.between?(0,DURACION_MAXIMA_HORAS) == false
+    raise ExceptionDuracionInvalida if horas.between?(0, DURACION_MAXIMA_HORAS) == false
   end
-  
+
   def self.batch(lista)
     lista.each do |l|
       if / #[[:digit:]]/.match(l['nombre']).nil?
@@ -71,17 +71,17 @@ class Evento
       end
     end
   end
-  
+
   def self.eventos
     @@eventos
   end
-  
+
   def eliminar_eventos_recurrentes
-    Evento.class_variable_set :@@eventos, Evento.eventos.delete_if {|k,v| @eventos_recurrentes.key?(k)}
-    @calendario.eventos = @calendario.eventos.delete_if {|k,v| @eventos_recurrentes.key?(k)}
+    Evento.class_variable_set :@@eventos, Evento.eventos.delete_if {|k, v| @eventos_recurrentes.key?(k)}
+    @calendario.eventos = @calendario.eventos.delete_if {|k, v| @eventos_recurrentes.key?(k)}
     @eventos_recurrentes = Hash.new
   end
-  
+
   def actualizar(inicio, fin)
     inicio = @inicio if inicio.nil?
     fin = @fin if fin.nil?
@@ -92,7 +92,7 @@ class Evento
     eliminar_eventos_recurrentes
     generar_eventos_recurrentes
   end
-  
+
   def to_h
     hash = {"calendario" => @calendario.nombre,
             "id" => @id,
@@ -104,5 +104,5 @@ class Evento
     end
     return hash
   end
-    
+
 end

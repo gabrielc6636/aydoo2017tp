@@ -2,8 +2,8 @@ require 'rspec'
 require_relative '../model/formateador_json'
 
 describe 'FormateadorJson' do
-  
-  before(:each) { Calendario.class_variable_set :@@calendarios, Hash.new }
+
+  before(:each) {Calendario.class_variable_set :@@calendarios, Hash.new}
 
   it 'es posible formatear un calendario' do
     nombre = "Un calendario"
@@ -13,7 +13,7 @@ describe 'FormateadorJson' do
 }'
     expect(FormateadorJson.formatear_objeto(calendario)).to eq salida
   end
-  
+
   it 'es posible formatear varios calendarios' do
     nombre = "Un calendario"
     otro_nombre = "Otro calendario"
@@ -30,7 +30,7 @@ describe 'FormateadorJson' do
 ]'
     expect(FormateadorJson.formatear_coleccion(calendarios)).to eq salida
   end
-  
+
   it 'es posible interpretar una entrada' do
     entrada = ['[', '  {', '    "a": "b"', '  }', ']']
     interpretado = FormateadorJson.interpretar(entrada)

@@ -1,14 +1,14 @@
-require 'rspec' 
+require 'rspec'
 require_relative '../model/recurrencia'
 
 describe 'Recurrencia' do
-  
+
   it 'es posible asignarle una frecuencia a la recurrencia' do
     frecuencia = "semanal"
     recurrencia = Recurrencia.new frecuencia, "2017-03-31T22:00:00-03:00"
     expect(recurrencia.frecuencia).to eq frecuencia
   end
-  
+
   it 'es posible asignarle un fin a la recurrencia' do
     fin = "2017-03-31T22:00:00-03:00"
     recurrencia = Recurrencia.new "semanal", fin
