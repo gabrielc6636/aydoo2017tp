@@ -96,12 +96,26 @@ describe 'Evento' do
     evento.actualizar("2017-04-30T18:00:00-03:00", "2017-04-30T22:00:00-03:00")
     expect(evento.inicio).to eq "2017-04-30T18:00:00-03:00"
   end
+  
+  it 'al actualizar la fecha de inicio, la de fin se mantiene' do
+    calendario = Calendario.new "Un calendario"
+    evento = Evento.new calendario, "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"
+    evento.actualizar("2017-03-31T19:00:00-03:00", nil)
+    expect(evento.fin).to eq "2017-03-31T22:00:00-03:00"
+  end
                      
   it 'es posible actualizar la fecha de fin de un evento' do
     calendario = Calendario.new "Un calendario"
     evento = Evento.new calendario, "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"
     evento.actualizar("2017-04-30T18:00:00-03:00", "2017-04-30T22:00:00-03:00")
     expect(evento.fin).to eq "2017-04-30T22:00:00-03:00"
+  end
+  
+  it 'al actualizar la fecha de inicio, la de fin se mantiene' do
+    calendario = Calendario.new "Un calendario"
+    evento = Evento.new calendario, "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00"
+    evento.actualizar(nil, "2017-03-31T19:00:00-03:00")
+    expect(evento.inicio).to eq "2017-03-31T18:00:00-03:00"
   end
   
   it 'se comprueba la duracion nueva al actualizar un evento' do

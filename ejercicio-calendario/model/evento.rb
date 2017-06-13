@@ -47,6 +47,8 @@ class Evento
   end
   
   def validar_duracion(inicio, fin)
+    inicio = @inicio if inicio.nil?
+    fin = @fin if fin.nil?
     fecha_hora_inicio = DateTime.parse(inicio)
     fecha_hora_fin = DateTime.parse(fin)
     horas = (fecha_hora_fin - fecha_hora_inicio) * 24
@@ -64,8 +66,10 @@ class Evento
   end
   
   def actualizar(inicio, fin)
+    inicio = @inicio if inicio.nil?
+    fin = @fin if fin.nil?
     validar_duracion(inicio, fin)
-    calendario.validar_superposicion(inicio, fin)
+    calendario.validar_superposicion(inicio, fin, @id)
     @inicio = inicio
     @fin = fin
   end

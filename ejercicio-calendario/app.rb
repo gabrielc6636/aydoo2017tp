@@ -63,7 +63,7 @@ post '/eventos' do
     salida = FormateadorJson.formatear_coleccion(eventos)
     GestorArchivos.escribir(salida, archivo_eventos)
     status 201
-  rescue ExceptionEventoSinId, ExceptionEventoExistente
+  rescue ExceptionEventoSinId, ExceptionEventoExistente, ExceptionDuracionInvalida
     status 400
   end
 end
@@ -89,6 +89,8 @@ put '/eventos' do
     GestorArchivos.escribir(salida, archivo_eventos)
   rescue KeyError
     status 404
+  rescue ExceptionDuracionInvalida, ExceptionEventoSuperpuesto
+    status 400
   end
 end
 
