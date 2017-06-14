@@ -5,7 +5,7 @@ require_relative './exception_evento_sin_id'
 require_relative './exception_evento_existente'
 
 class Evento
-  @@eventos = Hash.new
+  @@eventos = {}
   attr_reader :calendario
   attr_reader :id
   attr_reader :nombre
@@ -33,7 +33,7 @@ class Evento
   end
 
   def generar_eventos_recurrentes
-    eventos_recurrentes = Hash.new
+    eventos_recurrentes = {}
     if not @recurrencia.nil?
       fecha_actual = DateTime.parse(@inicio)
       duracion = (DateTime.parse(@fin) - fecha_actual)
@@ -79,7 +79,7 @@ class Evento
   def eliminar_eventos_recurrentes
     Evento.class_variable_set :@@eventos, Evento.eventos.delete_if {|k, v| @eventos_recurrentes.key?(k)}
     @calendario.eventos = @calendario.eventos.delete_if {|k, v| @eventos_recurrentes.key?(k)}
-    @eventos_recurrentes = Hash.new
+    @eventos_recurrentes = {}
   end
 
   def actualizar(inicio, fin)

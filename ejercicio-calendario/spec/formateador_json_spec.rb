@@ -3,7 +3,7 @@ require_relative '../model/formateador_json'
 
 describe 'FormateadorJson' do
 
-  before(:each) {Calendario.class_variable_set :@@calendarios, Hash.new}
+  before(:each) {Calendario.class_variable_set :@@calendarios, {}}
 
   it 'es posible formatear un calendario' do
     nombre = "Un calendario"

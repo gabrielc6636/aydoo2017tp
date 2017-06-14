@@ -3,8 +3,8 @@ require_relative '../model/evento'
 
 describe 'Evento' do
 
-  before(:each) {Evento.class_variable_set :@@eventos, Hash.new
-  Calendario.class_variable_set :@@calendarios, Hash.new}
+  before(:each) {Evento.class_variable_set :@@eventos, {}
+  Calendario.class_variable_set :@@calendarios, {}}
 
   it 'no es posible agregar un evento sin id' do
     expect {Evento.new "A", "", "B", "C", "D"}.to raise_error(ExceptionEventoSinId)
