@@ -38,14 +38,18 @@ class Evento
       fecha_actual = DateTime.parse(@inicio)
       duracion = (DateTime.parse(@fin) - fecha_actual)
       fecha_fin = DateTime.parse(@recurrencia.fin)
-      fecha_actual = Recurrencia.sumadores[@recurrencia.frecuencia].sumar(fecha_actual)
+      fecha_actual = Recurrencia.sumadores[@recurrencia.frecuencia]
+                         .sumar(fecha_actual)
       contador = 1
       while fecha_actual < fecha_fin
         id = @id + "R#" + contador.to_s
         nombre = @nombre + " #" + contador.to_s
-        eventos_recurrentes[id] = Evento.new(@calendario, id, nombre, fecha_actual.to_s, (fecha_actual + duracion).to_s)
+        fin_evento = fecha_actual + duracion
+        eventos_recurrentes[id] = Evento.new(
+            @calendario, id, nombre, fecha_actual.to_s, fin_evento.to_s)
         contador += 1
-        fecha_actual = Recurrencia.sumadores[@recurrencia.frecuencia].sumar(fecha_actual)
+        fecha_actual = Recurrencia.sumadores[@recurrencia.frecuencia]
+                           .sumar(fecha_actual)
       end
     end
     @eventos_recurrentes = eventos_recurrentes
@@ -57,17 +61,20 @@ class Evento
     fecha_hora_inicio = DateTime.parse(inicio)
     fecha_hora_fin = DateTime.parse(fin)
     horas = (fecha_hora_fin - fecha_hora_inicio) * HORAS_EN_DIA
-    raise ExceptionDuracionInvalida if horas.between?(0, DURACION_MAXIMA_HORAS) == false
+    raise ExceptionDuracionInvalida if horas.between?(
+        0, DURACION_MAXIMA_HORAS) == false
   end
 
-  def self.batch(lista)
+  def self.crear_desde_lista(lista)
     lista.each do |l|
       if / #[[:digit:]]/.match(l['nombre']).nil?
         recurrencia = nil
         if l['recurrencia']
-          recurrencia = Recurrencia.new(l['recurrencia']['frecuencia'], l['recurrencia']['fin'])
+          recurrencia = Recurrencia.new(l['recurrencia']['frecuencia'],
+                                        l['recurrencia']['fin'])
         end
-        Evento.new(Calendario.calendarios[l['calendario'].downcase], l['id'], l['nombre'], l['inicio'], l['fin'], recurrencia)
+        Evento.new(Calendario.calendarios[l['calendario'].downcase], l['id'],
+                   l['nombre'], l['inicio'], l['fin'], recurrencia)
       end
     end
   end
@@ -77,8 +84,10 @@ class Evento
   end
 
   def eliminar_eventos_recurrentes
-    Evento.class_variable_set :@@eventos, Evento.eventos.delete_if {|k, v| @eventos_recurrentes.key?(k)}
-    @calendario.eventos = @calendario.eventos.delete_if {|k, v| @eventos_recurrentes.key?(k)}
+    Evento.class_variable_set :@@eventos, Evento.eventos.delete_if {
+        |k, v| @eventos_recurrentes.key?(k)}
+    @calendario.eventos = @calendario.eventos.delete_if {
+        |k, v| @eventos_recurrentes.key?(k)}
     @eventos_recurrentes = {}
   end
 

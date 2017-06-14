@@ -22,7 +22,7 @@ class Calendario
     @eventos[evento.id] = evento
   end
 
-  def self.batch(lista)
+  def self.crear_desde_lista(lista)
     lista.each do |l|
       Calendario.new(l['nombre'])
     end
@@ -44,15 +44,22 @@ class Calendario
     @eventos.values.each do |e|
       inicio_a_comparar = DateTime.parse(e.inicio)
       fin_a_comparar = DateTime.parse(e.fin)
-      raise ExceptionEventoSuperpuesto if fecha_hora_inicio.between?(inicio_a_comparar, fin_a_comparar) && e.id != id
-      raise ExceptionEventoSuperpuesto if fecha_hora_fin.between?(inicio_a_comparar, fin_a_comparar) && e.id != id
-      raise ExceptionEventoSuperpuesto if inicio_a_comparar.between?(fecha_hora_inicio, fecha_hora_fin) && e.id != id
-      raise ExceptionEventoSuperpuesto if fin_a_comparar.between?(fecha_hora_inicio, fecha_hora_fin) && e.id != id
+      if (e.id != id)
+        raise ExceptionEventoSuperpuesto if fecha_hora_inicio.between?(
+            inicio_a_comparar, fin_a_comparar)
+        raise ExceptionEventoSuperpuesto if fecha_hora_fin.between?(
+            inicio_a_comparar, fin_a_comparar)
+        raise ExceptionEventoSuperpuesto if inicio_a_comparar.between?(
+            fecha_hora_inicio, fecha_hora_fin)
+        raise ExceptionEventoSuperpuesto if fin_a_comparar.between?(
+            fecha_hora_inicio, fecha_hora_fin)
+      end
     end
   end
 
   def eliminar_eventos
-    Evento.class_variable_set :@@eventos, Evento.eventos.delete_if {|k, v| Evento.eventos.key?(k)}
+    Evento.class_variable_set :@@eventos, Evento.eventos.delete_if {
+        |k, v| Evento.eventos.key?(k)}
     @eventos = {}
   end
 

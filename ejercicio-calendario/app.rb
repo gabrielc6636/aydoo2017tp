@@ -9,8 +9,12 @@ require_relative 'model/exception_calendario_sin_nombre'
 
 archivo_calendarios = "calendarios.json"
 archivo_eventos = "eventos.json"
-Calendario.batch(FormateadorJson.interpretar(GestorArchivos.leer(archivo_calendarios)))
-Evento.batch(FormateadorJson.interpretar(GestorArchivos.leer(archivo_eventos)))
+lista_calendarios = FormateadorJson.interpretar(GestorArchivos
+                                                    .leer(archivo_calendarios))
+lista_eventos = FormateadorJson.interpretar(GestorArchivos
+                                                .leer(archivo_eventos))
+Calendario.crear_desde_lista(lista_calendarios)
+Evento.crear_desde_lista(lista_eventos)
 
 get '/calendarios' do
   calendarios = Calendario.calendarios.values
@@ -61,14 +65,17 @@ post '/eventos' do
     calendario = Calendario.calendarios.fetch(entrada.fetch('calendario').downcase)
     recurrencia = nil
     if entrada['recurrencia']
-      recurrencia = Recurrencia.new(entrada['recurrencia'].fetch('frecuencia'), entrada['recurrencia'].fetch('fin'))
+      recurrencia = Recurrencia.new(entrada['recurrencia'].fetch('frecuencia'),
+                                    entrada['recurrencia'].fetch('fin'))
     end
-    Evento.new(calendario, entrada.fetch('id'), entrada.fetch('nombre'), entrada.fetch('inicio'), entrada.fetch('fin'), recurrencia)
+    Evento.new(calendario, entrada.fetch('id'), entrada.fetch('nombre'),
+               entrada.fetch('inicio'), entrada.fetch('fin'), recurrencia)
     eventos = Evento.eventos.values
     salida = FormateadorJson.formatear_coleccion(eventos)
     GestorArchivos.escribir(salida, archivo_eventos)
     status 201
-  rescue ExceptionEventoSinId, ExceptionEventoExistente, ExceptionDuracionInvalida, ExceptionEventoSuperpuesto, KeyError
+  rescue ExceptionEventoSinId, ExceptionEventoExistente,
+      ExceptionDuracionInvalida, ExceptionEventoSuperpuesto, KeyError
     status 400
   end
 end

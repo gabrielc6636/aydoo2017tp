@@ -19,26 +19,33 @@ describe 'Calendario' do
 
   it 'es posible eliminar los eventos de un calendario' do
     calendario = Calendario.new("Un calendario")
-    Evento.new(calendario, "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00")
+    Evento.new(calendario, "1", "Un evento", "2017-03-31T18:00:00-03:00",
+               "2017-03-31T22:00:00-03:00")
     calendario.eliminar_eventos
     expect(Evento.eventos.size).to eq 0
   end
 
   it 'no es posible crear dos eventos superpuestos' do
     calendario = Calendario.new("Un calendario")
-    Evento.new(calendario, "1", "Un evento", "2017-03-31T16:00:00-03:00", "2017-03-31T17:30:00-03:00")
-    expect {Evento.new(calendario, "2", "Otro evento", "2017-03-31T17:00:00-03:00", "2017-03-31T18:00:00-03:00")}.to raise_error(ExceptionEventoSuperpuesto)
+    Evento.new(calendario, "1", "Un evento", "2017-03-31T16:00:00-03:00",
+               "2017-03-31T17:30:00-03:00")
+    expect {Evento.new(calendario, "2", "Otro evento",
+                       "2017-03-31T17:00:00-03:00", "2017-03-31T18:00:00-03:00"
+    )}.to raise_error(ExceptionEventoSuperpuesto)
   end
 
   it 'no es posible crear dos eventos con el mismo nombre' do
     calendario = Calendario.new("Un calendario")
-    Evento.new(calendario, "1", "Un evento", "2017-03-31T16:00:00-03:00", "2017-03-31T17:30:00-03:00")
-    expect {Evento.new(calendario, "2", "Un evento", "2017-04-30T17:00:00-03:00", "2017-04-30T18:00:00-03:00")}.to raise_error(ExceptionEventoRepetido)
+    Evento.new(calendario, "1", "Un evento", "2017-03-31T16:00:00-03:00",
+               "2017-03-31T17:30:00-03:00")
+    expect {Evento.new(calendario, "2", "Un evento",
+                       "2017-04-30T17:00:00-03:00", "2017-04-30T18:00:00-03:00"
+    )}.to raise_error(ExceptionEventoRepetido)
   end
 
   it 'es posible crear varios calendarios a partir de una lista de hashes' do
     hashes = [{"nombre" => "Un calendario"}, {"nombre" => "Otro calendario"}]
-    Calendario.batch(hashes)
+    Calendario.crear_desde_lista(hashes)
     expect(Calendario.calendarios.size).to eq 2
   end
 
@@ -55,18 +62,20 @@ describe 'Calendario' do
   end
 
   it 'no es posible agregar un calendario sin nombre' do
-    expect {Calendario.new ""}.to raise_error(ExceptionCalendarioSinNombre)
+    expect {Calendario.new("")}.to raise_error(ExceptionCalendarioSinNombre)
   end
 
   it 'no es posible agregar un calendario con nombre repetido' do
     nombre = "Un calendario"
     calendario = Calendario.new(nombre)
-    expect {Calendario.new(nombre)}.to raise_error(ExceptionCalendarioExistente)
+    expect {Calendario.new(nombre)}
+        .to raise_error(ExceptionCalendarioExistente)
   end
 
   it 'no es posible agregar un calendario variando mayusculas' do
     calendario = Calendario.new("Un calendario")
-    expect {Calendario.new("uN cAlEndArIO")}.to raise_error(ExceptionCalendarioExistente)
+    expect {Calendario.new("uN cAlEndArIO")}
+        .to raise_error(ExceptionCalendarioExistente)
   end
 
 end
