@@ -7,7 +7,8 @@ describe 'Evento' do
   Calendario.class_variable_set :@@calendarios, {}}
 
   it 'no es posible agregar un evento sin id' do
-    expect {Evento.new("A", "", "B", "C", "D")}.to raise_error(ExceptionEventoSinId)
+    expect {Evento.new("A", "", "B", "C", "D")}
+        .to raise_error(ExceptionEventoSinId)
   end
 
   it 'no es posible crear un evento con fin anterior al inicio' do
@@ -131,7 +132,7 @@ describe 'Evento' do
     expect(Evento.eventos.size).to eq 2
   end
 
-  it 'al crear eventos por batch los recurrentes se generan a partir del original' do
+  it 'al crear eventos por lista, los recurrentes se crean con el original' do
     recurrencia = {"frecuencia" => "semanal",
                    "fin" => "2017-04-10T22:00:00-03:00"}
     calendario = Calendario.new("Un calendario")
@@ -184,14 +185,15 @@ describe 'Evento' do
     expect(evento.inicio).to eq "2017-03-31T18:00:00-03:00"
   end
 
-  it 'al actualizar un evento con recurrencia, los eventos recurrentes se actualizan' do
+  it 'al actualizar un evento con recurrencia, los recurrentes cambian' do
     recurrencia = Recurrencia.new("semanal", "2017-04-30T22:00:00-03:00")
     calendario = Calendario.new("Un calendario")
     evento = Evento.new(calendario, "1", "Un evento",
                         "2017-03-31T18:00:00-03:00",
                         "2017-03-31T22:00:00-03:00", recurrencia)
     evento.actualizar("2017-03-31T17:00:00-03:00", nil)
-    expect(evento.eventos_recurrentes['1R#1'].inicio).to eq "2017-04-07T17:00:00-03:00"
+    expect(evento.eventos_recurrentes['1R#1'].inicio)
+        .to eq "2017-04-07T17:00:00-03:00"
   end
 
   it 'se comprueba la duracion nueva al actualizar un evento' do
