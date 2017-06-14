@@ -67,7 +67,7 @@ class Evento
 
   def self.crear_desde_lista(lista)
     lista.each do |l|
-      if / #[[:digit:]]/.match(l['nombre']).nil?
+      if /R#[[:digit:]]/.match(l['id']).nil?
         recurrencia = nil
         if l['recurrencia']
           recurrencia = Recurrencia.new(l['recurrencia']['frecuencia'],
