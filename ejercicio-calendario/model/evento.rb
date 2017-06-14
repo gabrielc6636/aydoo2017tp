@@ -25,8 +25,8 @@ class Evento
     @fin = fin
     @calendario = calendario
     @nombre = nombre
-    calendario.agregar_evento(self)
     @id = id
+    calendario.agregar_evento(self)
     @recurrencia = recurrencia
     @@eventos[id] = self
     generar_eventos_recurrentes
