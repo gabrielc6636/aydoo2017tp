@@ -118,6 +118,15 @@ describe 'Evento' do
     )}.to raise_error(ExceptionEventoExistente)
   end
 
+  it 'es posible agregar dos eventos con id variando mayusculas' do
+    calendario = Calendario.new("Un calendario")
+    Evento.new(calendario, "Id", "Un evento", "2017-03-31T18:00:00-03:00",
+               "2017-03-31T22:00:00-03:00")
+    Evento.new(calendario, "iD", "Otro evento", "2017-04-30T18:00:00-03:00",
+               "2017-04-30T22:00:00-03:00")
+    expect(Evento.eventos.size).to eq 2
+  end
+
   it 'es posible crear varios eventos a partir de una lista de hashes' do
     calendario = Calendario.new("Un calendario")
     hashes = [{"calendario" => "Un calendario", "id" => "1",
@@ -211,33 +220,33 @@ describe 'Evento' do
     evento = Evento.new(calendario, "1", "Un evento",
                         "2017-03-31T18:00:00-03:00",
                         "2017-03-31T22:00:00-03:00")
-    Evento.new(calendario, "2", "Otro evento","2017-04-30T18:00:00-03:00",
+    Evento.new(calendario, "2", "Otro evento", "2017-04-30T18:00:00-03:00",
                "2017-04-30T22:00:00-03:00")
     expect {evento.actualizar("2017-04-30T17:00:00-03:00",
                               "2017-04-30T19:00:00-03:00"
     )}.to raise_error(ExceptionEventoSuperpuesto)
   end
-  
+
   it 'no es posible crear un evento superpuesto con uno recurrente' do
     recurrencia = Recurrencia.new("semanal", "2017-04-30T22:00:00-03:00")
     calendario = Calendario.new("Un calendario")
     evento = Evento.new(calendario, "1", "Un evento",
                         "2017-03-31T18:00:00-03:00",
                         "2017-03-31T22:00:00-03:00", recurrencia)
-    expect{Evento.new(calendario, "2", "Otro evento",
-                      "2017-04-07T17:00:00-03:00", "2017-04-07T19:00:00-03:00"
+    expect {Evento.new(calendario, "2", "Otro evento",
+                       "2017-04-07T17:00:00-03:00", "2017-04-07T19:00:00-03:00"
     )}.to raise_error(ExceptionEventoSuperpuesto)
   end
-  
+
   it 'no es posible crear un evento recurrente superpuesto con uno comun' do
     calendario = Calendario.new("Un calendario")
     evento = Evento.new(calendario, "1", "Un evento",
                         "2017-04-07T19:00:00-03:00",
                         "2017-04-07T21:00:00-03:00")
     recurrencia = Recurrencia.new("semanal", "2017-04-30T22:00:00-03:00")
-    expect{Evento.new(calendario, "2", "Otro evento",
-                      "2017-03-31T18:00:00-03:00",
-                      "2017-03-31T22:00:00-03:00", recurrencia
+    expect {Evento.new(calendario, "2", "Otro evento",
+                       "2017-03-31T18:00:00-03:00",
+                       "2017-03-31T22:00:00-03:00", recurrencia
     )}.to raise_error(ExceptionEventoSuperpuesto)
   end
 
