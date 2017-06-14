@@ -33,7 +33,7 @@ class Calendario
   end
 
   def validar_nombre_evento(nombre)
-    eventos.values.each do |e|
+    @eventos.values.each do |e|
       raise ExceptionEventoRepetido if e.nombre == nombre
     end
   end
@@ -46,6 +46,8 @@ class Calendario
       fin_a_comparar = DateTime.parse(e.fin)
       raise ExceptionEventoSuperpuesto if fecha_hora_inicio.between?(inicio_a_comparar, fin_a_comparar) && e.id != id
       raise ExceptionEventoSuperpuesto if fecha_hora_fin.between?(inicio_a_comparar, fin_a_comparar) && e.id != id
+      raise ExceptionEventoSuperpuesto if inicio_a_comparar.between?(fecha_hora_inicio, fecha_hora_fin) && e.id != id
+      raise ExceptionEventoSuperpuesto if fin_a_comparar.between?(fecha_hora_inicio, fecha_hora_fin) && e.id != id
     end
   end
 

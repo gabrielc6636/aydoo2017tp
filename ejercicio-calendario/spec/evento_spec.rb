@@ -162,6 +162,13 @@ describe 'Evento' do
     evento = Evento.new calendario, "1", "Un evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00", recurrencia
     expect{Evento.new calendario, "2", "Otro evento", "2017-04-07T17:00:00-03:00", "2017-04-07T19:00:00-03:00"}.to raise_error(ExceptionEventoSuperpuesto)
   end
+  
+  it 'no es posible crear un evento recurrente superpuesto con uno comun' do
+    calendario = Calendario.new "Un calendario"
+    evento = Evento.new calendario, "1", "Un evento", "2017-04-07T19:00:00-03:00", "2017-04-07T21:00:00-03:00"
+    recurrencia = Recurrencia.new "semanal", "2017-04-30T22:00:00-03:00"
+    expect{Evento.new calendario, "2", "Otro evento", "2017-03-31T18:00:00-03:00", "2017-03-31T22:00:00-03:00", recurrencia}.to raise_error(ExceptionEventoSuperpuesto)
+  end
 
   it 'es posible obtener un evento sin recurrencia como hash' do
     calendario = Calendario.new "Un calendario"
