@@ -75,7 +75,9 @@ end
 
 delete '/eventos/:id' do
   begin
-    Evento.eventos.delete(params[:id]) {|k| fail KeyError, k}
+    evento = Evento.eventos.fetch(params[:id])
+    evento.eliminar_eventos_recurrentes
+    Evento.eventos.delete(evento.id)
     eventos = Evento.eventos.values
     salida = FormateadorJson.formatear_coleccion(eventos)
     GestorArchivos.escribir(salida, archivo_eventos)
