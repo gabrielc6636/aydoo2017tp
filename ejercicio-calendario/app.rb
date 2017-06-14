@@ -58,17 +58,17 @@ end
 post '/eventos' do
   begin
     entrada = FormateadorJson.interpretar([request.body.read])
-    calendario = Calendario.calendarios.fetch(entrada['calendario'].downcase)
+    calendario = Calendario.calendarios.fetch(entrada.fetch('calendario').downcase)
     recurrencia = nil
     if entrada['recurrencia']
-      recurrencia = Recurrencia.new(entrada['recurrencia']['frecuencia'], entrada['recurrencia']['fin'])
+      recurrencia = Recurrencia.new(entrada['recurrencia'].fetch('frecuencia'), entrada['recurrencia'].fetch('fin'))
     end
-    Evento.new(calendario, entrada['id'], entrada['nombre'], entrada['inicio'], entrada['fin'], recurrencia)
+    Evento.new(calendario, entrada.fetch('id'), entrada.fetch('nombre'), entrada.fetch('inicio'), entrada.fetch('fin'), recurrencia)
     eventos = Evento.eventos.values
     salida = FormateadorJson.formatear_coleccion(eventos)
     GestorArchivos.escribir(salida, archivo_eventos)
     status 201
-  rescue ExceptionEventoSinId, ExceptionEventoExistente, ExceptionDuracionInvalida, ExceptionEventoSuperpuesto
+  rescue ExceptionEventoSinId, ExceptionEventoExistente, ExceptionDuracionInvalida, ExceptionEventoSuperpuesto, KeyError
     status 400
   end
 end
