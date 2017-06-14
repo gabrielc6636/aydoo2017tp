@@ -43,7 +43,7 @@ class Evento
       while fecha_actual < fecha_fin
         id = @id + "R#" + contador.to_s
         nombre = @nombre + " #" + contador.to_s
-        eventos_recurrentes[id] = Evento.new @calendario, id, nombre, fecha_actual.to_s, (fecha_actual + duracion).to_s
+        eventos_recurrentes[id] = Evento.new(@calendario, id, nombre, fecha_actual.to_s, (fecha_actual + duracion).to_s)
         contador += 1
         fecha_actual = Recurrencia.sumadores[@recurrencia.frecuencia].sumar(fecha_actual)
       end
@@ -67,7 +67,7 @@ class Evento
         if l['recurrencia']
           recurrencia = Recurrencia.new(l['recurrencia']['frecuencia'], l['recurrencia']['fin'])
         end
-        Evento.new Calendario.calendarios[l['calendario'].downcase], l['id'], l['nombre'], l['inicio'], l['fin'], recurrencia
+        Evento.new(Calendario.calendarios[l['calendario'].downcase], l['id'], l['nombre'], l['inicio'], l['fin'], recurrencia)
       end
     end
   end
