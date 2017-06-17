@@ -12,18 +12,18 @@ describe 'ControladorRecursos' do
    
   it 'Si agrego un recurso, tengo que poder obtenerlo' do
     
-  	nombre = "Recuros 1"
+  	nombre = "Recursos 1"
 
     controlador.agregarRecurso(nombre)
 
     recurso = controlador.obtenerRecurso(nombre)
 
-    expect(recurso.nombre).to eq nombre
+    expect(recurso.nombre).to eq nombre.downcase
   end
 
   it 'Si agrego dos recursos, obtengo 2 recursos' do
     
-  	nombre = "Recuros 1"
+  	nombre = "Recursos 1"
 
     controlador.agregarRecurso(nombre)
 
@@ -42,7 +42,7 @@ describe 'ControladorRecursos' do
 
 	recurso = controlador.obtenerRecurso(nombre)
 
-    expect(recurso.nombre).to eq nombre
+    expect(recurso.nombre).to eq nombre.downcase
 
     controlador.eliminarRecurso(nombre)
 
