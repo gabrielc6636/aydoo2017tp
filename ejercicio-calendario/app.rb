@@ -52,11 +52,13 @@ delete '/calendarios/:nombre' do
 end
 
 get '/calendarios' do
+  begin
   calendarios = Calendario.calendarios.values
   salida = FormateadorJson.formatear_coleccion(calendarios)
   halt 200, salida
   rescue Exception => ex
     halt 400, "400 Bad Request: " + ex.to_s
+  end
 end
 
 get '/calendarios/:nombre' do
@@ -116,19 +118,23 @@ put '/eventos' do
 end
 
 get '/eventos' do
+  begin
   eventos = Evento.eventos.values
   salida = FormateadorJson.formatear_coleccion(eventos)
   halt 200, salida
   rescue Exception => ex
     halt 400, "400 Bad Request: " + ex.to_s
+  end
 end
 
 get '/eventos?:calendario?' do
+  begin
   calendario = Calendario.calendarios.fetch(params['calendario'])
   salida = FormateadorJson.formatear_coleccion(calendario.eventos.values)
   halt 200, salida
   rescue Exception => ex
     halt 400, "400 Bad Request: " + ex.to_s
+  end
 end
 
 get '/eventos/:id' do
