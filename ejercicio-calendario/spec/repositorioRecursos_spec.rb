@@ -26,5 +26,17 @@ describe 'RepositorioRecursos' do
     expect(repositorio.recursos.size).to eq tamanio-1
   end
 
+  it 'repositorio con recurso sala 1 deberia devolver true al preguntar estaRecurso?' do
+    nuevoRecurso = Recurso.new("sala 1", false)
+
+    repositorio.agregarRecurso(nuevoRecurso)
+
+    expect(repositorio.estaRecurso? nuevoRecurso.nombre).to eq true
+  end
+
+  it 'repositorio sin recurso sala 1 deberia devolver false al preguntar estaRecurso?' do    
+    expect(repositorio.estaRecurso? "Sala 1").to eq false
+  end
+
   
 end

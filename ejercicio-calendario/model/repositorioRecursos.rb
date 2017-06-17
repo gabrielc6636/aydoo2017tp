@@ -16,4 +16,8 @@ class RepositorioRecursos
 		recursos.delete(recurso.nombre)
 	end
 
+	def estaRecurso?(id_recurso)
+		recursos.key? id_recurso
+	end
+
 end
