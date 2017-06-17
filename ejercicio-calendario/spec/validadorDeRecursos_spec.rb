@@ -27,4 +27,10 @@ describe 'ValidadorDeRecurso' do
     	expect{validador.validarRecursoExistente("id_evento",repositorio)}.to raise_error(NameError)
   	end
 
+  	it "validar recurso existente no deberia devolver excepcion NameError si el recurso a agregar no esta en el repositorio" do
+		repositorio.stub(:estaRecurso?).with('id_evento') { false }
+
+    	expect{validador.validarRecursoExistente("id_evento",repositorio)}.not_to raise_error
+  	end
+
 end
