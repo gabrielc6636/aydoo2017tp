@@ -24,7 +24,6 @@ class ControladorRecursos
 	end
 
 	def cargarRecursos(listaRecursos)
-		recursos = {}
 
 		listaRecursos.each do |jsonRecurso|
 			recurso = Recurso.new(jsonRecurso['nombre'])
@@ -36,6 +35,10 @@ class ControladorRecursos
 
 	def obtenerRecursos
 		repositorioRecursos.obtenerRecursos
+	end
+
+	def obtenerRecurso(id_recurso)
+		repositorioRecursos.obtenerRecurso(id_recurso)
 	end
 
 	def eliminarRecurso(id_recurso)
