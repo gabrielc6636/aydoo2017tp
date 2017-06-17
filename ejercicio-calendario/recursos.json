@@ -1,14 +1,10 @@
 [
   {
-    "nombre": "sala 1",
-    "enUso": true
-  },
-  {
-    "nombre": "final",
+    "nombre": "proyector",
     "enUso": false
   },
   {
-    "nombre": "proyector",
+    "nombre": "proyector 1",
     "enUso": false
   }
 ]
