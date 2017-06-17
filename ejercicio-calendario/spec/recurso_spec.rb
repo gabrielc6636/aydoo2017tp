@@ -10,9 +10,15 @@ describe 'Recurso' do
 	end
 
 	it "Reservar el recurso deberia dejarlo en estado en uso " do
-		recurso.reservarRecurso
+		recurso.reservar()
 
 		expect(recurso.estaEnUso?).to eq true
+	end
+
+	it "Liberar el recurso deberia dejarlo en estado sin uso " do
+		recurso.liberar()
+
+		expect(recurso.estaEnUso?).to eq false
 	end
 
 end

@@ -52,11 +52,13 @@ delete '/calendarios/:nombre' do
 end
 
 get '/calendarios' do
-  calendarios = Calendario.calendarios.values
-  salida = FormateadorJson.formatear_coleccion(calendarios)
-  halt 200, salida
+  begin
+    calendarios = Calendario.calendarios.values
+    salida = FormateadorJson.formatear_coleccion(calendarios)
+    halt 200, salida
   rescue Exception => ex
     halt 400, "400 Bad Request: " + ex.to_s
+  end
 end
 
 get '/calendarios/:nombre' do
@@ -116,19 +118,23 @@ put '/eventos' do
 end
 
 get '/eventos' do
-  eventos = Evento.eventos.values
-  salida = FormateadorJson.formatear_coleccion(eventos)
-  halt 200, salida
+  begin
+    eventos = Evento.eventos.values
+    salida = FormateadorJson.formatear_coleccion(eventos)
+    halt 200, salida
   rescue Exception => ex
     halt 400, "400 Bad Request: " + ex.to_s
+  end
 end
 
 get '/eventos?:calendario?' do
-  calendario = Calendario.calendarios.fetch(params['calendario'])
-  salida = FormateadorJson.formatear_coleccion(calendario.eventos.values)
-  halt 200, salida
+  begin
+    calendario = Calendario.calendarios.fetch(params['calendario'])
+    salida = FormateadorJson.formatear_coleccion(calendario.eventos.values)
+    halt 200, salida
   rescue Exception => ex
     halt 400, "400 Bad Request: " + ex.to_s
+  end
 end
 
 get '/eventos/:id' do
@@ -173,5 +179,18 @@ delete '/recursos/:id' do
   rescue Exception => ex
     halt 404, "Ha ocurrido un error al eliminar el recurso: " + ex.to_s
   end
+end
+
+post '/recursos/:id_recurso/:id_evento' do
+  begin
+    id_recurso = params[:id_recurso]
+    id_evento = params[:id_evento]
+
+    controladorRecursos.asignarRecursoAEvento(id_recurso, id_evento)   
+
+    halt 200, "El recurso se asigno al evento con exito"
+  rescue Exception => ex
+    halt 400, "Ha ocurrido un error al asignar el recurso: " + ex.to_s
+  end  
 end
 

@@ -2,6 +2,7 @@ class GestorArchivos
 
   CARACTERES = 0
   ARCHIVO_RECURSOS = "recursos.json"
+  ARCHIVO_EVENTOS = "eventos.json"
 
   def escribir(texto, archivo)
     File.truncate(archivo, CARACTERES) if File.file?(archivo)
@@ -18,6 +19,10 @@ class GestorArchivos
       end
     end
     return lineas
+  end
+
+ def guardarEventos(dato)
+    escribir(dato, ARCHIVO_EVENTOS)
   end
 
   def guardarRecursos(dato)

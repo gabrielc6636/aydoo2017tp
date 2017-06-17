@@ -93,6 +93,11 @@ class Evento
     end
   end
 
+  def asignarRecurso(recurso)
+    self.recurso = recurso
+    recurso.reservar()
+  end
+
   def self.eventos
     @@eventos
   end

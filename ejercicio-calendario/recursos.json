@@ -1,3 +1,10 @@
 [
-
+  {
+    "nombre": "sala 1",
+    "enUso": true
+  },
+  {
+    "nombre": "final",
+    "enUso": false
+  }
 ]

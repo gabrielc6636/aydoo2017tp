@@ -24,7 +24,6 @@ class ControladorRecursos
 	end
 
 	def cargarRecursos(listaRecursos)
-
 		listaRecursos.each do |jsonRecurso|
 			recurso = Recurso.new(jsonRecurso['nombre'])
 			recurso.enUso = jsonRecurso['enUso']
@@ -51,12 +50,15 @@ class ControladorRecursos
     	gestorArchivos.guardarRecursos(salida)
 	end
 
-	def asignarRecursoAEvento(id_evento, id_recurso)
-		validarRecursoInExistente(id_recurso, repositorioRecursos)
-		recurso = repositorioRecursos.obtenerRecurso(id_recurso)
+	def asignarRecursoAEvento(id_recurso, id_evento)
+		validadorDeRecurso.validarRecursoInExistente(id_recurso, repositorioRecursos)
+		validadorDeRecurso.validarRecursoSinUso(id_recurso, repositorioRecursos)
+		recurso = repositorioRecursos.obtenerRecurso(id_recurso)		
 		
-		#validarEventoInexistente
 		evento = Evento.eventos.fetch(id_evento)
+		if evento.nil?
+			raise NameError.new("El evento es inexistente")
+		end
 		evento.asignarRecurso(recurso);
 		eventos = Evento.eventos.values
     	salida = FormateadorJson.formatear_coleccion(eventos)

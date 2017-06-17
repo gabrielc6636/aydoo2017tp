@@ -12,8 +12,12 @@ class Recurso
 		enUso
 	end
 
-	def reservarRecurso
+	def reservar
 		self.enUso = true
+	end
+
+	def liberar
+		self.enUso = false
 	end
 
 	def to_h

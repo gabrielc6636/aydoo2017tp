@@ -10,3 +10,9 @@ __Decisiones de diseño:__
 * Se accede al sumador necesario mediante un hash, donde la key es el texto de la frecuencia (ej. "semanal").
 * Existe una clase especializada en formatear e interpretar JSON, y otra para lectura y escritura a archivo.
 * Como los eventos recurrentes se generan en la creación del original, los mismos no se crean desde lista.
+
+PARTE 2
+
+Decisiones de diseño
+
+Un evento solo puede tener asignado un recurso a la ves
