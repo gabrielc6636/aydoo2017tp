@@ -23,12 +23,6 @@ Calendario.crear_desde_lista(lista_calendarios)
 Evento.crear_desde_lista(lista_eventos)
 
 
-get '/calendarios' do
-  calendarios = Calendario.calendarios.values
-  salida = FormateadorJson.formatear_coleccion(calendarios)
-  "#{salida}"
-end
-
 post '/calendarios' do
   begin
     entrada = FormateadorJson.interpretar([request.body.read])
@@ -36,9 +30,9 @@ post '/calendarios' do
     calendarios = Calendario.calendarios.values
     salida = FormateadorJson.formatear_coleccion(calendarios)
     gestorArchivos.escribir(salida, archivo_calendarios)
-    status 201
-  rescue ExceptionCalendarioExistente, ExceptionCalendarioSinNombre, KeyError
-    status 400
+    halt 200, "Se ha creado el calendario con exito el calendario"
+  rescue Exception => ex
+    halt 400, "400 Bad Request: " + ex.to_s
   end
 end
 
@@ -51,18 +45,27 @@ delete '/calendarios/:nombre' do
     calendarios = Calendario.calendarios.values
     salida = FormateadorJson.formatear_coleccion(calendarios)
     gestorArchivos.escribir(salida, archivo_calendarios)
-  rescue KeyError
-    status 404
+    halt 200, "Se ha eliminado con exito el calendario " + nombre
+  rescue Exception =>ex
+    halt 400, "404 Not Found: " + ex.to_s
   end
+end
+
+get '/calendarios' do
+  calendarios = Calendario.calendarios.values
+  salida = FormateadorJson.formatear_coleccion(calendarios)
+  halt 200, salida
+  rescue Exception => ex
+    halt 400, "400 Bad Request: " + ex.to_s
 end
 
 get '/calendarios/:nombre' do
   begin
     calendario = Calendario.calendarios.fetch(params[:nombre].downcase)
     salida = FormateadorJson.formatear_objeto(calendario)
-    "#{salida}"
-  rescue KeyError
-    status 404
+    halt 200, salida
+  rescue Exception => ex
+    halt 404, "404 Not Found: " + ex.to_s
   end
 end
 
@@ -79,10 +82,9 @@ post '/eventos' do
     eventos = Evento.eventos.values
     salida = FormateadorJson.formatear_coleccion(eventos)
     gestorArchivos.escribir(salida, archivo_eventos)
-    status 201
-  rescue ExceptionEventoSinId, ExceptionEventoExistente,
-      ExceptionDuracionInvalida, ExceptionEventoSuperpuesto, KeyError
-    status 400
+    halt 201, "Se ha creado el evento con exito"
+  rescue Exception => ex
+    halt 400, "400 Bad Request: " + ex.to_s
   end
 end
 
@@ -94,8 +96,9 @@ delete '/eventos/:id' do
     eventos = Evento.eventos.values
     salida = FormateadorJson.formatear_coleccion(eventos)
     gestorArchivos.escribir(salida, archivo_eventos)
-  rescue KeyError
-    status 404
+    halt 200, "Se ha eliminado con exito el evento"
+  rescue Exception => ex
+    halt 400, "400 Bad Request: " + ex.to_s
   end
 end
 
@@ -107,23 +110,25 @@ put '/eventos' do
     eventos = Evento.eventos.values
     salida = FormateadorJson.formatear_coleccion(eventos)
     gestorArchivos.escribir(salida, archivo_eventos)
-  rescue KeyError
-    status 404
-  rescue ExceptionDuracionInvalida, ExceptionEventoSuperpuesto
-    status 400
+  rescue Exception => ex
+    halt 400, "400 Bad Request: " + ex.to_s
   end
 end
 
 get '/eventos' do
   eventos = Evento.eventos.values
   salida = FormateadorJson.formatear_coleccion(eventos)
-  "#{salida}"
+  halt 200, salida
+  rescue Exception => ex
+    halt 400, "400 Bad Request: " + ex.to_s
 end
 
 get '/eventos?:calendario?' do
   calendario = Calendario.calendarios.fetch(params['calendario'])
   salida = FormateadorJson.formatear_coleccion(calendario.eventos.values)
-  "#{salida}"
+  halt 200, salida
+  rescue Exception => ex
+    halt 400, "400 Bad Request: " + ex.to_s
 end
 
 get '/eventos/:id' do
@@ -131,8 +136,8 @@ get '/eventos/:id' do
     evento = Evento.eventos.fetch(params[:id])
     salida = FormateadorJson.formatear_objeto(evento)
     "#{salida}"
-  rescue KeyError
-    status 404
+  rescue Exception => ex
+    halt 400, "400 Bad Request: " + ex.to_s
   end
 end
 
