@@ -29,14 +29,13 @@ class ControladorRecursos
 		listaRecursos.each do |jsonRecurso|
 			recurso = Recurso.new(jsonRecurso['nombre'])
 			recurso.enUso = jsonRecurso['enUso']
-			recursos[recurso.nombre] = recurso
+			repositorioRecursos.agregarRecurso(recurso)
 		end
 
-		repositorioRecursos.recursos = recursos
 	end
 
 	def obtenerRecursos
-		repositorioRecursos.recursos.values
+		repositorioRecursos.obtenerRecursos
 	end
 
 	def eliminarRecurso(id_recurso)
