@@ -50,4 +50,17 @@ class ControladorRecursos
     	salida = FormateadorJson.formatear_coleccion(recursos)
     	gestorArchivos.guardarRecursos(salida)
 	end
+
+	def asignarRecursoAEvento(id_evento, id_recurso)
+		validarRecursoInExistente(id_recurso, repositorioRecursos)
+		recurso = repositorioRecursos.obtenerRecurso(id_recurso)
+		
+		#validarEventoInexistente
+		evento = Evento.eventos.fetch(id_evento)
+		evento.asignarRecurso(recurso);
+		eventos = Evento.eventos.values
+    	salida = FormateadorJson.formatear_coleccion(eventos)
+    	gestorArchivos.guardarEventos(salida)
+	end
+
 end

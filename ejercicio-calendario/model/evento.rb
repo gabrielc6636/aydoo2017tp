@@ -3,6 +3,8 @@ require_relative './recurrencia'
 require_relative './exception_duracion_invalida'
 require_relative './exception_evento_sin_id'
 require_relative './exception_evento_existente'
+require_relative 'jsonEvento.rb'
+require_relative 'recurso.rb'
 
 class Evento
   @@eventos = {}
@@ -11,13 +13,15 @@ class Evento
   attr_reader :nombre
   attr_reader :inicio
   attr_reader :fin
-  attr_reader :recurrencia
+  attr_accessor :recurrencia
   attr_reader :eventos_recurrentes
+
+  attr_accessor :recurso
 
   DURACION_MAXIMA_HORAS = 72
   HORAS_EN_DIA = 24
 
-  def initialize(calendario, id, nombre, inicio, fin, recurrencia=nil)
+  def initialize(calendario, id, nombre, inicio, fin, recurrencia=nil, recurso=nil)
     raise ExceptionEventoSinId if id == ""
     raise ExceptionEventoExistente if @@eventos[id]
     validar_duracion(inicio, fin)
@@ -27,9 +31,11 @@ class Evento
     @nombre = nombre
     @id = id
     calendario.agregar_evento(self)
-    @recurrencia = recurrencia
+    self.recurrencia = recurrencia
     @@eventos[id] = self
     generar_eventos_recurrentes
+
+    self.recurso = recurso      
   end
 
   def generar_eventos_recurrentes
@@ -66,15 +72,23 @@ class Evento
   end
 
   def self.crear_desde_lista(lista)
-    lista.each do |l|
-      if /R#[[:digit:]]/.match(l['id']).nil?
+    lista.each do |jsonEvento|
+      manejadorJson = JsonEvento.new(jsonEvento)
+
+      if /R#[[:digit:]]/.match(manejadorJson.obtenerIdEvento()).nil?        
         recurrencia = nil
-        if l['recurrencia']
-          recurrencia = Recurrencia.new(l['recurrencia']['frecuencia'],
-                                        l['recurrencia']['fin'])
+        recurso=nil   
+        if manejadorJson.tieneRecurrencia?
+          recurrencia = Recurrencia.new(manejadorJson.obtenerFrecuenciaDeRecurrencia(), manejadorJson.obtenerFinDeRecurrencia())          
         end
-        Evento.new(Calendario.calendarios[l['calendario'].downcase], l['id'],
-                   l['nombre'], l['inicio'], l['fin'], recurrencia)
+        if manejadorJson.tieneRecurso?
+          recurso = Recurso.new(manejadorJson.obtenerNombreRecurso())
+          recurso.enUso = manejadorJson.obtenerEnUsoRecurso().eql?"true"
+        end 
+        calendario = Calendario.calendarios[manejadorJson.obtenerNombreCalendario().downcase]
+        evento = Evento.new(calendario, manejadorJson.obtenerIdEvento(),
+                   manejadorJson.obtenerNombreEvento(), manejadorJson.obtenerFechaInicio(),
+                   manejadorJson.obtenerFechaFin(), recurrencia, recurso)               
       end
     end
   end
@@ -107,7 +121,12 @@ class Evento
             "id" => @id,
             "nombre" => @nombre,
             "inicio" => @inicio,
-            "fin" => @fin}
+            "fin" => @fin,   
+          }
+
+    if !self.recurso.nil?          
+      hash["recurso"] = recurso.to_h
+    end
     if @recurrencia
       hash["recurrencia"] = recurrencia.to_h
     end
