@@ -7,7 +7,7 @@ describe 'RepositorioRecursos' do
   let(:repositorio) { RepositorioRecursos.new }  
    
   it 'agregarRecurso en repositorio vacio deberia devolver tamanio del lista igual a 1' do
-    nuevoRecurso = Recurso.new("sala 1", false)
+    nuevoRecurso = Recurso.new("sala 1")
 
     repositorio.agregarRecurso(nuevoRecurso)
 
@@ -15,8 +15,8 @@ describe 'RepositorioRecursos' do
   end
 
   it 'eliminar recurso deberia devolver tamanio de lista - 1 ' do
-    recurso1 = Recurso.new("sala 1", false)
-    recurso2 = Recurso.new("sala 2", false)
+    recurso1 = Recurso.new("sala 1")
+    recurso2 = Recurso.new("sala 2")
 
     repositorio.agregarRecurso(recurso1)
     repositorio.agregarRecurso(recurso2)
@@ -27,7 +27,7 @@ describe 'RepositorioRecursos' do
   end
 
   it 'repositorio con recurso sala 1 deberia devolver true al preguntar estaRecurso?' do
-    nuevoRecurso = Recurso.new("sala 1", false)
+    nuevoRecurso = Recurso.new("sala 1")
 
     repositorio.agregarRecurso(nuevoRecurso)
 
@@ -37,6 +37,5 @@ describe 'RepositorioRecursos' do
   it 'repositorio sin recurso sala 1 deberia devolver false al preguntar estaRecurso?' do    
     expect(repositorio.estaRecurso? "Sala 1").to eq false
   end
-
   
 end

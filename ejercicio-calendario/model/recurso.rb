@@ -1,11 +1,26 @@
 class Recurso
 
 	attr_accessor :nombre
-	attr_accessor :estaEnUso
+	attr_accessor :enUso
 
-	def initialize(nombreRecurso, siendoUsado)
+	def initialize(nombreRecurso)
 		self.nombre = nombreRecurso
-		self.estaEnUso = siendoUsado
+		self.enUso = false
 	end
+
+	def estaEnUso?
+		enUso
+	end
+
+	def reservarRecurso
+		self.enUso = true
+	end
+
+	def to_h
+    	return {
+    		"nombre" => self.nombre,
+    		"enUso" => self.enUso
+    	}
+  	end
 
 end

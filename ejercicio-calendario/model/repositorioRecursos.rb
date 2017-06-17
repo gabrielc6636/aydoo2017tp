@@ -20,4 +20,12 @@ class RepositorioRecursos
 		recursos.key? id_recurso
 	end
 
+	def obtenerRecursos
+		recursos.values
+	end
+
+	def obtenerRecurso(id_recurso) 
+		recursos[id_recurso]
+	end
+
 end

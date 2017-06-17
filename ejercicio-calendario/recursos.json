@@ -1,0 +1,10 @@
+[
+  {
+    "nombre": "sala 1",
+    "enUso": false
+  },
+  {
+    "nombre": "proyector",
+    "enUso": false
+  }
+]
