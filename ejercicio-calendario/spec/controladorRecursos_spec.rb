@@ -60,8 +60,6 @@ describe 'ControladorRecursos' do
 
 	controlador.cargarRecursos(json)
 
-    controlador.agregarRecurso(nombre)
-
     expect(controlador.obtenerRecursos.size).to eq 1
   end
 
