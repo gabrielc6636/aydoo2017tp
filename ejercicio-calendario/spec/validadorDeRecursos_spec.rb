@@ -9,16 +9,16 @@ describe 'ValidadorDeRecurso' do
 	let (:repositorio) {RepositorioRecursos.new}
 	let (:recurso) {Recurso.new("id_evento")}
 
-	before do
-		#repositorio.stub(:estaRecurso?).with('id_evento') { true }
-	end
-
-	it "validar recurso inexistente deberia devolver excepcion NameError si el recurso no esta el repositorio" do
+	it "validar recurso inexistente deberia devolver excepcion NameError si el recurso buscado no esta el repositorio" do
 		repositorio.stub(:estaRecurso?).with('id_evento') { false }
 
     	expect{validador.validarRecursoInExistente("id_evento",repositorio)}.to raise_error(NameError)
   	end
 
-  	
+  	it "validar recurso existente deberia devolver excepcion NameError si el recurso a agregar ya esta en el repositorio" do
+		repositorio.stub(:estaRecurso?).with('id_evento') { true }
+
+    	expect{validador.validarRecursoExistente("id_evento",repositorio)}.to raise_error(NameError)
+  	end
 
 end
