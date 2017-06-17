@@ -56,7 +56,7 @@ describe 'ControladorRecursos' do
 
   it 'Si cargo 1 recurso, obtengo 1 recurso' do
     
-	json = JSON.parse '{"nombre":"Proyector","enUso":"false"}'
+	json = JSON.parse '{["nombre":"Proyector","enUso":"false"]}'
 
 	controlador.cargarRecursos(json)
 
