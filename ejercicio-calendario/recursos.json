@@ -6,5 +6,9 @@
   {
     "nombre": "final",
     "enUso": false
+  },
+  {
+    "nombre": "proyector",
+    "enUso": false
   }
 ]

@@ -15,4 +15,4 @@ PARTE 2
 
 Decisiones de diseño
 
-Un evento solo puede tener asignado un recurso a la ves
+Un evento puede tener varios recursos reservados pero no repetidos.

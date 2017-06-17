@@ -55,7 +55,7 @@ get '/calendarios' do
   begin
   calendarios = Calendario.calendarios.values
   salida = FormateadorJson.formatear_coleccion(calendarios)
-  
+
   halt 200, salida
   rescue Exception => ex
     halt 400, "400 Bad Request: " + ex.to_s
@@ -184,7 +184,7 @@ delete '/recursos/:id' do
   end
 end
 
-post '/recursos/:id_recurso/:id_evento' do
+post '/eventos/:id_evento/:id_recurso' do
   begin
     id_recurso = params[:id_recurso]
     id_evento = params[:id_evento]
