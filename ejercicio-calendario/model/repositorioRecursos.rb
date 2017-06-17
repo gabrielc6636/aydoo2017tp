@@ -12,4 +12,8 @@ class RepositorioRecursos
 		recursos[recurso.nombre] = recurso
 	end
 
+	def eliminarRecurso(recurso)
+		recursos.delete(recurso.nombre)
+	end
+
 end
