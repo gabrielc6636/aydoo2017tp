@@ -2,6 +2,7 @@ require_relative '../model/repositorioRecursos.rb'
 require_relative '../model/gestor_archivos.rb'
 require_relative '../model/validadorDeRecurso.rb'
 require_relative '../model/recurso.rb'
+require_relative '../model/controladorRecursos.rb'
 
 describe 'ControladorRecursos' do
 
