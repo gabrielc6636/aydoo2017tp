@@ -1,7 +1,7 @@
 class ValidadorDeRecurso
 
 	def validarRecursoSinUso(nombreRecurso, repositorioRecursos)
-		validarRecursoExistente(nombreRecurso, repositorioRecursos) 
+		validarRecursoInExistente(nombreRecurso, repositorioRecursos) 
 		recurso = repositorioRecursos.obtenerRecurso(nombreRecurso)
 		if recurso.estaEnUso?
 			raise NameError.new("El recurso a utilzar ya se encuentra reservado")
