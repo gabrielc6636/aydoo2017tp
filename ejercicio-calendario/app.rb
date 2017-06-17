@@ -162,10 +162,7 @@ delete '/recursos/:id' do
   begin
     id_recurso = params[:id]
 
-    controladorRecursos.eliminarRecurso(id_recurso)
-    recursos = controladorRecursos.obtenerRecursos()
-    salida = FormateadorJson.formatear_coleccion(recursos)
-    gestorArchivos.guardarRecursos(salida)
+    controladorRecursos.eliminarRecurso(id_recurso)    
 
     halt 200, "El recurso se elimino con exito"
   rescue Exception => ex

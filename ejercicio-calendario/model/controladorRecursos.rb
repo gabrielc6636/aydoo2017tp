@@ -44,5 +44,8 @@ class ControladorRecursos
 		recurso = repositorioRecursos.obtenerRecurso(id_recurso)
 
 		repositorioRecursos.eliminarRecurso(recurso)
+		recursos = obtenerRecursos()
+    	salida = FormateadorJson.formatear_coleccion(recursos)
+    	gestorArchivos.guardarRecursos(salida)
 	end
 end
