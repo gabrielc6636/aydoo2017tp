@@ -37,5 +37,13 @@ describe 'RepositorioRecursos' do
   it 'repositorio sin recurso sala 1 deberia devolver false al preguntar estaRecurso?' do    
     expect(repositorio.estaRecurso? "Sala 1").to eq false
   end
+
+  it 'obtenerRecurso en repositorio con recurso sala devuelve el recurso sala' do   
+    nuevoRecurso = Recurso.new("sala 1")
+
+    repositorio.agregarRecurso(nuevoRecurso)
+
+    expect(repositorio.obtenerRecurso("sala 1")).to eq nuevoRecurso
+  end
   
 end
