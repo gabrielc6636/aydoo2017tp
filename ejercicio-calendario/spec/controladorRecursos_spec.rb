@@ -3,6 +3,7 @@ require_relative '../model/gestor_archivos.rb'
 require_relative '../model/validadorDeRecurso.rb'
 require_relative '../model/recurso.rb'
 require_relative '../model/controladorRecursos.rb'
+require 'json'
 
 describe 'ControladorRecursos' do
 
@@ -51,6 +52,17 @@ describe 'ControladorRecursos' do
 
     expect(result).to eq true
     
+  end
+
+  it 'Si cargo 1 recurso, obtengo 1 recurso' do
+    
+	json = JSON.parse '{"nombre":"Proyector","enUso":"false"}'
+
+	controlador.cargarRecursos(json)
+
+    controlador.agregarRecurso(nombre)
+
+    expect(controlador.obtenerRecursos.size).to eq 1
   end
 
 end
