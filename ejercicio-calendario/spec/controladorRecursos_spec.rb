@@ -47,7 +47,9 @@ describe 'ControladorRecursos' do
 
 	recurso = controlador.obtenerRecurso(nombre)
 
-    expect(recurso.nil).to eq true
+	result = recurso.nil?
+
+    expect(result).to eq true
     
   end
 
