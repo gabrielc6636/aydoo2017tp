@@ -14,13 +14,13 @@ archivo_eventos = "eventos.json"
 gestorArchivos = GestorArchivos.new
 controladorRecursos = ControladorRecursos.new
 
-lista_calendarios = FormateadorJson.interpretar(gestorArchivos.leer(archivo_calendarios))
-lista_eventos = FormateadorJson.interpretar(gestorArchivos.leer(archivo_eventos))
 lista_recursos = FormateadorJson.interpretar(gestorArchivos.cargarRecursos())
 controladorRecursos.cargarRecursos(lista_recursos)
+lista_calendarios = FormateadorJson.interpretar(gestorArchivos.leer(archivo_calendarios))
+lista_eventos = FormateadorJson.interpretar(gestorArchivos.leer(archivo_eventos))
 
 Calendario.crear_desde_lista(lista_calendarios)
-Evento.crear_desde_lista(lista_eventos)
+Evento.crear_desde_lista(lista_eventos, controladorRecursos)
 
 
 post '/calendarios' do
