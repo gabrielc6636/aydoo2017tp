@@ -137,7 +137,7 @@ describe 'Evento' do
                "nombre" => "Otro evento",
                "inicio" => "2017-04-30T18:00:00-03:00",
                "fin" => "2017-04-30T22:00:00-03:00"}]
-    Evento.crear_desde_lista(hashes)
+    Evento.crear_desde_lista(hashes, nil)
     expect(Evento.eventos.size).to eq 2
   end
 
@@ -154,7 +154,7 @@ describe 'Evento' do
                "nombre" => "Un evento #1",
                "inicio" => "2017-04-07T18:00:00-03:00",
                "fin" => "2017-04-07T22:00:00-03:00"}]
-    Evento.crear_desde_lista(hashes)
+    Evento.crear_desde_lista(hashes, nil)
     expect(Evento.eventos['1'].eventos_recurrentes.size).to eq 1
   end
 
