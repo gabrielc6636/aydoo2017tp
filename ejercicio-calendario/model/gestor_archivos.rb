@@ -1,8 +1,11 @@
+require_relative 'formateador_json.rb'
+
 class GestorArchivos
 
   CARACTERES = 0
   ARCHIVO_RECURSOS = "recursos.json"
   ARCHIVO_EVENTOS = "eventos.json"
+  ARCHIVO_CALENDARIOS = "calendarios.json"
 
   def escribir(texto, archivo)
     File.truncate(archivo, CARACTERES) if File.file?(archivo)
@@ -21,16 +24,34 @@ class GestorArchivos
     return lineas
   end
 
- def guardarEventos(dato)
-    escribir(dato, ARCHIVO_EVENTOS)
+  def guardarCalendarios(calendarios)
+    arrayJson = FormateadorJson.formatear_coleccion(calendarios)
+    escribir(arrayJson, ARCHIVO_CALENDARIOS)
   end
 
-  def guardarRecursos(dato)
-    escribir(dato, ARCHIVO_RECURSOS)
+  def cargarCalendarios
+    data = leer(ARCHIVO_CALENDARIOS)
+    FormateadorJson.interpretar(data)
+  end
+
+  def guardarEventos(eventos)
+    arrayJson = FormateadorJson.formatear_coleccion(eventos)
+    escribir(arrayJson, ARCHIVO_EVENTOS)
+  end
+
+  def cargarEventos
+    data = leer(ARCHIVO_EVENTOS)
+    FormateadorJson.interpretar(data)
+  end
+
+  def guardarRecursos(recursos)
+    arrayJson = FormateadorJson.formatear_coleccion(recursos)
+    escribir(arrayJson, ARCHIVO_RECURSOS)
   end
 
   def cargarRecursos
-    leer(ARCHIVO_RECURSOS)
+    data = leer(ARCHIVO_RECURSOS)
+    FormateadorJson.interpretar(data)
   end
 
 end

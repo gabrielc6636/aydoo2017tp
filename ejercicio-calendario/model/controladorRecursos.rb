@@ -19,8 +19,8 @@ class ControladorRecursos
 	    recurso = Recurso.new(nombreRecurso.downcase)
 
 	    repositorioRecursos.agregarRecurso(recurso)
-	    salida = FormateadorJson.formatear_coleccion(repositorioRecursos.obtenerRecursos())
-	    gestorArchivos.guardarRecursos(salida)
+	    recursos = repositorioRecursos.obtenerRecursos()
+	    gestorArchivos.guardarRecursos(recursos)
 	end
 
 	def cargarRecursos(listaRecursos)
@@ -29,7 +29,6 @@ class ControladorRecursos
 			recurso.enUso = jsonRecurso['enUso']
 			repositorioRecursos.agregarRecurso(recurso)
 		end
-
 	end
 
 	def obtenerRecursos
@@ -41,28 +40,32 @@ class ControladorRecursos
 	end
 
 	def eliminarRecurso(id_recurso)
-		validadorDeRecurso.validarRecursoInExistente(id_recurso.downcase, repositorioRecursos)
-		recurso = repositorioRecursos.obtenerRecurso(id_recurso.downcase)
+		validadorDeRecurso.validarRecursoInExistente(id_recurso, repositorioRecursos)
+		recurso = repositorioRecursos.obtenerRecurso(id_recurso)
 
 		repositorioRecursos.eliminarRecurso(recurso)
-		recursos = obtenerRecursos()
-    	salida = FormateadorJson.formatear_coleccion(recursos)
-    	gestorArchivos.guardarRecursos(salida)
+		evento = Evento.eventos.values.detect{|e| e.recursosAsignados.key? id_recurso}
+		validadorDeRecurso.validarRecursoEnUsoSinEventoAsignado(evento, recurso)
+		if !evento.nil? && recurso.estaEnUso?
+			evento.eliminarRecursoAsignado(recurso)			
+			gestorArchivos.guardarEventos(Evento.eventos.values)		
+		end
+    	gestorArchivos.guardarRecursos(obtenerRecursos())
 	end
 
 	def asignarRecursoAEvento(id_recurso, id_evento)
 		validadorDeRecurso.validarRecursoInExistente(id_recurso.downcase, repositorioRecursos)
 		validadorDeRecurso.validarRecursoSinUso(id_recurso.downcase, repositorioRecursos)
 		recurso = repositorioRecursos.obtenerRecurso(id_recurso.downcase)		
-		
-		evento = Evento.eventos.fetch(id_evento.downcase)
-		if evento.nil?
+				
+		if !Evento.eventos.key? id_evento.downcase
 			raise NameError.new("El evento es inexistente")
 		end
+		evento = Evento.eventos.fetch(id_evento.downcase)
 		evento.asignarRecurso(recurso);
-		eventos = Evento.eventos.values
-    	salida = FormateadorJson.formatear_coleccion(eventos)
-    	gestorArchivos.guardarEventos(salida)
+		eventos = Evento.eventos.values	
+    	gestorArchivos.guardarRecursos(obtenerRecursos())
+    	gestorArchivos.guardarEventos(eventos)
 	end
 
 end

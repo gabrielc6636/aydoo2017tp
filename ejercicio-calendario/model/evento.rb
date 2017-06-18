@@ -86,18 +86,24 @@ class Evento
         evento = Evento.new(calendario, manejadorJson.obtenerIdEvento(),
                    manejadorJson.obtenerNombreEvento(), manejadorJson.obtenerFechaInicio(),
                    manejadorJson.obtenerFechaFin(), recurrencia)  
-        if manejadorJson.tieneRecurso?
-          nombre_recurso = manejadorJson.obtenerNombreRecurso()
-          validadorDeRecursos.validarRecursoInExistente(nombre_recurso, controladorDeRecursos.repositorioRecursos)
-          recurso = controladorDeRecursos.obtenerRecurso(nombre_recurso)
-          evento.agregarRecurso(recurso)
-        end       
+          if manejadorJson.tieneRecursosAsignados?
+            manejadorJson.obtenerRecursosAsignados().each do |recursoJson|
+              nombre_recurso = recursoJson['nombre']
+              validadorDeRecursos.validarRecursoInExistente(nombre_recurso, controladorDeRecursos.repositorioRecursos)
+              recurso = controladorDeRecursos.obtenerRecurso(nombre_recurso)
+              evento.agregarRecurso(recurso)
+            end
+          end       
       end
     end
   end
 
   def agregarRecurso(nuevoRecurso) 
     self.recursosAsignados[nuevoRecurso.nombre] = nuevoRecurso
+  end
+
+  def eliminarRecursoAsignado(recurso)
+    recursosAsignados.delete(recurso.nombre)
   end
 
   def asignarRecurso(recurso)

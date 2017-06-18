@@ -20,4 +20,10 @@ class ValidadorDeRecurso
 		end
 	end
 
+	def validarRecursoEnUsoSinEventoAsignado(evento, recurso)
+		if evento.nil? && recurso.estaEnUso?
+			raise ArgumentError.new("No se encontro en el evento que tiene reservado el recurso")
+		end
+	end
+
 end

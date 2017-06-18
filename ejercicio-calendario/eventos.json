@@ -1,19 +1,18 @@
 [
   {
-    "calendario": "aydoo",
-    "id": "final",
-    "nombre": "final",
+    "calendario": "nuevocalendario",
+    "id": "parcial",
+    "nombre": "parcial",
     "inicio": "2017-06-08 23:18:31 -0300",
-    "fin": "2017-06-08 23:18:31 -0300",
+    "fin": "2017-06-08 23:18:31 -0300"
+  },
+  {
+    "calendario": "nuevocalendario",
+    "id": "prueba",
+    "nombre": "prueba",
+    "inicio": "2017-06-09 23:18:31 -0300",
+    "fin": "2017-06-09 23:18:31 -0300",
     "recursosAsignados": [
-      {
-        "nombre": "sala",
-        "enUso": false
-      },
-      {
-        "nombre": "sala 1",
-        "enUso": true
-      },
       {
         "nombre": "sala 2",
         "enUso": true

@@ -17,6 +17,12 @@ La clase Recurrencia viola el principio Liskov Substitution pues en lugar de ten
 La clase Recurrencia viola el principio interface segregation pues como se señaló en el punto anterior los sumadores podrían ser tratados mediante una clase abstracta o simplemente generar la instancia de sumador correspondiente mediante un factory method. Esto último creo que es lo que se buscó hacer con el método “self.sumadores” en la clase Recurrencia
  
 Las clase evento viola el principio interface segregation a través del método “generar_eventos_recurrentes” pues tiene la lógica de creación de eventos recurrentes a lo sumo el evento debería recibir la coleccion de los eventos generados de forma recurrente y guardarla.
+
+app.rb viola el principio interface segregation, pues en los post y get poseen logica de negocio por ejemplo, como se obtiene los eventos, calendarios, como se persisten los datos, como se crean los eventos etc.
+
+Funcionalidades
+
+la funcionalidad que pretender traer todos los eventos de un calendario no funciona: get '/eventos?:calendario?'
  
 Mejoras
 

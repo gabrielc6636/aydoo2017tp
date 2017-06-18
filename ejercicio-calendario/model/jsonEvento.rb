@@ -43,12 +43,12 @@ class JsonEvento
 		return obtenerRecurrencia['fin']
 	end
 
-	def obtenerRecurso
-		return datosJson['recurso']
+	def obtenerRecursosAsignados
+		return datosJson['recursosAsignados']
 	end
 
-	def tieneRecurso?
-		recurso = obtenerRecurso()
+	def tieneRecursosAsignados?
+		recurso = obtenerRecursosAsignados()
 
 		return !recurso.nil?
 	end

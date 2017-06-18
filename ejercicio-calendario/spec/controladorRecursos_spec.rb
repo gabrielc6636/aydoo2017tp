@@ -40,25 +40,23 @@ describe 'ControladorRecursos' do
 
     controlador.agregarRecurso(nombre)
 
-	recurso = controlador.obtenerRecurso(nombre)
+	  recurso = controlador.obtenerRecurso(nombre)
 
     expect(recurso.nombre).to eq nombre.downcase
 
-    controlador.eliminarRecurso(nombre)
+    controlador.eliminarRecurso(nombre.downcase)
 
-	recurso = controlador.obtenerRecurso(nombre)
+    recurso = controlador.obtenerRecurso(nombre)
 
-	result = recurso.nil?
-
-    expect(result).to eq true
+    expect(recurso.nil?).to eq true
     
   end
 
   it 'Si cargo 1 recurso, obtengo 1 recurso' do
     
-	json = JSON.parse '[{"nombre":"Proyector","enUso":"false"}]'
+	  json = JSON.parse '[{"nombre":"Proyector","enUso":"false"}]'
 
-	controlador.cargarRecursos(json)
+	  controlador.cargarRecursos(json)
 
     expect(controlador.obtenerRecursos.size).to eq 1
   end
