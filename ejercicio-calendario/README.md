@@ -16,3 +16,6 @@ PARTE 2
 Decisiones de diseño
 
 Un evento puede tener varios recursos reservados pero no repetidos.
+Se modificaros metodos para obtener eventos por conflictos de nombres:
+   *Obtener eventos de un calendario especifico: get '/eventos/calendario/:calendario'
+   *Obtener un evento con id determinado: get '/eventos/id/:id'

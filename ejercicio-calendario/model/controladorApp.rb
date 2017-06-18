@@ -76,7 +76,7 @@ class ControladorApp
 	end
 
 	def obtenerEvento(nombreEvento)
-		Evento.eventos.fetch(nombreEvento)
+		Evento.eventos.fetch(nombreEvento.downcase)
 	end
 
 	def obtenerEventosParaCalendario(nombreCalendario)
@@ -95,7 +95,7 @@ class ControladorApp
 		controladorRecursos.eliminarRecurso(id_recurso)
 	end
 
-	def asignarRecursoAEvento(id_recurso, id_evento)   
+	def asignarRecursoAEvento(id_evento, id_recurso)   
 		controladorRecursos.asignarRecursoAEvento(id_recurso, id_evento)   
 	end
 

@@ -4,7 +4,7 @@ class ValidadorDeRecurso
 		validarRecursoInExistente(nombreRecurso, repositorioRecursos) 
 		recurso = repositorioRecursos.obtenerRecurso(nombreRecurso)
 		if recurso.estaEnUso?
-			raise NameError.new("El recurso a utilzar ya se encuentra reservado")
+			raise NameError.new("El recurso esta siendo utilizado por otro evento")
 		end
 	end
 

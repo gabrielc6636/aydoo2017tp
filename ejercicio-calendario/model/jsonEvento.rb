@@ -53,12 +53,4 @@ class JsonEvento
 		return !recurso.nil?
 	end
 
-	def obtenerNombreRecurso
-		return obtenerRecurso['nombre']
-	end
-
-	def obtenerEnUsoRecurso
-		return obtenerRecurso['enUso']
-	end
-
 end

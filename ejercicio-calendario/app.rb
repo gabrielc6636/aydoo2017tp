@@ -92,7 +92,7 @@ get '/eventos' do
   end
 end
 
-get '/eventos/:calendario' do
+get '/eventos/calendario/:calendario' do
   begin
     nombreCalendario = params[:calendario]
     calendario = controladorApp.obtenerEventosParaCalendario(nombreCalendario)
@@ -104,13 +104,13 @@ get '/eventos/:calendario' do
   end
 end
 
-get '/eventos/:id' do
+get '/eventos/id/:id' do
   begin
     nombreEvento = params[:id]
     evento = controladorApp.obtenerEvento(nombreEvento)
     salida = FormateadorJson.formatear_objeto(evento)
 
-    halt 200, "#{salida}"
+    halt 200, salida
   rescue Exception => ex
     halt 400, "400 Bad Request: " + ex.to_s
   end
@@ -154,7 +154,7 @@ post '/eventos/:id_evento/:id_recurso' do
     id_recurso = params[:id_recurso]
     id_evento = params[:id_evento]
 
-    controladorApp.asignarRecursoAEvento(id_recurso, id_evento)   
+    controladorApp.asignarRecursoAEvento(id_evento, id_recurso)   
 
     halt 200, "El recurso se asigno al evento con exito"
   rescue Exception => ex
