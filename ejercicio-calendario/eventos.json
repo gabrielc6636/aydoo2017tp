@@ -1,13 +1,6 @@
 [
   {
     "calendario": "nuevocalendario",
-    "id": "parcial",
-    "nombre": "parcial",
-    "inicio": "2017-06-08 23:18:31 -0300",
-    "fin": "2017-06-08 23:18:31 -0300"
-  },
-  {
-    "calendario": "nuevocalendario",
     "id": "prueba",
     "nombre": "prueba",
     "inicio": "2017-06-16 23:18:31 -0300",

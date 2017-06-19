@@ -57,17 +57,15 @@ class ControladorRecursos
 
 	def asignarRecursoAEvento(id_recurso, id_evento)
 		validadorDeRecurso.validarRecursoInExistente(id_recurso.downcase, repositorioRecursos)
-		validadorDeRecurso.validarRecursoSinUso(id_recurso.downcase, repositorioRecursos)
+		validadorDeRecurso.validarRecursoSinUso(id_recurso.downcase, repositorioRecursos)		
 		recurso = obtenerRecurso(id_recurso)		
-				
-		if !Evento.eventos.key? id_evento.downcase
-			raise NameError.new("El evento es inexistente")
-		end
+						
+		validadorDeEvento.validarEventoInExistente(id_evento.downcase)
 		evento = Evento.eventos.fetch(id_evento.downcase)
+		validadorDeEvento.validarEventoFinalizado(evento)		
 		evento.asignarRecurso(recurso);
-		eventos = Evento.eventos.values	
     	gestorArchivos.guardarRecursos(obtenerRecursos())
-    	gestorArchivos.guardarEventos(eventos)
+    	gestorArchivos.guardarEventos(Evento.eventos.values)
 	end
 
 	def liberarRecurso(id_recurso) 
@@ -77,8 +75,7 @@ class ControladorRecursos
 			evento = Evento.eventos.values.detect{|e| e.recursosAsignados.key? id_recurso.downcase}
 			validadorDeRecurso.validarRecursoEnUsoSinEventoAsignado(evento, recurso)
 			validadorDeEvento.validarEventoSinTerminar(evento)
-			evento.liberarRecursoAsignado(recurso)
-			recurso.liberar()
+			evento.liberarRecursoAsignado(recurso)			
 			eventos = Evento.eventos.values	
     		gestorArchivos.guardarRecursos(obtenerRecursos())
     		gestorArchivos.guardarEventos(eventos)			

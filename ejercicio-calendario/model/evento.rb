@@ -103,12 +103,23 @@ class Evento
   end
 
   def liberarRecursoAsignado(recurso)
+    recurso.liberar()
     recursosAsignados.delete(recurso.nombre)
+  end
+
+  def liberarRecursosAsignados
+    recursosAsignados.values.each do |recurso|      
+      liberarRecursoAsignado(recurso)
+    end
   end
 
   def asignarRecurso(recurso)
     agregarRecurso(recurso)
     recurso.reservar()
+  end
+
+  def estaFinalizado?
+    Time.parse(self.fin) < Time.now
   end
 
   def self.eventos

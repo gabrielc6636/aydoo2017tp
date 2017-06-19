@@ -59,9 +59,11 @@ class ControladorApp
 	def eliminarEvento(nombreEvento)
 		evento = Evento.eventos.fetch(nombreEvento)
 	    evento.eliminar_eventos_recurrentes
+	    evento.liberarRecursosAsignados()
 	    Evento.eventos.delete(evento.id)
 	    eventos = Evento.eventos.values
 	    gestorArchivos.guardarEventos(eventos)
+	    gestorArchivos.guardarRecursos(controladorRecursos.obtenerRecursos())
 	end
 
 	def actualizarEvento(datosJson)
