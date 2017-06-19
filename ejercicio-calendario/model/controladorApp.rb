@@ -99,4 +99,8 @@ class ControladorApp
 		controladorRecursos.asignarRecursoAEvento(id_recurso, id_evento)   
 	end
 
+	def liberarRecurso(id_recurso) 
+		controladorRecursos.liberarRecurso(id_recurso) 
+	end
+
 end

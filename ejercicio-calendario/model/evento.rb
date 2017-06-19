@@ -102,7 +102,7 @@ class Evento
     self.recursosAsignados[nuevoRecurso.nombre] = nuevoRecurso
   end
 
-  def eliminarRecursoAsignado(recurso)
+  def liberarRecursoAsignado(recurso)
     recursosAsignados.delete(recurso.nombre)
   end
 

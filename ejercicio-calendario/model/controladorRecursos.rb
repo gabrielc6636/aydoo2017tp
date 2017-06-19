@@ -1,17 +1,20 @@
 require_relative 'repositorioRecursos.rb'
 require_relative 'gestor_archivos.rb'
 require_relative 'validadorDeRecurso.rb'
+require_relative 'validadorDeEvento.rb'
 
 class ControladorRecursos
 
 	attr_accessor :repositorioRecursos
 	attr_accessor :gestorArchivos
-	attr_accessor :validadorDeRecurso	
+	attr_accessor :validadorDeRecurso
+	attr_accessor :validadorDeEvento	
 
 	def initialize
 		self.repositorioRecursos = RepositorioRecursos.new
 		self.gestorArchivos = GestorArchivos.new
 		self.validadorDeRecurso = ValidadorDeRecurso.new
+		self.validadorDeEvento = ValidadorDeEvento.new
 	end
 
 	def agregarRecurso(nombreRecurso)
@@ -19,8 +22,7 @@ class ControladorRecursos
 	    recurso = Recurso.new(nombreRecurso.downcase)
 
 	    repositorioRecursos.agregarRecurso(recurso)
-	    recursos = repositorioRecursos.obtenerRecursos()
-	    gestorArchivos.guardarRecursos(recursos)
+	    gestorArchivos.guardarRecursos(obtenerRecursos)
 	end
 
 	def cargarRecursos(listaRecursos)
@@ -41,13 +43,13 @@ class ControladorRecursos
 
 	def eliminarRecurso(id_recurso)
 		validadorDeRecurso.validarRecursoInExistente(id_recurso, repositorioRecursos)
-		recurso = repositorioRecursos.obtenerRecurso(id_recurso)
+		recurso = obtenerRecurso(id_recurso)
 
 		repositorioRecursos.eliminarRecurso(recurso)
 		evento = Evento.eventos.values.detect{|e| e.recursosAsignados.key? id_recurso}
 		validadorDeRecurso.validarRecursoEnUsoSinEventoAsignado(evento, recurso)
 		if !evento.nil? && recurso.estaEnUso?
-			evento.eliminarRecursoAsignado(recurso)			
+			evento.liberarRecursoAsignado(recurso)			
 			gestorArchivos.guardarEventos(Evento.eventos.values)		
 		end
     	gestorArchivos.guardarRecursos(obtenerRecursos())
@@ -56,7 +58,7 @@ class ControladorRecursos
 	def asignarRecursoAEvento(id_recurso, id_evento)
 		validadorDeRecurso.validarRecursoInExistente(id_recurso.downcase, repositorioRecursos)
 		validadorDeRecurso.validarRecursoSinUso(id_recurso.downcase, repositorioRecursos)
-		recurso = repositorioRecursos.obtenerRecurso(id_recurso.downcase)		
+		recurso = obtenerRecurso(id_recurso)		
 				
 		if !Evento.eventos.key? id_evento.downcase
 			raise NameError.new("El evento es inexistente")
@@ -66,6 +68,21 @@ class ControladorRecursos
 		eventos = Evento.eventos.values	
     	gestorArchivos.guardarRecursos(obtenerRecursos())
     	gestorArchivos.guardarEventos(eventos)
+	end
+
+	def liberarRecurso(id_recurso) 
+		validadorDeRecurso.validarRecursoInExistente(id_recurso.downcase, repositorioRecursos)
+		recurso = obtenerRecurso(id_recurso)
+		if recurso.estaEnUso?
+			evento = Evento.eventos.values.detect{|e| e.recursosAsignados.key? id_recurso.downcase}
+			validadorDeRecurso.validarRecursoEnUsoSinEventoAsignado(evento, recurso)
+			validadorDeEvento.validarEventoSinTerminar(evento)
+			evento.liberarRecursoAsignado(recurso)
+			recurso.liberar()
+			eventos = Evento.eventos.values	
+    		gestorArchivos.guardarRecursos(obtenerRecursos())
+    		gestorArchivos.guardarEventos(eventos)			
+		end 
 	end
 
 end

@@ -162,3 +162,15 @@ post '/eventos/:id_evento/:id_recurso' do
   end  
 end
 
+post '/recursos/liberar/:id' do
+  begin
+    id_recurso = params[:id]
+
+    controladorApp.liberarRecurso(id_recurso)   
+
+    halt 200, "El recurso ha sido liberado"
+  rescue Exception => ex
+    halt 400, "Ha ocurrido un error al liberar el recurso: " + ex.to_s
+  end 
+end
+

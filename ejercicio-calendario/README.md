@@ -13,9 +13,26 @@ __Decisiones de diseño:__
 
 PARTE 2
 
-Decisiones de diseño
+DECISIONES DE DISEÑO
 
-Un evento puede tener varios recursos reservados pero no repetidos.
+Un evento puede tener varios recursos reservados pero no repetidos. y un recurso solo puede ser usado por un evento
+
+El recurso posee un booleano que indica si esta siendo usado o no. La razon para hacerlo de este modo radica en como se cargan los datos desde los archivos. Se pretendia en una primera instancia que un recurso conozca el evento que lo reservo y evento al recurso reservado, pero esto genero problemas de sincronizacion al cargar los datos desde los archivos.
+
+Para asignar un archivo a un evento se usa: post 'eventos/:id_evento/:id_recurso': De esta manera se le solicita asignar el recurso id_recursos al evento id_evento.
+
+Al eliminar un recurso el mismo se desasigna del evento que los esta usando.
+
+Es posible liberar un recurso mediante: post 'recursos/liberar/:id'. Si el recurso no esta siendo usado no hace nada. Si el recurso esta siendo usado, solo es posible liberarlo si el evento que lo esta usando ya finalizo, de lo contrario se lanza una excepción
+
+MEJORAS
+
 Se modificaros metodos para obtener eventos por conflictos de nombres:
    *Obtener eventos de un calendario especifico: get '/eventos/calendario/:calendario'
    *Obtener un evento con id determinado: get '/eventos/id/:id'
+
+Se realizo refactor de la app.rb por violar principio single responsability e interface segregation. Para este fin se genero la clase ControladorApp
+
+Se realizo refactor de clase gestor de archivos pues este debe ser responsable de saber sobre que archivos guardar los datos y no la app.rb
+
+
