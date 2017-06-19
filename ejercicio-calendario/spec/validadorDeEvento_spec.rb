@@ -28,13 +28,24 @@ describe 'validadorDeEvento' do
   it "validarEventoFinalizado para evento finalizado deberia devolver excepcion" do
 	evento.stub(:estaFinalizado?) { true }
 
-    expect{validador.validarEventoFinalizado(evento)}.to raise_error
+    expect{validador.validarEventoFinalizado(evento)}.to raise_error(StandardError)
   end
 
   it "validarEventoFinalizado para evento no finalizado no deberia devolver excepcion" do
 	evento.stub(:estaFinalizado?) { false }
 
     expect{validador.validarEventoFinalizado(evento)}.not_to raise_error
+  end
+
+  it "validarEventoInExistente para evento que no esta en el master de eventos deberia devolver excepcion" do	  	
+
+    expect{validador.validarEventoInExistente("id_evento")}.to raise_error(NameError)
+  end
+
+  it "validarEventoInExistente para evento que esta en el master de eventos no deberia devolver excepcion" do
+  	Evento.eventos[evento.id] = evento	  	
+
+    expect{validador.validarEventoInExistente("id_evento")}.not_to raise_error
   end
 
 end
