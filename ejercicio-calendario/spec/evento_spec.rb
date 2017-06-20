@@ -150,7 +150,7 @@ describe 'Evento' do
                "inicio" => "2017-03-31T18:00:00-03:00",
                "fin" => "2017-03-31T22:00:00-03:00",
                "recurrencia" => recurrencia},
-              {"calendario" => "Un calendario", "id" => "1R#1",
+              {"calendario" => "Un calendario", "id" => "1R-1",
                "nombre" => "Un evento #1",
                "inicio" => "2017-04-07T18:00:00-03:00",
                "fin" => "2017-04-07T22:00:00-03:00"}]
@@ -201,7 +201,7 @@ describe 'Evento' do
                         "2017-03-31T18:00:00-03:00",
                         "2017-03-31T22:00:00-03:00", recurrencia)
     evento.actualizar("2017-03-31T17:00:00-03:00", nil)
-    expect(evento.eventos_recurrentes['1R#1'].inicio)
+    expect(evento.eventos_recurrentes['1R-1'].inicio)
         .to eq "2017-04-07T17:00:00-03:00"
   end
 
