@@ -127,6 +127,9 @@ class Evento
   end
 
   def eliminar_eventos_recurrentes
+    @eventos_recurrentes.values.each do |evento|
+      evento.liberarRecursosAsignados
+    end
     Evento.class_variable_set :@@eventos, Evento.eventos.delete_if {|k, v| @eventos_recurrentes.key?(k)}
     @calendario.eventos = @calendario.eventos.delete_if {|k, v| @eventos_recurrentes.key?(k)}
     @eventos_recurrentes = {}
