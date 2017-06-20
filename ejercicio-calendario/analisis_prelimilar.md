@@ -1,32 +1,49 @@
-Análisis Diagramas
- 
-En el diagrama de clases faltan las clases excepcion. Con el diagrama actual no se sabe quién usa las excepciones. 
-En el diagrama de clases hay una clase SumadorRecurrencia que no se ve en el modelo. Si hay otras clases como SumadorRecurrenciaAnual, SumadorRecurrenciaDiaria, SumadorRecurrenciaMensual y SumadorRecurrenciaSemanal, las cuales no están representadas en el diagrama. 
- 
-Análisis Diseño
- 
-Un calendario conoce calendarios, lo cual resulta raro conceptualmente, es difícil de entender porque un calendario debería conocer otros calendarios. Los mismo ocurre con evento que conoce una coleccion de eventos. Ambas clases se encargan de crear, actualizar, y eliminar en esas colecciones. 
-Esto viola el principio solid single responsibility ya que un calendario se encarga de crear calendarios lo cual no es correcto. Lo mismo ocurre con el evento.
- 
-La clase calendario y evento violan el principio solid Open/Close pues también se encarga de validar la superposición de eventos dentro de un calendario y el evento se encarga de validar la duración del evento no sea mayor a 72 horas. La responsabilidad de estas validaciones de negocio deberían ser llevadas a cabo por otro objeto, pues si el dia de mañana se agrega otra validación, como por ejemplo si entre la fecha de inicio y fin del evento hay un feriado se extiende la duracion del evento 24 horas más, entonces debería modificar las clase evento lo cual no es correcto.
+<h2>¿Está la documentación/diagramas completos?</h2>
 
-El hecho que la clase Evento sepa como crear eventos recurrentes y como validar las reglas negocios violan el principio solid interface segregacion pues la logica con se crean los eventos recurrente no debe conocerla el Evento. El evento, a lo sumo, solo deberia saber como agregarse esos eventos creados recurrentemente. Seria más correcto que la logica de creacion de eventos en forma recurrente es una reponsabilidad que deberia manejar otro objeto.
- 
-La clase Recurrencia viola el principio Liskov Substitution pues en lugar de tener un atributo sumador que sea instancia de una clase abstracta SumadorDeRecurrencia, (que creo que fue la idea viendo el diagrama de clase) y usar las otras clases sumadores de forma polimórfica, se realizó un método llamado “self.sumadores” que devuelve un diccionario de sumadores. También se observa que la firma del método es confusa pues contiene un self en al firma.
- 
-La clase Recurrencia viola el principio interface segregation pues como se señaló en el punto anterior los sumadores podrían ser tratados mediante una clase abstracta o simplemente generar la instancia de sumador correspondiente mediante un factory method. Esto último creo que es lo que se buscó hacer con el método “self.sumadores” en la clase Recurrencia
- 
-Las clase evento viola el principio interface segregation a través del método “generar_eventos_recurrentes” pues tiene la lógica de creación de eventos recurrentes a lo sumo el evento debería recibir la coleccion de los eventos generados de forma recurrente y guardarla.
+* El diagrama de clases no refleja todas clases del sistema. Por ejemplos los sumadores, excepciones.
+* En los diagrama de secuencia solo se muestra la creacion de un evento y de un calendario, no parecen los diagramas de secuencia para los circuitos de actualizar, borrar un evento, borrar calendario, crear eventos recurrentes.
 
-app.rb viola el principio interface segregation, pues en los post y get poseen logica de negocio por ejemplo, como se obtiene los eventos, calendarios, como se persisten los datos, como se crean los eventos etc.
+<h2>¿Está correctamente utilizada la notación UML?</h2>
 
-Funcionalidades
 
-la funcionalidad que pretender traer todos los eventos de un calendario no funciona: get '/eventos?:calendario?'
+
+<h2>¿Son consistentes los diagramas con el código?</h2>
+
+* En el diagrama no se muestran todos los tipos de sumadores que figuran en el metodo estatico sumadores de la clase Recurrencia.
+* El diagrama muestra que la Recurrencia conoce 4 sumadores de recurrencia cuando en realidad solo los usa. 
+* El diagrama muestra que la coleccion de eventos del calendario esta condicionada a la existencia del mismo. Sin embargo al eliminar un calendario sus eventos no se eliminan.
+
+<h2>¿Implementa toda la funcionalidad pedida?</h2>
+
+* Segun el diagrama de clases un calendario poseen una coleccion de eventos que esta condicionada al mismo, esto quiere decir que si se elimina el calendario tambien su coleccion de evetnos. Tomando en cuenta esta se observo que la funcionalidad borrar calendario no borra los eventos asociados. 
+* La funcionalidad que pretender traer todos los eventos de un calendario no funciona: get '/eventos?:calendario?'
+
+<h2>¿Qué observaciones tiene sobre el modelo?</h2>
+
+**Se observaron la siguientes violaciones a los principios Solid:**
+
+1. Single responsability: 
+  * Se observa que las no tiene responsabilidades unicas, algunos ejemplos:
+	 * Las clases Calendario y Evento clases se encargan de crear, actualizar, y eliminar en esas colecciones. Esto viola el principio solid single responsibility ya que un calendario se encarga de crear calendarios lo cual no es correcto. Lo mismo ocurre con el evento.
+	 * En app.rb cada post y get muestra la logica de negocio de como crear, obtener y actualiza los objetos. Ademas posee constantes que muestran los nombres de archivos donde se guardaran los datos. Posee mucha informacion que deberia ser manejada por otros objetos
+	 
+2. Open/Close: 
+	 * La clase calendario y evento también se encarga de validar la superposición de eventos dentro de un calendario y el evento se encarga de validar la duración del evento no sea mayor a 72 horas. La responsabilidad de estas validaciones de negocio deberían ser llevadas a cabo por otro objeto, pues si el dia de mañana se agrega otra validación debería modificar la clase evento lo cual no es correcto.
+	  * La clase Recurrencia posee un método llamado “self.sumadores” que devuelve un diccionario de sumadores. Luego dependiendo de la frecuencia crea y devuelve una instancia del sumador correspondiente.
+
+3. Inversion de dependencia: 
+	 * La clase Evento sabe como crear eventos recurrentes y como validar las reglas negocios, la logica con se crean los eventos recurrente no debe conocerla el Evento. El evento, a lo sumo, solo deberia saber como agregarse esos eventos creados recurrentemente. Seria más correcto que la logica de creacion de eventos en forma recurrente es una reponsabilidad que deberia manejar otro objeto.
+	 * La clase evento por ejemplo crear_desde_lista al instanciar un objeto de tipo Recurrencia. Esto dificulta la realizacion de los test.
+
+**Observaciones en cuanto decisiones de diseño**
  
-Mejoras
-
-Los métodos get y post de app.rb no tiene feedback de si la operación fue exitosa o no más allá del status de la operación. Sería correcto mostrar mensajes de creación, actualización o borrado exitoso y sería más interesante aún que cuando se produzca un error aparezca un mensaje informando el error producido.
- 
-Los nombre de algunos métodos y variable resultan confusos, por ejemplo el métodos de la clase calendario y evento cuya firma es “to_h” el nombre no representa lo que hace el método que por el cuerpo del mismo se deduce que genera un json con los datos del evento o calendario según corresponda. 
-Existen métodos estáticos “self” en la firma lo cual equivale a un método estático. Estos métodos dificultan la creación de test
+  * Un calendario conoce calendarios, lo cual resulta raro conceptualmente. Los mismo ocurre con evento que conoce una coleccion de eventos.
+	 * La clase calendario se encarga de validar la superposicion.
+	 * Resulta dificil incorporar cambios y realizar test ya que las responsabilidades no estan bien distribuidas. 
+	 * Todo la logica de las funcionalidades es manejada por las clases Calendario, Evento y app.rb, esto provoca que cualquier cambio que se agregue involucre tocar minimamente dos clases. Por ejemplo el agregado de una validación.
+	 * Dentro del metodo initialize de la clase Calendario se realizan validaciones sobre el nombre y se agrega el calendario que se esta creando en una colecciones de calendarios estatica que tambien administra la clase Calendario.
+	 * Dentro del metodo initialize de la clase Evento se crear los eventos recurrentes, se realizan las validaciones de unicidad de nombre y id y se asocia el evento con el calendario.
+	 
+	 
+	 
+	 
