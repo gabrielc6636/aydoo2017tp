@@ -12,41 +12,41 @@ describe 'ValidadorDeRecurso' do
 	it "validar recurso inexistente deberia devolver excepcion NameError si el recurso buscado no esta el repositorio" do
 		repositorio.stub(:esta_recurso?).with('id_recurso') { false }
 
-    	expect{validador.validarRecursoInExistente("id_recurso",repositorio)}.to raise_error(NameError)
+    	expect{validador.validar_recurso_inExistente("id_recurso",repositorio)}.to raise_error(NameError)
   	end
 
   	it "validar recurso inexistente no deberia devolver excepcion NameError si el recurso buscado esta el repositorio" do
 		repositorio.stub(:esta_recurso?).with('id_recurso') { true }
 
-    	expect{validador.validarRecursoInExistente("id_recurso",repositorio)}.not_to raise_error
+    	expect{validador.validar_recurso_inExistente("id_recurso",repositorio)}.not_to raise_error
   	end
 
   	it "validar recurso existente deberia devolver excepcion NameError si el recurso a agregar ya esta en el repositorio" do
 		repositorio.stub(:esta_recurso?).with('id_recurso') { true }
 
-    	expect{validador.validarRecursoExistente("id_recurso",repositorio)}.to raise_error(NameError)
+    	expect{validador.validar_recurso_existente("id_recurso",repositorio)}.to raise_error(NameError)
   	end
 
   	it "validar recurso existente no deberia devolver excepcion NameError si el recurso a agregar no esta en el repositorio" do
 		repositorio.stub(:esta_recurso?).with('id_recurso') { false }
 
-    	expect{validador.validarRecursoExistente("id_recurso",repositorio)}.not_to raise_error
+    	expect{validador.validar_recurso_existente("id_recurso",repositorio)}.not_to raise_error
   	end
 
-  	it "validarRecursoSinUso deberia devolver NameError si el recurso ya fue reservado por otro evento" do  		
+  	it "validar_recurso_sin_uso deberia devolver NameError si el recurso ya fue reservado por otro evento" do  		
   		repositorio.stub(:esta_recurso?).with('id_recurso') { true }
   		repositorio.stub(:obtener_recurso).with('id_recurso') { recurso }
-  		recurso.stub(:estaEnUso?) { true }
+  		recurso.stub(:esta_en_uso?) { true }
 
-  		expect{validador.validarRecursoSinUso("id_recurso",repositorio)}.to raise_error
+  		expect{validador.validar_recurso_sin_uso("id_recurso",repositorio)}.to raise_error
   	end
 
-  	it "validarRecursoSinUso no deberia devolver NameError si el recurso no esta siendo usado" do  	
+  	it "validar_recurso_sin_uso no deberia devolver NameError si el recurso no esta siendo usado" do  	
   		repositorio.stub(:esta_recurso?).with('id_recurso') { true }
   		repositorio.stub(:obtener_recurso).with('id_recurso') { recurso }
-  		recurso.stub(:estaEnUso?) { false }
+  		recurso.stub(:esta_en_uso?) { false }
 
-  		expect{validador.validarRecursoSinUso("id_recurso",repositorio)}.not_to raise_error
+  		expect{validador.validar_recurso_sin_uso("id_recurso",repositorio)}.not_to raise_error
   	end
 
 end

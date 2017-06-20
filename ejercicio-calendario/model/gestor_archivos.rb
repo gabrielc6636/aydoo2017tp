@@ -24,32 +24,32 @@ class GestorArchivos
     return lineas
   end
 
-  def guardarCalendarios(calendarios)
+  def guardar_calendarios(calendarios)
     arrayJson = FormateadorJson.formatear_coleccion(calendarios)
     escribir(arrayJson, ARCHIVO_CALENDARIOS)
   end
 
-  def cargarCalendarios
+  def cargar_calendarios
     data = leer(ARCHIVO_CALENDARIOS)
     FormateadorJson.interpretar(data)
   end
 
-  def guardarEventos(eventos)
+  def guardar_eventos(eventos)
     arrayJson = FormateadorJson.formatear_coleccion(eventos)
     escribir(arrayJson, ARCHIVO_EVENTOS)
   end
 
-  def cargarEventos
+  def cargar_eventos
     data = leer(ARCHIVO_EVENTOS)
     FormateadorJson.interpretar(data)
   end
 
-  def guardarRecursos(recursos)
+  def guardar_recursos(recursos)
     arrayJson = FormateadorJson.formatear_coleccion(recursos)
     escribir(arrayJson, ARCHIVO_RECURSOS)
   end
 
-  def cargarRecursos
+  def cargar_recursos
     data = leer(ARCHIVO_RECURSOS)
     FormateadorJson.interpretar(data)
   end

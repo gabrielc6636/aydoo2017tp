@@ -124,9 +124,8 @@ post '/eventos/:id_evento/:id_recurso' do
   begin
     id_recurso = params[:id_recurso]
     id_evento = params[:id_evento]
-
+    
     controladorRecursos.asignar_recurso_evento(id_recurso, id_evento)   
-
     halt 200, "El recurso se asigno al evento con exito"
   rescue Exception => ex
     halt 400, "Ha ocurrido un error al asignar el recurso: " + ex.to_s

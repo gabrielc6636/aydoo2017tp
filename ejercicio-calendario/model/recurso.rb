@@ -8,7 +8,7 @@ class Recurso
 		self.enUso = false
 	end
 
-	def estaEnUso?
+	def esta_en_uso?
 		enUso
 	end
 
