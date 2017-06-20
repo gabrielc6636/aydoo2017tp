@@ -49,7 +49,7 @@ class Evento
                          .sumar(fecha_actual)
       contador = 1
       while fecha_actual < fecha_fin
-        id = @id + "R#" + contador.to_s
+        id = @id + "R-" + contador.to_s
         nombre = @nombre + " #" + contador.to_s
         fin_evento = fecha_actual + duracion
         eventos_recurrentes[id] = Evento.new(
@@ -77,7 +77,7 @@ class Evento
       manejadorJson = JsonEvento.new(jsonEvento)
       validadorDeRecursos = ValidadorDeRecurso.new
 
-      if /R#[[:digit:]]/.match(manejadorJson.obtenerIdEvento()).nil?        
+      if /R-[[:digit:]]/.match(manejadorJson.obtenerIdEvento()).nil?        
         recurrencia = nil    
         calendario = Calendario.calendarios[manejadorJson.obtenerNombreCalendario().downcase]      
         if manejadorJson.tieneRecurrencia?
@@ -127,10 +127,8 @@ class Evento
   end
 
   def eliminar_eventos_recurrentes
-    Evento.class_variable_set :@@eventos, Evento.eventos.delete_if {
-        |k, v| @eventos_recurrentes.key?(k)}
-    @calendario.eventos = @calendario.eventos.delete_if {
-        |k, v| @eventos_recurrentes.key?(k)}
+    Evento.class_variable_set :@@eventos, Evento.eventos.delete_if {|k, v| @eventos_recurrentes.key?(k)}
+    @calendario.eventos = @calendario.eventos.delete_if {|k, v| @eventos_recurrentes.key?(k)}
     @eventos_recurrentes = {}
   end
 

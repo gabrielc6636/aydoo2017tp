@@ -63,7 +63,8 @@ class ControladorRecursos
 		validadorDeEvento.validarEventoInExistente(id_evento.downcase)
 		evento = Evento.eventos.fetch(id_evento.downcase)
 		validadorDeEvento.validarEventoFinalizado(evento)		
-		evento.asignarRecurso(recurso);
+		validadorDeEvento.validarEventoPosteriorA72hs(evento.inicio)
+		evento.asignarRecurso(recurso)
     	gestorArchivos.guardarRecursos(obtenerRecursos())
     	gestorArchivos.guardarEventos(Evento.eventos.values)
 	end

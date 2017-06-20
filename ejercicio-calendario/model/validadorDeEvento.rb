@@ -18,4 +18,10 @@ class ValidadorDeEvento
 		end		
 	end
 
+	def validarEventoPosteriorA72hs(fecha_inicio)
+		if Time.parse(fecha_inicio) > (Time.now + (72*3600))
+			raise NameError.new("El evento supera las 72hs")
+		end
+	end
+
 end
