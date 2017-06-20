@@ -33,6 +33,7 @@ class ControladorApp
 	    calendario.eliminar_eventos
 	    Calendario.calendarios.delete(nombreCalendario.downcase)
 	    calendarios = Calendario.calendarios.values
+		gestorArchivos.guardarEventos(Evento.eventos.values)
 	    gestorArchivos.guardarCalendarios(calendarios)
 	end
 
