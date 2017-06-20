@@ -58,13 +58,9 @@ class Calendario
   end
 
   def eliminar_eventos
-
     @eventos.values.each do |evento|
-      evento.liberarRecursosAsignados
-    end
-
-    Evento.class_variable_set :@@eventos, Evento.eventos.delete_if {|k, v| Evento.eventos.key?(k)}
-
+      Evento.eliminar_evento(evento)
+    end    
     @eventos = {}
   end
 

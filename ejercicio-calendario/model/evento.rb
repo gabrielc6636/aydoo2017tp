@@ -90,7 +90,7 @@ class Evento
             manejadorJson.obtenerRecursosAsignados().each do |recursoJson|
               nombre_recurso = recursoJson['nombre']
               validadorDeRecursos.validarRecursoInExistente(nombre_recurso, controladorDeRecursos.repositorioRecursos)
-              recurso = controladorDeRecursos.obtenerRecurso(nombre_recurso)
+              recurso = controladorDeRecursos.obtener_recurso(nombre_recurso)
               evento.agregarRecurso(recurso)
             end
           end       
@@ -124,6 +124,12 @@ class Evento
 
   def self.eventos
     @@eventos
+  end
+
+  def self.eliminar_evento(evento)
+    evento.liberarRecursosAsignados()
+    evento.eliminar_eventos_recurrentes()
+    @@eventos.delete(evento.id)
   end
 
   def eliminar_eventos_recurrentes

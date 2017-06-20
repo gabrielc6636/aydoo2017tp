@@ -17,6 +17,7 @@
 
 * Segun el diagrama de clases un calendario poseen una coleccion de eventos que esta condicionada al mismo, esto quiere decir que si se elimina el calendario tambien su coleccion de evetnos. Tomando en cuenta esta se observo que la funcionalidad borrar calendario no borra los eventos asociados. 
 * La funcionalidad que pretender traer todos los eventos de un calendario no funciona: get '/eventos?:calendario?'
+* Editar un evento para hacerlo recurrente no lo actualiza
 
 <h2>¿Qué observaciones tiene sobre el modelo?</h2>
 
