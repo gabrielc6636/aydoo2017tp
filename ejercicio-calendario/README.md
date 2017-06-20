@@ -20,21 +20,21 @@ __Decisiones de diseño:__
 
 **Asigancion de recursos**
 
-	* Para asignar un archivo a un evento se usa: post 'eventos/:id_evento/:id_recurso': De esta manera se le solicita asignar el recurso id_recurso al evento id_evento. Esta es la unica forma de asignar un recurso.
-	* No se puede asignar un recurso a un evento finalizado.
-	* Si el recurso a asignar esta asignado a un evento finalizado este puede asignarse a un nuevo evento.
+* Para asignar un archivo a un evento se usa: post 'eventos/:id_evento/:id_recurso': De esta manera se le solicita asignar el recurso id_recurso al evento id_evento. Esta es la unica forma de asignar un recurso.
+* No se puede asignar un recurso a un evento finalizado.
+* Si el recurso a asignar esta asignado a un evento finalizado este puede asignarse a un nuevo evento.
 
 **Liberacion de recurso**
 	
-	* Es posible liberar un recurso mediante: post 'recursos/liberar/:id'. 
-		* Si el recurso no esta siendo usado no hace nada. 
-		* Si el recurso esta siendo usado, solo es posible liberarlo si el evento que lo esta usando ya finalizo, de lo contrario se lanza una excepción. 
-	* Al eliminar un evento si tiene recursos asigandos estos se liberan
-	* Al eliminar un calendario este eliminar su eventos y en procesos se liberan los recursos que tengan asociados esos eventos
+* Es posible liberar un recurso mediante: post 'recursos/liberar/:id'. 
+	* Si el recurso no esta siendo usado no hace nada. 
+	* Si el recurso esta siendo usado, solo es posible liberarlo si el evento que lo esta usando ya finalizo, de lo contrario se lanza una excepción. 
+* Al eliminar un evento si tiene recursos asigandos estos se liberan
+* Al eliminar un calendario este eliminar su eventos y en procesos se liberan los recursos que tengan asociados esos eventos
 
 **Eliminacion de recurso**
 
-	* Al eliminar un recurso el mismo se desasigna del evento que los esta usando.
+* Al eliminar un recurso el mismo se desasigna del evento que los esta usando.
 
 
 
