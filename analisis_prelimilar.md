@@ -2,10 +2,11 @@
 
 * El diagrama de clases no refleja todas clases del sistema. Por ejemplos los sumadores, excepciones.
 * En los diagrama de secuencia solo se muestra la creacion de un evento y de un calendario, no parecen los diagramas de secuencia para los circuitos de actualizar, borrar un evento, borrar calendario, crear eventos recurrentes.
+* El diagrama de secuencia de creacion de evento no representa fielmente la secuencia de pasos realizada en la clase Evento.
 
 <h2>¿Está correctamente utilizada la notación UML?</h2>
 
-
+* El diagrama de clases evidencia la falta de cardinalidad en algunas relaciones.
 
 <h2>¿Son consistentes los diagramas con el código?</h2>
 
@@ -55,7 +56,7 @@
   * Al eliminar un calendario se deben eliminar junto con los eventos asociados
   * Obtener los eventos de un calendario determinado: Si bien la firma estaba bien (get 'eventos?calendario=calendario1') existia un problema ya que su nombre conincidia con la firma de otro y se terminaba llamando al metodo get 'eventos/' trayendo todos los eventos. La solucion propuesta fue modificar el nombre de la forma:
    	*Obtener eventos de un calendario especifico: get '/eventos/calendario/:calendario'
-* Por los cambios realizados de rehacer diagramas de clases y secuencia debido a los cambios realizados
+* Por los cambios realizados de debe rehacer diagramas de clases y secuencia
 
 <h2> Partes 2: Recursos </h2>
 
