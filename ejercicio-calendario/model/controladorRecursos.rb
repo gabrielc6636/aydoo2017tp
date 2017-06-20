@@ -67,7 +67,7 @@ class ControladorRecursos
 		validadorDeEvento.validar_evento_posterior_72hs(evento.inicio)
 		evento.asignar_recurso(recurso)
     	gestorArchivos.guardar_recursos(obtener_recursos())
-    	gestorArchivos.guardar_eventos(Evento.eventos.values)
+    	gestorArchivos.guardar_eventos(Evento.eventos.values)    	
 	end
 
 	def liberar_recurso(id_recurso) 

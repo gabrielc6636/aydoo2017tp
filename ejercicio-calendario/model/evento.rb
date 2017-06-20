@@ -102,7 +102,7 @@ class Evento
     recursosAsignados[nuevoRecurso.nombre] = nuevoRecurso
   end
 
-  def liberar_recursoAsignado(recurso)
+  def liberar_recurso_asignado(recurso)
     recurso.liberar()
     recursosAsignados.delete(recurso.nombre)
   end
