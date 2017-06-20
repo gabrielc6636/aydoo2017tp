@@ -38,12 +38,12 @@
 
 **Observaciones en cuanto decisiones de diseño**
  
-  	 * Un calendario conoce calendarios, lo cual resulta raro conceptualmente. Los mismo ocurre con evento que conoce una coleccion de eventos.
-	 * La clase calendario se encarga de validar la superposicion.
-	 * Resulta dificil incorporar cambios y realizar test ya que las responsabilidades no estan bien distribuidas. 
-	 * Todo la logica de las funcionalidades es manejada por las clases Calendario, Evento y app.rb, esto provoca que cualquier cambio que se agregue involucre tocar minimamente dos clases. Por ejemplo el agregado de una validación.
-	 * Dentro del metodo initialize de la clase Calendario se realizan validaciones sobre el nombre y se agrega el calendario que se esta creando en una colecciones de calendarios estatica que tambien administra la clase Calendario.
-	 * Dentro del metodo initialize de la clase Evento se crear los eventos recurrentes, se realizan las validaciones de unicidad de nombre y id y se asocia el evento con el calendario.
+* Un calendario conoce calendarios, lo cual resulta raro conceptualmente. Los mismo ocurre con evento que conoce una coleccion de eventos.
+* La clase calendario se encarga de validar la superposicion.
+* Resulta dificil incorporar cambios y realizar test ya que las responsabilidades no estan bien distribuidas. 
+* Todo la logica de las funcionalidades es manejada por las clases Calendario, Evento y app.rb, esto provoca que cualquier cambio que se agregue involucre tocar minimamente dos clases. Por ejemplo el agregado de una validación.
+* Dentro del metodo initialize de la clase Calendario se realizan validaciones sobre el nombre y se agrega el calendario que se esta creando en una colecciones de calendarios estatica que tambien administra la clase Calendario.
+* Dentro del metodo initialize de la clase Evento se crear los eventos recurrentes, se realizan las validaciones de unicidad de nombre y id y se asocia el evento con el calendario.
 	 
 <h2>Cambios en el Diseño</h2>
 
