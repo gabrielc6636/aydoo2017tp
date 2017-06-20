@@ -27,13 +27,14 @@ class ControladorApp
 	    gestorArchivos.guardarCalendarios(calendarios)
 	end
 
-	def eliminar_calendario(nombreCalendario)
+	def eliminar_calendario(nombreCalendario, controladorRecursos)
 	    calendario = Calendario.calendarios.fetch(nombreCalendario.downcase)
 	    calendario.eliminar_eventos()
 	    Calendario.calendarios.delete(nombreCalendario.downcase)
 	    calendarios = Calendario.calendarios.values
 		gestorArchivos.guardarEventos(Evento.eventos.values)
 	    gestorArchivos.guardarCalendarios(calendarios)
+	    gestorArchivos.guardarRecursos(controladorRecursos.obtener_recursos())
 	end
 
 	def obtener_calendarios

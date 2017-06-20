@@ -22,7 +22,7 @@ end
 delete '/calendarios/:nombre' do
   begin
     nombre = params[:nombre]
-    controladorApp.eliminar_calendario(nombre)
+    controladorApp.eliminar_calendario(nombre, controladorRecursos)
 
     halt 200, "Se ha eliminado con exito el calendario " + nombre
   rescue Exception =>ex
