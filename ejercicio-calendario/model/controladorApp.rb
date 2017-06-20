@@ -73,7 +73,7 @@ class ControladorApp
 
 	def actualizar_evento(datosJson)
 	    evento = Evento.eventos.fetch(datosJson['id'])
-	    evento.actualizar(datosJson['inicio'], datosJson['fin'])
+	    evento.actualizar(datosJson['inicio'], datosJson['fin'], datosJson['recurrencia'])
 	    eventos = Evento.eventos.values
 	    gestorArchivos.guardarEventos(eventos)
 	end

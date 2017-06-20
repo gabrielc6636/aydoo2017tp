@@ -32,7 +32,7 @@ class Evento
     @nombre = nombre
     @id = id
     calendario.agregar_evento(self)
-    self.recurrencia = recurrencia
+    @recurrencia = recurrencia
     @@eventos[id] = self
     generar_eventos_recurrentes
 
@@ -99,7 +99,7 @@ class Evento
   end
 
   def agregarRecurso(nuevoRecurso) 
-    self.recursosAsignados[nuevoRecurso.nombre] = nuevoRecurso
+    recursosAsignados[nuevoRecurso.nombre] = nuevoRecurso
   end
 
   def liberarRecursoAsignado(recurso)
@@ -141,14 +141,15 @@ class Evento
     @eventos_recurrentes = {}
   end
 
-  def actualizar(inicio, fin)
+  def actualizar(inicio, fin, recurrenciaJson=nil)
     inicio = @inicio if inicio.nil?
     fin = @fin if fin.nil?
     validar_duracion(inicio, fin)
     calendario.validar_superposicion(inicio, fin, @id)
     @inicio = inicio
     @fin = fin
-    eliminar_eventos_recurrentes
+    eliminar_eventos_recurrentes    
+    actualizar_recurrencia(recurrenciaJson)
     generar_eventos_recurrentes
   end
 
@@ -171,6 +172,18 @@ class Evento
       hash["recurrencia"] = recurrencia.to_h
     end
     return hash
+  end
+
+  def crear_recurrencia(frecuencia, fin)
+    Recurrencia.new(frecuencia, fin) 
+  end 
+
+  private
+
+  def actualizar_recurrencia(json)
+    if !json.nil?
+      @recurrencia = crear_recurrencia(json['frecuencia'], json['fin'])
+    end
   end
 
 end
