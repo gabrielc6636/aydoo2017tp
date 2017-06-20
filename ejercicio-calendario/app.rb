@@ -1,7 +1,11 @@
 require 'sinatra'
 require_relative 'model/controladorApp.rb'
+require_relative 'model/controladorRecursos.rb'
 
+controladorRecursos = ControladorRecursos.new
+controladorRecursos.cargarRecursos()
 controladorApp = ControladorApp.new
+controladorApp.cargarDatos(controladorRecursos)
 
 
 post '/calendarios' do
@@ -62,7 +66,7 @@ end
 delete '/eventos/:id' do
   begin
     nombreEvento = params[:id]
-    controladorApp.eliminarEvento(nombreEvento)
+    controladorApp.eliminarEvento(nombreEvento, controladorRecursos)
 
     halt 200, "Se ha eliminado con exito el evento"
   rescue Exception => ex
@@ -116,11 +120,24 @@ get '/eventos/id/:id' do
   end
 end
 
+post '/eventos/:id_evento/:id_recurso' do
+  begin
+    id_recurso = params[:id_recurso]
+    id_evento = params[:id_evento]
+
+    controladorRecursos.asignarRecursoAEvento(id_evento, id_recurso)   
+
+    halt 200, "El recurso se asigno al evento con exito"
+  rescue Exception => ex
+    halt 400, "Ha ocurrido un error al asignar el recurso: " + ex.to_s
+  end  
+end
+
 post '/recursos' do
   begin
     entrada = FormateadorJson.interpretar([request.body.read])
 
-    controladorApp.agregarRecurso(entrada.fetch('nombre'))
+    controladorRecursos.agregarRecurso(entrada.fetch('nombre'))
     
     halt 201, "El recurso se creo con exito"
   rescue Exception => ex
@@ -130,7 +147,7 @@ end
 
 get '/recursos' do
   begin    
-    recursos = controladorApp.obtenerRecursos()    
+    recursos = controladorRecursos.obtenerRecursos()    
     
     halt 200, salida = FormateadorJson.formatear_coleccion(recursos)
   rescue Exception => ex
@@ -141,7 +158,7 @@ end
 delete '/recursos/:id' do
   begin
     id_recurso = params[:id]
-    controladorApp.eliminarRecurso(id_recurso)    
+    controladorRecursos.eliminarRecurso(id_recurso)    
 
     halt 200, "El recurso se elimino con exito"
   rescue Exception => ex
@@ -149,24 +166,11 @@ delete '/recursos/:id' do
   end
 end
 
-post '/eventos/:id_evento/:id_recurso' do
-  begin
-    id_recurso = params[:id_recurso]
-    id_evento = params[:id_evento]
-
-    controladorApp.asignarRecursoAEvento(id_evento, id_recurso)   
-
-    halt 200, "El recurso se asigno al evento con exito"
-  rescue Exception => ex
-    halt 400, "Ha ocurrido un error al asignar el recurso: " + ex.to_s
-  end  
-end
-
 post '/recursos/liberar/:id' do
   begin
     id_recurso = params[:id]
 
-    controladorApp.liberarRecurso(id_recurso)   
+    controladorRecursos.liberarRecurso(id_recurso)   
 
     halt 200, "El recurso ha sido liberado"
   rescue Exception => ex

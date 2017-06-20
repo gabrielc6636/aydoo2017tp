@@ -14,7 +14,7 @@ class ControladorRecursos
 		self.repositorioRecursos = RepositorioRecursos.new
 		self.gestorArchivos = GestorArchivos.new
 		self.validadorDeRecurso = ValidadorDeRecurso.new
-		self.validadorDeEvento = ValidadorDeEvento.new
+		self.validadorDeEvento = ValidadorDeEvento.new		
 	end
 
 	def agregarRecurso(nombreRecurso)
@@ -25,34 +25,35 @@ class ControladorRecursos
 	    gestorArchivos.guardarRecursos(obtenerRecursos)
 	end
 
-	def cargarRecursos(listaRecursos)
+	def cargarRecursos
+		listaRecursos = self.gestorArchivos.cargarRecursos()		
 		listaRecursos.each do |jsonRecurso|
 			recurso = Recurso.new(jsonRecurso['nombre'].downcase)
 			recurso.enUso = jsonRecurso['enUso']
-			repositorioRecursos.agregarRecurso(recurso)
+			self.repositorioRecursos.agregarRecurso(recurso)
 		end
 	end
 
 	def obtenerRecursos
-		repositorioRecursos.obtenerRecursos
+		self.repositorioRecursos.obtenerRecursos
 	end
 
 	def obtenerRecurso(id_recurso)
-		repositorioRecursos.obtenerRecurso(id_recurso.downcase)
+		self.repositorioRecursos.obtenerRecurso(id_recurso.downcase)
 	end
 
 	def eliminarRecurso(id_recurso)
-		validadorDeRecurso.validarRecursoInExistente(id_recurso, repositorioRecursos)
+		self.validadorDeRecurso.validarRecursoInExistente(id_recurso, repositorioRecursos)
 		recurso = obtenerRecurso(id_recurso)
 
-		repositorioRecursos.eliminarRecurso(recurso)
+		self.repositorioRecursos.eliminarRecurso(recurso)
 		evento = Evento.eventos.values.detect{|e| e.recursosAsignados.key? id_recurso}
-		validadorDeRecurso.validarRecursoEnUsoSinEventoAsignado(evento, recurso)
+		self.validadorDeRecurso.validarRecursoEnUsoSinEventoAsignado(evento, recurso)
 		if !evento.nil? && recurso.estaEnUso?
 			evento.liberarRecursoAsignado(recurso)			
-			gestorArchivos.guardarEventos(Evento.eventos.values)		
+			self.gestorArchivos.guardarEventos(Evento.eventos.values)		
 		end
-    	gestorArchivos.guardarRecursos(obtenerRecursos())
+    	self.gestorArchivos.guardarRecursos(obtenerRecursos())
 	end
 
 	def asignarRecursoAEvento(id_recurso, id_evento)
