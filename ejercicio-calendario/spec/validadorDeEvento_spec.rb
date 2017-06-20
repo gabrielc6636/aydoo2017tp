@@ -13,39 +13,39 @@ describe 'validadorDeEvento' do
   	Calendario.class_variable_set :@@calendarios, {}
   }
 
-  it "validarEventoSinTerminar para evento no finalizado deberia devolver excepcion" do
-	evento.stub(:estaFinalizado?) { false }
+  it "validar_evento_sin_terminar para evento no finalizado deberia devolver excepcion" do
+	evento.stub(:esta_finalizado?) { false }
 
-    expect{validador.validarEventoSinTerminar(evento)}.to raise_error(StandardError)
+    expect{validador.validar_evento_sin_terminar(evento)}.to raise_error(StandardError)
   end  
 
-  it "validarEventoSinTerminar para evento finalizado no deberia devolver excepcion" do
-	evento.stub(:estaFinalizado?) { true }
+  it "validar_evento_sin_terminar para evento finalizado no deberia devolver excepcion" do
+	evento.stub(:esta_finalizado?) { true }
 
-    expect{validador.validarEventoSinTerminar(evento)}.not_to raise_error
+    expect{validador.validar_evento_sin_terminar(evento)}.not_to raise_error
   end
 
-  it "validarEventoFinalizado para evento finalizado deberia devolver excepcion" do
-	evento.stub(:estaFinalizado?) { true }
+  it "validar_evento_finalizado para evento finalizado deberia devolver excepcion" do
+	evento.stub(:esta_finalizado?) { true }
 
-    expect{validador.validarEventoFinalizado(evento)}.to raise_error(StandardError)
+    expect{validador.validar_evento_finalizado(evento)}.to raise_error(StandardError)
   end
 
-  it "validarEventoFinalizado para evento no finalizado no deberia devolver excepcion" do
-	evento.stub(:estaFinalizado?) { false }
+  it "validar_evento_finalizado para evento no finalizado no deberia devolver excepcion" do
+	evento.stub(:esta_finalizado?) { false }
 
-    expect{validador.validarEventoFinalizado(evento)}.not_to raise_error
+    expect{validador.validar_evento_finalizado(evento)}.not_to raise_error
   end
 
-  it "validarEventoInExistente para evento que no esta en el master de eventos deberia devolver excepcion" do	  	
+  it "validar_evento_inExistente para evento que no esta en el master de eventos deberia devolver excepcion" do	  	
 
-    expect{validador.validarEventoInExistente("id_evento")}.to raise_error(NameError)
+    expect{validador.validar_evento_inExistente("id_evento")}.to raise_error(NameError)
   end
 
-  it "validarEventoInExistente para evento que esta en el master de eventos no deberia devolver excepcion" do
+  it "validar_evento_inExistente para evento que esta en el master de eventos no deberia devolver excepcion" do
   	Evento.eventos[evento.id] = evento	  	
 
-    expect{validador.validarEventoInExistente("id_evento")}.not_to raise_error
+    expect{validador.validar_evento_inExistente("id_evento")}.not_to raise_error
   end
 
 end

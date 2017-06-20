@@ -77,48 +77,48 @@ class Evento
       manejadorJson = JsonEvento.new(jsonEvento)
       validadorDeRecursos = ValidadorDeRecurso.new
 
-      if /R-[[:digit:]]/.match(manejadorJson.obtenerIdEvento()).nil?        
+      if /R-[[:digit:]]/.match(manejadorJson.obtener_id_Evento()).nil?        
         recurrencia = nil    
-        calendario = Calendario.calendarios[manejadorJson.obtenerNombreCalendario().downcase]      
-        if manejadorJson.tieneRecurrencia?
-          recurrencia = Recurrencia.new(manejadorJson.obtenerFrecuenciaDeRecurrencia(), manejadorJson.obtenerFinDeRecurrencia())          
+        calendario = Calendario.calendarios[manejadorJson.obtener_nombre_calendario().downcase]      
+        if manejadorJson.tiene_recurrencia?
+          recurrencia = Recurrencia.new(manejadorJson.obtener_frecuencia_recurrencia(), manejadorJson.obtener_fin_eecurrencia())          
         end
-        evento = Evento.new(calendario, manejadorJson.obtenerIdEvento(),
-                   manejadorJson.obtenerNombreEvento(), manejadorJson.obtenerFechaInicio(),
-                   manejadorJson.obtenerFechaFin(), recurrencia)  
-          if manejadorJson.tieneRecursosAsignados?
-            manejadorJson.obtenerRecursosAsignados().each do |recursoJson|
+        evento = Evento.new(calendario, manejadorJson.obtener_id_Evento(),
+                   manejadorJson.obtener_nombre_evento(), manejadorJson.obtener_fecha_inicio(),
+                   manejadorJson.obtener_fecha_fin(), recurrencia)  
+          if manejadorJson.tiene_recursos_asignados?
+            manejadorJson.obtener_recursos_asignados().each do |recursoJson|
               nombre_recurso = recursoJson['nombre']
-              validadorDeRecursos.validarRecursoInExistente(nombre_recurso, controladorDeRecursos.repositorioRecursos)
+              validadorDeRecursos.validar_recurso_inExistente(nombre_recurso, controladorDeRecursos.repositorioRecursos)
               recurso = controladorDeRecursos.obtener_recurso(nombre_recurso)
-              evento.agregarRecurso(recurso)
+              evento.agregar_recurso(recurso)
             end
           end       
       end
     end
   end
 
-  def agregarRecurso(nuevoRecurso) 
+  def agregar_recurso(nuevoRecurso) 
     recursosAsignados[nuevoRecurso.nombre] = nuevoRecurso
   end
 
-  def liberarRecursoAsignado(recurso)
+  def liberar_recursoAsignado(recurso)
     recurso.liberar()
     recursosAsignados.delete(recurso.nombre)
   end
 
-  def liberarRecursosAsignados
+  def liberar_recursos_asignados
     recursosAsignados.values.each do |recurso|      
-      liberarRecursoAsignado(recurso)
+      liberar_recurso_asignado(recurso)
     end
   end
 
-  def asignarRecurso(recurso)
-    agregarRecurso(recurso)
+  def asignar_recurso(recurso)
+    agregar_recurso(recurso)
     recurso.reservar()
   end
 
-  def estaFinalizado?
+  def esta_finalizado?
     Time.parse(self.fin) < Time.now
   end
 
@@ -127,14 +127,14 @@ class Evento
   end
 
   def self.eliminar_evento(evento)
-    evento.liberarRecursosAsignados()
+    evento.liberar_recursos_asignados()
     evento.eliminar_eventos_recurrentes()
     @@eventos.delete(evento.id)
   end
 
   def eliminar_eventos_recurrentes
     @eventos_recurrentes.values.each do |evento|
-      evento.liberarRecursosAsignados
+      evento.liberar_recursos_asignados
     end
     Evento.class_variable_set :@@eventos, Evento.eventos.delete_if {|k, v| @eventos_recurrentes.key?(k)}
     @calendario.eventos = @calendario.eventos.delete_if {|k, v| @eventos_recurrentes.key?(k)}

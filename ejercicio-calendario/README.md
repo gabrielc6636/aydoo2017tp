@@ -11,36 +11,32 @@ __Decisiones de diseño:__
 * Existe una clase especializada en formatear e interpretar JSON, y otra para lectura y escritura a archivo.
 * Como los eventos recurrentes se generan en la creación del original, los mismos no se crean desde lista.
 
-PARTE 2
+<h1>PARTE 2: Recursos</h1>
 
-DECISIONES DE DISEÑO
+<h2>DECISIONES DE DISEÑO </h2>
 
-Un evento puede tener varios recursos reservados pero no repetidos. y un recurso solo puede ser usado por un evento
+* Un evento puede tener varios recursos reservados pero no repetidos. y un recurso solo puede ser usado por un evento
+* El recurso posee un booleano que indica si esta siendo usado o no. La razon para hacerlo de este modo radica en como se cargan los datos desde los archivos. Se pretendia en una primera instancia que un recurso conozca el evento que lo reservo y evento al recurso reservado, pero esto genero problemas de sincronizacion al cargar los datos desde los archivos.
 
-El recurso posee un booleano que indica si esta siendo usado o no. La razon para hacerlo de este modo radica en como se cargan los datos desde los archivos. Se pretendia en una primera instancia que un recurso conozca el evento que lo reservo y evento al recurso reservado, pero esto genero problemas de sincronizacion al cargar los datos desde los archivos.
+**Asigancion de recursos**
 
-Para asignar un archivo a un evento se usa: post 'eventos/:id_evento/:id_recurso': De esta manera se le solicita asignar el recurso id_recurso al evento id_evento. Esta es la unica forma de asignar un recurso.
-No se puede asignar un recurso a un evento finalizado.
-Si el recurso a asignar esta asignado a un evento finalizado este puede asignarse a un nuevo evento.
+	* Para asignar un archivo a un evento se usa: post 'eventos/:id_evento/:id_recurso': De esta manera se le solicita asignar el recurso id_recurso al evento id_evento. Esta es la unica forma de asignar un recurso.
+	* No se puede asignar un recurso a un evento finalizado.
+	* Si el recurso a asignar esta asignado a un evento finalizado este puede asignarse a un nuevo evento.
 
-Al eliminar un recurso el mismo se desasigna del evento que los esta usando.
+**Liberacion de recurso**
+	
+	* Es posible liberar un recurso mediante: post 'recursos/liberar/:id'. 
+		* Si el recurso no esta siendo usado no hace nada. 
+		* Si el recurso esta siendo usado, solo es posible liberarlo si el evento que lo esta usando ya finalizo, de lo contrario se lanza una excepción. 
+	* Al eliminar un evento si tiene recursos asigandos estos se liberan
+	* Al eliminar un calendario este eliminar su eventos y en procesos se liberan los recursos que tengan asociados esos eventos
 
-Es posible liberar un recurso mediante: post 'recursos/liberar/:id'. 
-Si el recurso no esta siendo usado no hace nada. 
-Si el recurso esta siendo usado, solo es posible liberarlo si el evento que lo esta usando ya finalizo, de lo contrario se lanza una excepción. 
+**Eliminacion de recurso**
 
-DEUDA TECNICA
-
-Un recurso queda asignando independientemente de que el evento que lo usa haya finalizado. Sin embargo el recursos queda disponible si otro evento quiere usarlo por las reglas de asignación
-
-MEJORAS
-
-Se modificaros metodos para obtener eventos por conflictos de nombres:
-   *Obtener eventos de un calendario especifico: get '/eventos/calendario/:calendario'
-   *Obtener un evento con id determinado: get '/eventos/id/:id'
-
-Se realizo refactor de la app.rb por violar principio single responsability e interface segregation. Para este fin se genero la clase ControladorApp
-
-Se realizo refactor de clase gestor de archivos pues este debe ser responsable de saber sobre que archivos guardar los datos y no la app.rb
+	* Al eliminar un recurso el mismo se desasigna del evento que los esta usando.
 
 
+
+
+ 

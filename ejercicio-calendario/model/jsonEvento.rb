@@ -5,50 +5,50 @@ class JsonEvento
 		self.datosJson = json
 	end
 
-	def obtenerIdEvento		
+	def obtener_id_Evento		
 		return datosJson['id']
 	end
 
-	def obtenerFechaInicio		
+	def obtener_fecha_inicio		
 		return datosJson['inicio']
 	end
 
-	def obtenerFechaFin		
+	def obtener_fecha_fin		
 		return datosJson['fin']
 	end
 
-	def obtenerNombreEvento		
+	def obtener_nombre_evento		
 		return datosJson['nombre']
 	end
 
-	def obtenerNombreCalendario		
+	def obtener_nombre_calendario		
 		return datosJson['calendario']
 	end
 
-	def tieneRecurrencia?
-		recurrencia = obtenerRecurrencia
+	def tiene_recurrencia?
+		recurrencia = obtener_recurrencia
 
 		return !recurrencia.nil?
 	end
 
-	def obtenerRecurrencia
+	def obtener_recurrencia
 		return datosJson['recurrencia']
 	end
 
-	def obtenerFrecuenciaDeRecurrencia
-		return obtenerRecurrencia['frecuencia']
+	def obtener_frecuencia_recurrencia
+		return obtener_recurrencia['frecuencia']
 	end
 
-	def obtenerFinDeRecurrencia
-		return obtenerRecurrencia['fin']
+	def obtener_fin_eecurrencia
+		return obtener_recurrencia['fin']
 	end
 
-	def obtenerRecursosAsignados
+	def obtener_recursos_asignados
 		return datosJson['recursosAsignados']
 	end
 
-	def tieneRecursosAsignados?
-		recurso = obtenerRecursosAsignados()
+	def tiene_recursos_asignados?
+		recurso = obtener_recursos_asignados()
 
 		return !recurso.nil?
 	end
