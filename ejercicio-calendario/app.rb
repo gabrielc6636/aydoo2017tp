@@ -108,7 +108,7 @@ get '/eventos/calendario/:calendario' do
   end
 end
 
-get '/eventos/id/:id' do
+get '/eventos/:id' do
   begin
     nombreEvento = params[:id]
     evento = controladorApp.obtenerEvento(nombreEvento)
@@ -125,7 +125,7 @@ post '/eventos/:id_evento/:id_recurso' do
     id_recurso = params[:id_recurso]
     id_evento = params[:id_evento]
 
-    controladorRecursos.asignarRecursoAEvento(id_evento, id_recurso)   
+    controladorRecursos.asignarRecursoAEvento(id_recurso, id_evento)   
 
     halt 200, "El recurso se asigno al evento con exito"
   rescue Exception => ex
