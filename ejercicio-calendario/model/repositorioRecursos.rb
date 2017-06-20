@@ -8,23 +8,23 @@ class RepositorioRecursos
 		self.recursos = {}
 	end
 
-	def agregarRecurso(recurso)
+	def agregar_recurso(recurso)
 		recursos[recurso.nombre] = recurso
 	end
 
-	def eliminarRecurso(recurso)
+	def eliminar_recurso(recurso)
 		recursos.delete(recurso.nombre)
 	end
 
-	def estaRecurso?(id_recurso)
+	def esta_recurso?(id_recurso)
 		recursos.key? id_recurso
 	end
 
-	def obtenerRecursos
+	def obtener_recursos
 		recursos.values
 	end
 
-	def obtenerRecurso(id_recurso) 
+	def obtener_recurso(id_recurso) 
 		recursos[id_recurso]
 	end
 
